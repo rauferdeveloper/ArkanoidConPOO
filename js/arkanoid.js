@@ -3,34 +3,21 @@
             caja.style.width = "800px";
             caja.style.height = "600px";
             caja.style.backgroundColor = "rgb(0, 0, 0)";
-           
-            pelota = new Pelota();
+            cx=0;
+             pelota = new Pelota();
             pelota.crearBola();
             //clearInterval(pelota.intervalo);
-            raqueta = new Barra();
+             raqueta = new Barra();
             raqueta.crearBarra();
-            caja.onmousemove=function (elEvento){
-                eventoBarra = window.event||elEvento;
-                cx = eventoBarra.clientX;
-                cy = eventoBarra.clientY;
-                console.log("Cliente X "+cx+" Cliente Y "+cy);
-                if (cx >= 0 && cx <= parseInt(caja.style.width) - parseInt(raqueta.width)){
-                    raqueta.left= cx;
-                    console.log("Valor del ancho de la barra: "+raqueta.left);
-                    //contLeftBarra = cx;
-                    //informacionDelJuego();
-                }
-        }
-
-           
-          
+            
     }
 //Creamos la "clase" pelota
 function Pelota(){
+ 
     this.width=10;
     this.height = 10;
     this.left = 420;
-    this.top =  480;
+    this.top =  500;
     this.avanceTop=5;
     this.avanceLeft=5;
     this.random=Math.floor(Math.random()*(2))
@@ -49,7 +36,7 @@ Pelota.prototype.crearBola=function(){
     this.bola.style.width=this.width+"px";
     this.bola.style.height=this.height+"px";
     this.bola.style.backgroundColor="yellow";
-    this.bola.style.position="absolute";
+    this.bola.style.position="relative";
     this.bola.style.top=this.top+"px";
     this.bola.style.left=this.left+"px";
     this.bola.style.borderRadius="1em";
@@ -94,6 +81,8 @@ Pelota.prototype.moverBola=function(){
     }
     //this.colisionesPelotas();
 }
+
+
 /*function Pelota(){ metodo a sobrecargar
     this.width=20;
     this.height = 20;
@@ -148,22 +137,75 @@ function Barra(){
     this.height=20;
     this.left=380;
     this.top=520;
+    this.avance=20;
 } 
+
 Barra.prototype.crearBarra=function(elEvento){
     this.barra=document.createElement("div");//creamos la barra en el entorno de juego
     this.barra.style.height = this.height+"px";
     this.barra.style.width = this.width+"px";
     this.barra.style.backgroundColor = "#9a0827";
-    this.barra.style.position = "absolute";
+    this.barra.style.position = "relative";
     this.barra.style.left = this.left+"px" ;
     this.barra.style.top = this.top+"px";
     this.barra.style.borderRadius = "1em";
     caja.appendChild(this.barra);
-       
-   
+    console.log("valor del left de la barra: "+this.left);
+     this.moverBarra();  
 }
-    
 
+Barra.prototype.moverBarra=function(elEvento){
+    barra=this.barra;
+    caja.onmousemove=function (elEvento){
+        eventoBarra = window.event||elEvento;
+        cx = eventoBarra.clientX;
+        cy = eventoBarra.clientY;
+        console.log("Cliente X "+cx+" Cliente Y "+cy);
+        if (cx >= 0 && cx <= parseInt(caja.style.width) - parseInt(barra.style.width)){
+            if (parseInt(barra.style.top) == pelota.top) {
+        
+                if (pelota.left >= (parseInt(barra.style.left)||cx)&& pelota.left <= (parseInt(barra.style.left)||cx)+ parseInt(barra.style.width)) {
+
+                  pelota.arriba = false;
+                }
+          
+              }
+            barra.style.left=cx+"px";
+            console.log(barra.style.left);
+           
+        }
+            //contLeftBarra = cx;
+            //informacionDelJuego();
+           
+        }
+    document.onkeydown=function(elEvento){
+        var evento=window.event||elEvento;
+        if (evento.keyCode == 90 || evento.keyCode == 37) { //Si presionamos la tecla Z o flecha izquierda la barra se mueve hacia a la izquierda
+            if (parseInt(barra.style.left) <= parseInt(caja.style.width) - parseInt(barra.style.width) && parseInt(barra.style.left) > 0) {
+              barra.style.left -= 20;
+              if (parseInt(barra.style.left) < 0) {
+                barra = 0;
+              }
+              //console.log(contLeftBarra);
+              barra.style.left = contLeftBarra + "px";
+
+            }
+        } else if (evento.keyCode == 88 || evento.keyCode == 39) { //Si presionamos la tecla X o flecha derecha la barra se mueve hacia a la derecha
+            if (contLeftBarra >= 0 && contLeftBarra < parseInt(caja.style.width) - parseInt(barra.style.width)) {
+              contLeftBarra += 20;
+              if (contLeftBarra > parseInt(caja.style.width) - parseInt(barra.style.width)) {
+                contLeftBarra = parseInt(caja.style.width) - parseInt(barra.style.width);
+
+              }
+              //console.log(contLeftBarra);
+              barra.style.left = contLeftBarra + "px";
+
+            }
+          }
+    }
+}
+
+    
 
 
        
