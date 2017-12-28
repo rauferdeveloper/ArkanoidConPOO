@@ -123,7 +123,7 @@ Pelota.prototype.colisionesBarra=function(){
                 }
             }
         }
-    }else  if(barra.left>=(parseInt(caja.style.width)/4)-barra.width+1&&barra.left<=(parseInt(caja.style.width)/2)-barra.width){
+    }else  if(barra.left>(parseInt(caja.style.width)/4)-barra.width&&barra.left<=(parseInt(caja.style.width)/2)-barra.width){
         if(this.top+this.width==barra.top){
             if(this.left>=barra.left&&this.left<=barra.left+barra.width){
                 if(this.left>=barra.left&&this.left<=barra.left+(barra.width/3)){
@@ -139,7 +139,7 @@ Pelota.prototype.colisionesBarra=function(){
             }
            
         }
-    }else  if(barra.left>=(parseInt(caja.style.width)/2)-barra.width+1&&barra.left<=(parseInt(caja.style.width)/2)+(parseInt(caja.style.width)/4)-barra.width){
+    }else  if(barra.left>(parseInt(caja.style.width)/2)-barra.width&&barra.left<=(parseInt(caja.style.width)/2)+(parseInt(caja.style.width)/4)-barra.width){
         if(this.top+this.width==barra.top){
             if(this.left>=barra.left&&this.left<=barra.left+barra.width){
                 if(this.left>=barra.left&&this.left<=barra.left+(barra.width/3)){
@@ -155,7 +155,7 @@ Pelota.prototype.colisionesBarra=function(){
             }
           
         }
-    }else  if(barra.left>=(parseInt(caja.style.width)/2)+(parseInt(caja.style.width)/4)+1&&barra.left<=parseInt(caja.style.width)-barra.width){
+    }else  if(barra.left>(parseInt(caja.style.width)/2)+(parseInt(caja.style.width)/4)&&barra.left<=parseInt(caja.style.width)-barra.width){
         if(this.top+this.width==barra.top){
             if(this.left>=barra.left&&this.left<=barra.left+barra.width){
                 if(this.left>=barra.left&&this.left<=barra.left+(barra.width/3)){
