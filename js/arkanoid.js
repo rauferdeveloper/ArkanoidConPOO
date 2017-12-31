@@ -11,68 +11,13 @@
         barra = new Barra("barra");
         barra.crearBarra();
         contTopPastillaAumentarBarra=5;
-
-        cantLadrillos=0;
-        ladrillosFila=14;
-        distancia=25;
-        aux=ladrillosFila;
-        fila=1;
-        maxLadrillos=112;
-        color="";
-        ladrillos=new Array(maxLadrillos);
-        posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
-        alert("La pastilla se ha guardaddo en: "+posicionPastilla);
-        while(fila <=8){
-            if(fila==1){
-                cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0-14
-              }else{
-                cantLadrillos = ladrillosFila;//si antes por ejemplo era 0 pues sera ahora 14
-                ladrillosFila += aux;//el maximo de ladrillos sera 14 pero aumentara para las posiciones del array
-              }
-              for (i = cantLadrillos; i< ladrillosFila; i++) {
-                //cada fila tendra un color distinto
-                if(fila==1){
-                    color="red";
-                 
+        cantLadrillosDestruidos=0;
+        nivel=1;
+        ladrillos=new Array();
+        ladrillosDobles=new Array();
+        niveles  = new Niveles(nivel);
+        niveles.nivelUno();
           
-                }else  if(fila==2){
-                    color="aqua";
-                 
-          
-                }else  if(fila==3){
-                    color="green";
-                  
-          
-                }else  if(fila==4){
-                    color="orange";
-                
-          
-                }else  if(fila==5){
-                    color="white";
-                 
-          
-                }else  if(fila==6){
-                    color="blue";
-                
-          
-                }else  if(fila==7){
-                    color="brown";
-                
-          
-                }else if(fila==8){
-                    color="teal";
-                  
-          
-                }
-                if(i==cantLadrillos){
-                    ladrillos[i]=new Ladrillo(i,50,20,distancia*fila,10,color);
-                  }else{
-                    ladrillos[i]=new Ladrillo(i,50,20,distancia*fila,ladrillos[i - 1].left + 50 + 5,color);
-
-                  }
-        }
-        fila++;
-    }
 }
 //Creamos la "clase" pelota
 /*
@@ -170,7 +115,22 @@ Pelota.prototype.moverBola=function(){
     }
     //this.colisionesPelotas();
     this.colisionesBarra();
-    this.colisionesLadrillo();
+    if(niveles.nivel==1){
+        if(cantLadrillosDestruidos==ladrillos.length){
+            niveles.nivel=2;
+            if(existePastillaAumentarBarra){
+              clearInterval(intervaloPastillaAumentarBarra);
+              caja.removeChild(pastillaAumentarBarra);
+              existePastillaAumentarBarra=false;
+            }
+            niveles.nivelDos();
+          }        
+        this.colisionesLadrillo();
+
+    }else if(niveles.nivel==2){
+        this.colisionesLadrilloDoble();
+
+    }
 }
 Pelota.prototype.colisionesBarra=function(){
     if(barra.left>=0&&barra.left<=(parseInt(caja.style.width)/4)-barra.width){
@@ -291,8 +251,8 @@ Pelota.prototype.colisionesLadrillo=function(){
                   //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);*/
                   caja.removeChild(document.getElementById(ladrillos[i].id));
                   ladrillos[i].destruido=true;
-                    this.avanceLeft=5;
-
+                  this.avanceLeft=5;
+                  cantLadrillosDestruidos++;
                   this.arriba = false;
                   
                 }
@@ -312,6 +272,7 @@ Pelota.prototype.colisionesLadrillo=function(){
                   caja.removeChild(document.getElementById(ladrillos[i].id));
                   ladrillos[i].destruido=true;
                   this.avanceLeft=5;
+                  cantLadrillosDestruidos++;
 
                   this.arriba = true;
                 }
@@ -331,6 +292,7 @@ Pelota.prototype.colisionesLadrillo=function(){
                     caja.removeChild(document.getElementById(ladrillos[i].id));
                     ladrillos[i].destruido=true;
                     this.avanceLeft=5;
+                    cantLadrillosDestruidos++;
 
                     this.arriba = true;
                     this.izquierda = false;
@@ -346,6 +308,7 @@ Pelota.prototype.colisionesLadrillo=function(){
                     caja.removeChild(document.getElementById(ladrillos[i].id));
                     ladrillos[i].destruido=true;
                     this.avanceLeft=5;
+                    cantLadrillosDestruidos++;
 
                     this.arriba = true;
                     this.izquierda = true;
@@ -356,8 +319,164 @@ Pelota.prototype.colisionesLadrillo=function(){
         }
     }
        
+}
+Pelota.prototype.colisionesLadrilloDoble=function(){
+    for ( i = 0; i < ladrillosDobles.length; i++) {
+        if(!ladrillosDobles[i].destruido){
+            if (this.top == ladrillosDobles[i].top-this.height) {
+                if (this.left >= ladrillosDobles[i].left && this.left <=ladrillosDobles[i].left + ladrillosDobles[i].width) {
+               
+                  /*
+                  pelotaConLadrillo.load();
+                  pelotaConLadrillo.play();
+                  cantLadrillosDestruidos++;
+                  //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);*/
+                  caja.removeChild(document.getElementById(ladrillosDobles[i].id));
+                  ladrillosDobles[i].destruido=true;
+                    this.avanceLeft=5;
+                    cantLadrillosDestruidos++;
+
+                  this.arriba = false;
+                  
+                }
+        
+              } else if (this.top ==ladrillosDobles[i].top + ladrillosDobles[i].height) {
+                if (this.left >= ladrillosDobles[i].left && this.left <=ladrillosDobles[i].left +ladrillosDobles[i].width) {
+                  
+            
+        
+                  /*pelotaConLadrillo.play();
+        
+                  cantLadrillosDestruidos++;
+                  //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);
+                  sumarPuntos();*/
+                  caja.removeChild(document.getElementById(ladrillosDobles[i].id));
+                  ladrillosDobles[i].destruido=true;
+                  this.avanceLeft=5;
+                  cantLadrillosDestruidos++;
+
+                  this.arriba = true;
+                }
+              }
+                else if (this.top >= ladrillosDobles[i].top && this.top <= ladrillosDobles[i].top + ladrillosDobles[i].height) {
+                  if (this.left+this.width == ladrillosDobles[i].left) {
+                 
+        
+                   /* pelotaConLadrillo.play();
+                    sumarPuntos();
+        
+                    cantLadrillosDestruidos++;
+                    //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);*/
+                    caja.removeChild(document.getElementById(ladrillosDobles[i].id));
+                    ladrillosDobles[i].destruido=true;
+                    this.avanceLeft=5;
+                    cantLadrillosDestruidos++;
+
+                    this.arriba = true;
+                    this.izquierda = false;
+                  } else if (this.left == ladrillosDobles[i].left + ladrillosDobles[i].width ) {
+                   
+                   
+                    /*pelotaConLadrillo.play();
+                    cantLadrillosDestruidos++;
+                    //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);
+                    sumarPuntos();*/
+                    caja.removeChild(document.getElementById(ladrillosDobles[i].id));
+                    ladrillosDobles[i].destruido=true;
+                    this.avanceLeft=5;
+                    cantLadrillosDestruidos++;
+
+                    this.arriba = true;
+                    this.izquierda = true;
+        
+                  }
+        
+                } 
+        }else if(ladrillosDobles[i].destruido){
+            if(!ladrillos[i].destruido){
+                if (this.top == ladrillos[i].top-this.height) {
+                    if (this.left >= ladrillos[i].left && this.left <= ladrillos[i].left + ladrillos[i].width) {
+                      if(i==posicionPastilla){
+                        barra.aumentarBarra(ladrillos,i);
+                      }
+                      /*
+                      pelotaConLadrillo.load();
+                      pelotaConLadrillo.play();
+                      cantLadrillosDestruidos++;
+                      //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);*/
+                      caja.removeChild(document.getElementById(ladrillos[i].id));
+                      ladrillos[i].destruido=true;
+                        this.avanceLeft=5;
+                        cantLadrillosDestruidos++;
+
+                      this.arriba = false;
+                      
+                    }
+            
+                  } else if (this.top ==ladrillos[i].top + ladrillos[i].height) {
+                    if (this.left >= ladrillos[i].left && this.left <=ladrillos[i].left +ladrillos[i].width) {
+                      
+                      if(i==posicionPastilla){
+                        barra.aumentarBarra(ladrillos,i);
+                      }
+            
+                      /*pelotaConLadrillo.play();
+            
+                      cantLadrillosDestruidos++;
+                      //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);
+                      sumarPuntos();*/
+                      caja.removeChild(document.getElementById(ladrillos[i].id));
+                      ladrillos[i].destruido=true;
+                      this.avanceLeft=5;
+                      cantLadrillosDestruidos++;
+
+                      this.arriba = true;
+                    }
+                  }
+                    else if (this.top >= ladrillos[i].top && this.top <= ladrillos[i].top + ladrillos[i].height) {
+                      if (this.left+this.width == ladrillos[i].left) {
+                       
+                        if(i==posicionPastilla){
+                            barra.aumentarBarra(ladrillos,i);
+                        }
+            
+                       /* pelotaConLadrillo.play();
+                        sumarPuntos();
+            
+                        cantLadrillosDestruidos++;
+                        //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);*/
+                        caja.removeChild(document.getElementById(ladrillos[i].id));
+                        ladrillos[i].destruido=true;
+                        this.avanceLeft=5;
+                        cantLadrillosDestruidos++;
+
+                        this.arriba = true;
+                        this.izquierda = false;
+                      } else if (this.left == ladrillos[i].left + ladrillos[i].width ) {
+                       
+                        if(i==posicionPastilla){
+                            barra.aumentarBarra(ladrillos,i);
+                        }
+                        /*pelotaConLadrillo.play();
+                        cantLadrillosDestruidos++;
+                        //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);
+                        sumarPuntos();*/
+                        caja.removeChild(document.getElementById(ladrillos[i].id));
+                        ladrillos[i].destruido=true;
+                        this.avanceLeft=5;
+                        cantLadrillosDestruidos++;
+
+                        this.arriba = true;
+                        this.izquierda = true;
+            
+                      }
+            
+                    } 
+            }
+        }
     }
-    
+       
+}    
     
 
 
@@ -405,6 +524,7 @@ Barra.prototype.crearBarra=function(elEvento){
     this.barra.style.position = "absolute";
     this.barra.style.left = this.left+"px" ;
     this.barra.style.top = this.top+"px";
+    this.barra.style.borderRadius="1em";
     this.barra.id=this.id;
     caja.appendChild(this.barra);
     //console.log("valor del left de la barra: "+this.left);
@@ -421,7 +541,7 @@ Barra.prototype.moverBarra=function(){
             raqueta.left=cx;
             raqueta.barra.style.left=raqueta.left+"px";
             //console.log(raqueta.barra.style.left);
-            console.log(barra.left);
+            //console.log(barra.left);
 
         }
             //contLeftBarra = cx;
@@ -521,4 +641,144 @@ Ladrillo.prototype.crearLadrillo=function(){
     this.bloque.style.position="absolute";
     this.bloque.id=this.id;
     caja.appendChild(this.bloque);
+}
+function Niveles(nivel){
+    this.nivel=nivel;
+}
+Niveles.prototype.nivelUno=function(){
+    if(this.nivel==1){
+            /* nivel 1*/
+            cantLadrillos=0;
+            ladrillosFila=1;
+            distancia=25;
+            aux=ladrillosFila;
+            fila=1;
+            maxLadrillos=1;
+            color="";
+            ladrillos=new Array(maxLadrillos);
+            posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
+            alert("La pastilla se ha guardaddo en: "+posicionPastilla);
+            while(fila <=1){
+                if(fila==1){
+                    cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0-14
+                }else{
+                    cantLadrillos = ladrillosFila;//si antes por ejemplo era 0 pues sera ahora 14
+                    ladrillosFila += aux;//el maximo de ladrillos sera 14 pero aumentara para las posiciones del array
+                }
+                for (i = cantLadrillos; i< ladrillosFila; i++) {
+                    //cada fila tendra un color distinto
+                    if(fila==1){
+                        color="red";
+                    
+            
+                    }else  if(fila==2){
+                        color="aqua";
+                    
+            
+                    }else  if(fila==3){
+                        color="green";
+                    
+            
+                    }else  if(fila==4){
+                        color="orange";
+                    
+            
+                    }else  if(fila==5){
+                        color="white";
+                    
+            
+                    }else  if(fila==6){
+                        color="blue";
+                    
+            
+                    }else  if(fila==7){
+                        color="brown";
+                    
+            
+                    }else if(fila==8){
+                        color="teal";
+                    
+            
+                    }
+                    if(i==cantLadrillos){
+                        ladrillos[i]=new Ladrillo(i,50,20,distancia*fila,10,color);
+                    }else{
+                        ladrillos[i]=new Ladrillo(i,50,20,distancia*fila,ladrillos[i - 1].left + 50 + 5,color);
+
+                    }
+                }
+                fila++;
+            }
+    }
+}
+Niveles.prototype.nivelDos=function(){
+     if(this.nivel==2){
+            cantLadrillos=0;
+            ladrillosFila=14;
+            distancia=25;
+            aux=ladrillosFila;
+            fila=1;
+            maxLadrillos=112;
+            color="";
+            colorDoble="";
+            ladrillos=new Array(maxLadrillos);
+            ladrillosDobles=new Array(ladrillos.length);
+            posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
+            alert("La pastilla se ha guardaddo en: "+posicionPastilla);
+            while(fila <=8){
+                    if(fila==1){
+                        cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0-14
+                    }else{
+                        cantLadrillos = ladrillosFila;//si antes por ejemplo era 0 pues sera ahora 14
+                        ladrillosFila += aux;//el maximo de ladrillos sera 14 pero aumentara para las posiciones del array
+                    }
+                    for (i = cantLadrillos; i< ladrillosFila; i++) {
+                        //cada fila tendra un color distinto
+                        if(fila==1){
+                            color="red";
+                            colorDoble="aqua"
+                
+                        }else  if(fila==2){
+                            color="aqua";
+                            colorDoble="green";
+                
+                        }else  if(fila==3){
+                            color="green";
+                            colorDoble="red";
+                
+                        }else  if(fila==4){
+                            color="orange";
+                            colorDoble="teal";
+                
+                        }else  if(fila==5){
+                            color="white";
+                            colorDoble="blue";
+                
+                        }else  if(fila==6){
+                            color="blue";
+                            colorDoble="brown";
+                
+                        }else  if(fila==7){
+                            color="brown";
+                            colorDoble="white";
+                
+                        }else if(fila==8){
+                            color="teal";
+                            colorDoble="orange";
+                
+                        }
+                        if(i==cantLadrillos){
+                            ladrillos[i]=new Ladrillo(i,50,20,distancia*fila,10,color);
+                            ladrillosDobles[i]=new Ladrillo("doble"+i,50,20,distancia*fila,10,colorDoble);
+
+                        }else{
+                            ladrillos[i]=new Ladrillo(i,50,20,distancia*fila,ladrillos[i - 1].left + 50 + 5,color);
+                            ladrillosDobles[i]=new Ladrillo("doble"+i,50,20,distancia*fila,ladrillos[i - 1].left + 50 + 5,colorDoble);
+
+                        }
+                }
+                fila++;
+            }   
+    }
+ 
 }
