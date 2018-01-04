@@ -10,13 +10,14 @@
         //clearInterval(pelota.intervalo);
         barra = new Barra("barra");
         barra.crearBarra();
+        nivel=6;
         contTopPastillaAumentarBarra=5;
         cantLadrillosDestruidos=0;
-        nivel=4;
         ladrillos=new Array();
         ladrillosDobles=new Array();
+        ladrillosAleatorios=new Array(4);
         niveles  = new Niveles(nivel);
-        niveles.nivelCuatro();
+        niveles.nivelSeis();
           
 }
 //Creamos la "clase" pelota
@@ -134,6 +135,12 @@ Pelota.prototype.moverBola=function(){
         this.colisionessoloUnLadrillo();
     }else if(niveles.nivel==4){
         this.colisionessoloUnLadrillo();
+
+    }else if(niveles.nivel==5){
+        this.colisionessoloUnLadrillo();
+
+    }else if(niveles.nivel==6){
+        this.colisionessoloUnLadrilloNivelSeis();
 
     }
 }
@@ -323,6 +330,221 @@ Pelota.prototype.colisionessoloUnLadrillo=function(){
                 } 
         }
     }
+       
+}
+Pelota.prototype.colisionessoloUnLadrilloNivelSeis=function(){
+            posicionAEliminar=0;
+            cantLadrillos=0;
+            ladrillosFila=14;
+            aux=ladrillosFila;
+            fila=1;
+    while(fila <=8){
+        if(fila==1){
+            cantLadrillos=0;
+        }else{
+            cantLadrillos=ladrillosFila;
+            ladrillosFila+=aux;
+        }
+        if(fila %2==1){
+            for( i=cantLadrillos;i < ladrillosFila;i++){
+                if(!ladrillos[i].destruido){
+                    if (this.top == ladrillos[i].top-this.height) {
+                        if (this.left >= ladrillos[i].left && this.left <= ladrillos[i].left + ladrillos[i].width) {
+                          if(i==posicionPastilla){
+                            barra.aumentarBarra(ladrillos,i);
+                          }
+                          /*
+                          pelotaConLadrillo.load();
+                          pelotaConLadrillo.play();
+                          cantLadrillosDestruidos++;
+                          //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);*/
+                          caja.removeChild(document.getElementById(ladrillos[i].id));
+                          ladrillos[i].destruido=true;
+                          this.avanceLeft=5;
+                          cantLadrillosDestruidos++;
+                          this.arriba = false;
+                          
+                        }
+                
+                      } else if (this.top ==ladrillos[i].top + ladrillos[i].height) {
+                        if (this.left >= ladrillos[i].left && this.left <=ladrillos[i].left +ladrillos[i].width) {
+                          
+                          if(i==posicionPastilla){
+                            barra.aumentarBarra(ladrillos,i);
+                          }
+                
+                          /*pelotaConLadrillo.play();
+                
+                          cantLadrillosDestruidos++;
+                          //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);
+                          sumarPuntos();*/
+                          caja.removeChild(document.getElementById(ladrillos[i].id));
+                          ladrillos[i].destruido=true;
+                          this.avanceLeft=5;
+                          cantLadrillosDestruidos++;
+        
+                          this.arriba = true;
+                        }
+                      }
+                        else if (this.top >= ladrillos[i].top && this.top <= ladrillos[i].top + ladrillos[i].height) {
+                          if (this.left+this.width == ladrillos[i].left) {
+                           
+                            if(i==posicionPastilla){
+                                barra.aumentarBarra(ladrillos,i);
+                            }
+                
+                           /* pelotaConLadrillo.play();
+                            sumarPuntos();
+                
+                            cantLadrillosDestruidos++;
+                            //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);*/
+                            caja.removeChild(document.getElementById(ladrillos[i].id));
+                            ladrillos[i].destruido=true;
+                            this.avanceLeft=5;
+                            cantLadrillosDestruidos++;
+        
+                            this.arriba = true;
+                            this.izquierda = false;
+                          } else if (this.left == ladrillos[i].left + ladrillos[i].width ) {
+                           
+                            if(i==posicionPastilla){
+                                barra.aumentarBarra(ladrillos,i);
+                            }
+                            /*pelotaConLadrillo.play();
+                            cantLadrillosDestruidos++;
+                            //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);
+                            sumarPuntos();*/
+                            caja.removeChild(document.getElementById(ladrillos[i].id));
+                            ladrillos[i].destruido=true;
+                            this.avanceLeft=5;
+                            cantLadrillosDestruidos++;
+        
+                            this.arriba = true;
+                            this.izquierda = true;
+                
+                          }
+                
+                        } 
+                }
+            }
+        }else if(fila%2==0){
+            for( i=cantLadrillos;i < ladrillosFila;i++){
+                if(!ladrillos[i].destruido){
+                    if (this.top == ladrillos[i].top-this.height) {
+                        if (this.left >= ladrillos[i].left && this.left <= ladrillos[i].left + ladrillos[i].width) {
+                          if(i==posicionPastilla){
+                            barra.aumentarBarra(ladrillos,i);
+                          }
+                          for(j=0; j < ladrillosAleatorios.length;j++){
+
+                              if(i==ladrillosAleatorios[j]){
+                                console.log("valor de i: "+i);
+
+                                caja.removeChild(document.getElementById(ladrillos[i].id));
+                                ladrillos[i].destruido=true;
+                                cantLadrillosDestruidos++;
+                              }
+                          }
+                         
+                          /*
+                          pelotaConLadrillo.load();
+                          pelotaConLadrillo.play();
+                          cantLadrillosDestruidos++;
+                          //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);*/
+                      
+                          this.avanceLeft=5;
+                          this.arriba = false;
+                          
+                        }
+                
+                      } else if (this.top ==ladrillos[i].top + ladrillos[i].height) {
+                        if (this.left >= ladrillos[i].left && this.left <=ladrillos[i].left +ladrillos[i].width) {
+                          
+                          if(i==posicionPastilla){
+                            barra.aumentarBarra(ladrillos,i);
+                          }
+                          for(j=0; j < ladrillosAleatorios.length;j++){
+
+                            if(i==ladrillosAleatorios[j]){
+                                console.log("valor de i: "+i);
+
+                              caja.removeChild(document.getElementById(ladrillos[i].id));
+                              ladrillos[i].destruido=true;
+                              cantLadrillosDestruidos++;
+                            }
+                        }
+                          /*pelotaConLadrillo.play();
+                
+                          cantLadrillosDestruidos++;
+                          //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);
+                          sumarPuntos();*/
+                          
+                          this.avanceLeft=5;
+        
+                          this.arriba = true;
+                        }
+                      }
+                        else if (this.top >= ladrillos[i].top && this.top <= ladrillos[i].top + ladrillos[i].height) {
+                          if (this.left+this.width == ladrillos[i].left) {
+                           
+                            if(i==posicionPastilla){
+                                barra.aumentarBarra(ladrillos,i);
+                            }
+                            for(j=0; j < ladrillosAleatorios.length;j++){
+
+                                if(i==ladrillosAleatorios[j]){
+                                    console.log("valor de i: "+i);
+
+                                  caja.removeChild(document.getElementById(ladrillos[i].id));
+                                  ladrillos[i].destruido=true;
+                                  cantLadrillosDestruidos++;
+                                }
+                            }
+                           /* pelotaConLadrillo.play();
+                            sumarPuntos();
+                
+                            cantLadrillosDestruidos++;
+                            //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);*/
+                        
+                            this.avanceLeft=5;
+        
+                            this.arriba = true;
+                            this.izquierda = false;
+                          } else if (this.left == ladrillos[i].left + ladrillos[i].width ) {
+                           
+                            if(i==posicionPastilla){
+                                barra.aumentarBarra(ladrillos,i);
+                            }
+                            for(j=0; j < ladrillosAleatorios.length;j++){
+
+                                if(i==ladrillosAleatorios[j]){
+                                    console.log("valor de i: "+i);
+
+                                  caja.removeChild(document.getElementById(ladrillos[i].id));
+                                  ladrillos[i].destruido=true;
+                                  cantLadrillosDestruidos++;
+                                }
+                            }
+                            /*pelotaConLadrillo.play();
+                            cantLadrillosDestruidos++;
+                            //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);
+                            sumarPuntos();*/
+                           
+                            this.avanceLeft=5;
+        
+                            this.arriba = true;
+                            this.izquierda = true;
+                
+                          }
+                
+                        } 
+                }
+            }
+        }
+        fila++;
+        
+    }
+    
        
 }
 Pelota.prototype.colisionesLadrilloDoble=function(){
@@ -925,6 +1147,151 @@ Niveles.prototype.nivelCuatro=function(){
                    console.log("ladrillosFila: "+ladrillosFila);
                 
                 fila++;
+
+            }
+    }
+}
+Niveles.prototype.nivelCinco=function(){
+    if(this.nivel==5){
+            /* nivel 5*/
+            cantLadrillos=0;
+            ladrillosFila=14;
+            distancia=25;
+            aux=ladrillosFila;
+            fila=1;
+            maxLadrillos=40;
+            color="";
+            ladrillos=new Array(maxLadrillos);
+            posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
+            alert("La pastilla se ha guardaddo en: "+posicionPastilla);
+            while(fila <=8){
+                if(fila==1){
+                    cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0
+                }else if(fila==8){
+                    cantLadrillos = ladrillosFila;//si antes por ejemplo era 0 pues sera ahora 14
+                    ladrillosFila += aux;//el maximo de ladrillos sera 14 pero aumentara para las posiciones del array
+                }else{
+                    cantLadrillos = ladrillosFila;//si antes por ejemplo era 0 pues sera ahora 14
+                    ladrillosFila += 2;
+                }
+                for (i = cantLadrillos; i < ladrillosFila; i++) {
+                         //cada fila tendra un color distinto
+                        if(fila==1){
+                            color="red";
+                        
+                
+                        }else  if(fila==2){
+                            color="aqua";
+                        
+                
+                        }else  if(fila==3){
+                            color="green";
+                        
+                
+                        }else  if(fila==4){
+                            color="orange";
+                        
+                
+                        }else  if(fila==5){
+                            color="white";
+                        
+                
+                        }else  if(fila==6){
+                            color="blue";
+                        
+                
+                        }else  if(fila==7){
+                            color="brown";
+                        
+                
+                        }else if(fila==8){
+                            color="teal";
+                        
+                
+                        }
+                        if(fila==1|fila==8){
+                            if(i==cantLadrillos){
+                                ladrillos[i]=new Ladrillo(i,50,20,distancia*fila,10,color);
+                            }else{
+                                ladrillos[i]=new Ladrillo(i,50,20,distancia*fila,ladrillos[i - 1].left + 50 + 5,color);
+    
+                            }
+                        }else{
+                            if(i==cantLadrillos){
+                                ladrillos[i]=new Ladrillo(i,50,20,distancia*fila,10,color);
+                            }else if(i==cantLadrillos+1){
+                                ladrillos[i]=new Ladrillo(i,50,20,distancia*fila,ladrillos[i - 1].left + (50 + 5)*(aux-1),color);
+    
+                            }
+                        }
+                      
+                    }
+                   console.log("CantiLadrillos: "+cantLadrillos);
+                   console.log("ladrillosFila: "+ladrillosFila);
+                
+                fila++;
+
+            }
+    }
+}
+Niveles.prototype.nivelSeis=function(){
+    if(this.nivel==6){
+            /* nivel 6*/
+            cantLadrillos=0;
+            ladrillosFila=14;
+            distancia=25;
+            aux=ladrillosFila;
+            fila=1;
+            maxLadrillos=112;
+            cont=0;
+            color="";
+            ladrillos=new Array(maxLadrillos);
+            posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
+            alert("La pastilla se ha guardaddo en: "+posicionPastilla);
+            while(fila <=8){
+                if(fila==1){
+                    cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0
+                }else{
+                    cantLadrillos = ladrillosFila;//si antes por ejemplo era 0 pues sera ahora 14
+                    ladrillosFila += aux;
+                }
+                for (i = cantLadrillos; i < ladrillosFila; i++) {
+                        //cada fila tendra un color distinto
+                        if(fila %2==0){
+                            color="orange";
+                           
+
+                        }else{
+                            color="white";
+
+                        }
+                    
+                        
+                        if(i==cantLadrillos){
+                            ladrillos[i]=new Ladrillo(i,50,20,distancia*fila,10,color);
+                        }else{
+                            ladrillos[i]=new Ladrillo(i,50,20,distancia*fila,ladrillos[i - 1].left + 50 + 5,color);
+
+                        }
+                        
+                    
+                }
+                if(fila%2==0){
+                    posicionAEliminar=Math.floor(Math.random()*aux +cantLadrillos);
+                    ladrillosAleatorios[cont]=parseInt(posicionAEliminar);
+                    console.log("posicionAEliminar: "+posicionAEliminar);
+                    console.log("valor de  ladrillosAleatorios[cont]"+ parseInt(ladrillosAleatorios[cont]));
+
+                    cont++;
+                }
+                console.log("CantiLadrillos: "+cantLadrillos);
+                console.log("ladrillosFila: "+ladrillosFila);
+                
+                fila++;
+
+            }
+            for(j =0; j <  ladrillosAleatorios.length;j++){
+                console.log("valor de j: "+parseInt(ladrillosAleatorios[j]));
 
             }
     }
