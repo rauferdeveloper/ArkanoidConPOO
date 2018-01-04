@@ -432,14 +432,14 @@ Pelota.prototype.colisionessoloUnLadrilloNivelSeis=function(){
                 if(!ladrillos[i].destruido){
                     if (this.top == ladrillos[i].top-this.height) {
                         if (this.left >= ladrillos[i].left && this.left <= ladrillos[i].left + ladrillos[i].width) {
-                          if(i==posicionPastilla){
-                            barra.aumentarBarra(ladrillos,i);
-                          }
+                          
                           for(j=0; j < ladrillosAleatorios.length;j++){
 
                               if(i==ladrillosAleatorios[j]){
                                 console.log("valor de i: "+i);
-
+                                if(i==posicionPastilla){
+                                    barra.aumentarBarra(ladrillos,i);
+                                  }
                                 caja.removeChild(document.getElementById(ladrillos[i].id));
                                 ladrillos[i].destruido=true;
                                 cantLadrillosDestruidos++;
@@ -460,14 +460,14 @@ Pelota.prototype.colisionessoloUnLadrilloNivelSeis=function(){
                       } else if (this.top ==ladrillos[i].top + ladrillos[i].height) {
                         if (this.left >= ladrillos[i].left && this.left <=ladrillos[i].left +ladrillos[i].width) {
                           
-                          if(i==posicionPastilla){
-                            barra.aumentarBarra(ladrillos,i);
-                          }
+                          
                           for(j=0; j < ladrillosAleatorios.length;j++){
 
                             if(i==ladrillosAleatorios[j]){
                                 console.log("valor de i: "+i);
-
+                                if(i==posicionPastilla){
+                                    barra.aumentarBarra(ladrillos,i);
+                                  }
                               caja.removeChild(document.getElementById(ladrillos[i].id));
                               ladrillos[i].destruido=true;
                               cantLadrillosDestruidos++;
@@ -487,14 +487,14 @@ Pelota.prototype.colisionessoloUnLadrilloNivelSeis=function(){
                         else if (this.top >= ladrillos[i].top && this.top <= ladrillos[i].top + ladrillos[i].height) {
                           if (this.left+this.width == ladrillos[i].left) {
                            
-                            if(i==posicionPastilla){
-                                barra.aumentarBarra(ladrillos,i);
-                            }
+                        
                             for(j=0; j < ladrillosAleatorios.length;j++){
 
                                 if(i==ladrillosAleatorios[j]){
                                     console.log("valor de i: "+i);
-
+                                    if(i==posicionPastilla){
+                                        barra.aumentarBarra(ladrillos,i);
+                                      }
                                   caja.removeChild(document.getElementById(ladrillos[i].id));
                                   ladrillos[i].destruido=true;
                                   cantLadrillosDestruidos++;
@@ -512,14 +512,14 @@ Pelota.prototype.colisionessoloUnLadrilloNivelSeis=function(){
                             this.izquierda = false;
                           } else if (this.left == ladrillos[i].left + ladrillos[i].width ) {
                            
-                            if(i==posicionPastilla){
-                                barra.aumentarBarra(ladrillos,i);
-                            }
+                        
                             for(j=0; j < ladrillosAleatorios.length;j++){
 
                                 if(i==ladrillosAleatorios[j]){
                                     console.log("valor de i: "+i);
-
+                                    if(i==posicionPastilla){
+                                        barra.aumentarBarra(ladrillos,i);
+                                      }
                                   caja.removeChild(document.getElementById(ladrillos[i].id));
                                   ladrillos[i].destruido=true;
                                   cantLadrillosDestruidos++;
@@ -1247,6 +1247,7 @@ Niveles.prototype.nivelSeis=function(){
             color="";
             ladrillos=new Array(maxLadrillos);
             posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
+            //nota importante para guardar la cantidad de ladrillos es sumar el array de los 4 y las 4 filas * 14
             alert("La pastilla se ha guardaddo en: "+posicionPastilla);
             while(fila <=8){
                 if(fila==1){
@@ -1281,7 +1282,8 @@ Niveles.prototype.nivelSeis=function(){
                     ladrillosAleatorios[cont]=parseInt(posicionAEliminar);
                     console.log("posicionAEliminar: "+posicionAEliminar);
                     console.log("valor de  ladrillosAleatorios[cont]"+ parseInt(ladrillosAleatorios[cont]));
-
+                    ladrillos[ladrillosAleatorios[cont]].color="red";
+                    document.getElementById( ladrillos[ladrillosAleatorios[cont]].id).style.backgroundColor= ladrillos[ladrillosAleatorios[cont]].color;
                     cont++;
                 }
                 console.log("CantiLadrillos: "+cantLadrillos);
@@ -1290,9 +1292,6 @@ Niveles.prototype.nivelSeis=function(){
                 fila++;
 
             }
-            for(j =0; j <  ladrillosAleatorios.length;j++){
-                console.log("valor de j: "+parseInt(ladrillosAleatorios[j]));
-
-            }
+           
     }
 }
