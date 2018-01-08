@@ -10,14 +10,14 @@
         //clearInterval(pelota.intervalo);
         barra = new Barra("barra");
         barra.crearBarra();
-        nivel=6;
+        nivel=4;
         contTopPastillaAumentarBarra=5;
         cantLadrillosDestruidos=0;
         ladrillos=new Array();
         ladrillosDobles=new Array();
         ladrillosAleatorios=new Array(4);
         niveles  = new Niveles(nivel);
-        niveles.nivelSeis();
+        niveles.nivelCuatro();
           
 }
 //Creamos la "clase" pelota
@@ -87,7 +87,6 @@ Pelota.prototype.moverBola=function(){
         this.arriba=false;
 
     }else if(this.top<=0){
-        this.avanceLeft=5;
 
         this.arriba=true;
        
@@ -149,18 +148,26 @@ Pelota.prototype.colisionesBarra=function(){
         if(this.top+this.width==barra.top){
             if(this.left>=barra.left&&this.left<=barra.left+barra.width){
                 if(this.left>=barra.left&&this.left<=barra.left+(barra.width/3)){
+                    this.avanceLeft=5;
+
                     this.arriba=false;
                     this.izquierda=false;
                 }else if(this.left>barra.left+(barra.width/3)&& this.left<= barra.left+barra.width-(barra.width/3)){
+                    this.avanceLeft=5;
+
                     this.arriba=false;
                     this.avanceLeft=0;
                 }else if(this.left> barra.left+barra.width-(barra.width/3)&&this.left<=barra.left+barra.width){
+                    this.avanceLeft=5;
+
                     this.arriba=false;
                     this.izquierda=false;
                 }
             }
         }else if(this.top>barra.top&&this.top<=barra.top+barra.height){
             if(this.left+this.width==barra.left){
+                this.avanceLeft=5;
+
                 arriba=false;
                 izquierda=false;
             }
@@ -168,13 +175,20 @@ Pelota.prototype.colisionesBarra=function(){
     }else  if(barra.left>(parseInt(caja.style.width)/4)-barra.width&&barra.left<=(parseInt(caja.style.width)/2)-barra.width){
         if(this.top+this.width==barra.top){
             if(this.left>=barra.left&&this.left<=barra.left+barra.width){
+
                 if(this.left>=barra.left&&this.left<=barra.left+(barra.width/3)){
+                    this.avanceLeft=5;
+
                     this.arriba=false;
                     this.izquierda=false;
                 }else if(this.left>barra.left+(barra.width/3)&& this.left<= barra.left+barra.width-(barra.width/3)){
+                    this.avanceLeft=5;
+
                     this.arriba=false;
                     this.avanceLeft=0;
                 }else if(this.left> barra.left+barra.width-(barra.width/3)&&this.left<=barra.left+barra.width){
+                    this.avanceLeft=5;
+
                     this.arriba=false;
                     this.izquierda=true;
                 }
@@ -182,20 +196,29 @@ Pelota.prototype.colisionesBarra=function(){
            
         }else if(this.top>barra.top&&this.top<=barra.top+barra.height){
             if(this.left+this.width==barra.left){
+                this.avanceLeft=5;
+
                 arriba=false;
                 izquierda=false;
             }
         }
     }else  if(barra.left>(parseInt(caja.style.width)/2)-barra.width&&barra.left<=(parseInt(caja.style.width)/2)+(parseInt(caja.style.width)/4)-barra.width){
         if(this.top+this.width==barra.top){
+
             if(this.left>=barra.left&&this.left<=barra.left+barra.width){
                 if(this.left>=barra.left&&this.left<=barra.left+(barra.width/3)){
+                    this.avanceLeft=5;
+
                     this.arriba=false;
                     this.izquierda=false;
                 }else if(this.left>barra.left+(barra.width/3)&& this.left<= barra.left+barra.width-(barra.width/3)){
+                    this.avanceLeft=5;
+
                     this.arriba=false;
                     this.avanceLeft=0;
                 }else if(this.left> barra.left+barra.width-(barra.width/3)&&this.left<=barra.left+barra.width){
+                    this.avanceLeft=5;
+
                     this.arriba=false;
                     this.izquierda=true;
                 }
@@ -203,6 +226,8 @@ Pelota.prototype.colisionesBarra=function(){
           
         }else if(this.top>barra.top&&this.top<=barra.top+barra.height){
             if(this.left+this.width==barra.left){
+                this.avanceLeft=5;
+
                 arriba=false;
                 izquierda=false;
             }
@@ -210,19 +235,28 @@ Pelota.prototype.colisionesBarra=function(){
     }else  if(barra.left>(parseInt(caja.style.width)/2)+(parseInt(caja.style.width)/4)&&barra.left<=parseInt(caja.style.width)-barra.width){
         if(this.top+this.width==barra.top){
             if(this.left>=barra.left&&this.left<=barra.left+barra.width){
+
                 if(this.left>=barra.left&&this.left<=barra.left+(barra.width/3)){
+                    this.avanceLeft=5;
+
                     this.arriba=false;
                     this.izquierda=true;
                 }else if(this.left>barra.left+(barra.width/3)&& this.left<= barra.left+barra.width-(barra.width/3)){
+                    this.avanceLeft=5;
+
                     this.arriba=false;
                     this.avanceLeft=0;
                 }else if(this.left> barra.left+barra.width-(barra.width/3)&&this.left<=barra.left+barra.width){
+                    this.avanceLeft=5;
+
                     this.arriba=false;
                     this.izquierda=true;
                 }
             }
         }else if(this.top>barra.top&&this.top<=barra.top+barra.height){
             if(this.left+this.width==barra.left){
+                this.avanceLeft=5;
+
                 arriba=false;
                 izquierda=false;
             }
@@ -230,11 +264,15 @@ Pelota.prototype.colisionesBarra=function(){
     }else{
         if(this.top+this.width==barra.top){
             if(this.left>=barra.left&&this.left<=barra.left+barra.width){
+                this.avanceLeft=5;
+
                 this.arriba=false;
             
             }
         }else if(this.top>barra.top&&this.top<=barra.top+barra.height){
             if(this.left+this.width==barra.left){
+                this.avanceLeft=5;
+
                 arriba=false;
                 izquierda=false;
             }
@@ -242,6 +280,8 @@ Pelota.prototype.colisionesBarra=function(){
     } 
     if(this.top+this.width==barra.top+barra.height){
         if(this.left>=barra.left&&this.left<=barra.left+barra.width){
+            this.avanceLeft=5;
+
             this.arriba=true;
         }   
     
