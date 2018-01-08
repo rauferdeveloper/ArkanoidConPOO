@@ -146,18 +146,18 @@ Pelota.prototype.moverBola=function(){
 Pelota.prototype.colisionesBarra=function(){
     if(barra.left>=0&&barra.left<=(parseInt(caja.style.width)/4)-barra.width){
         if(this.top+this.width==barra.top){
-            if(this.left>=barra.left&&this.left<=barra.left+barra.width){
-                if(this.left>=barra.left&&this.left<=barra.left+(barra.width/3)){
+            if(this.left+this.width>=barra.left&&this.left<=barra.left+barra.width){
+                if(this.left+this.width>=barra.left&&this.left<=barra.left+(barra.width/3)){
                     this.avanceLeft=5;
 
                     this.arriba=false;
                     this.izquierda=false;
-                }else if(this.left>barra.left+(barra.width/3)&& this.left<= barra.left+barra.width-(barra.width/3)){
+                }else if(this.left+this.width>barra.left+(barra.width/3)&& this.left<= barra.left+barra.width-(barra.width/3)){
                     this.avanceLeft=5;
 
                     this.arriba=false;
                     this.avanceLeft=0;
-                }else if(this.left> barra.left+barra.width-(barra.width/3)&&this.left<=barra.left+barra.width){
+                }else if(this.left+this.width> barra.left+barra.width-(barra.width/3)&&this.left<=barra.left+barra.width){
                     this.avanceLeft=5;
 
                     this.arriba=false;
@@ -174,19 +174,19 @@ Pelota.prototype.colisionesBarra=function(){
         }
     }else  if(barra.left>(parseInt(caja.style.width)/4)-barra.width&&barra.left<=(parseInt(caja.style.width)/2)-barra.width){
         if(this.top+this.width==barra.top){
-            if(this.left>=barra.left&&this.left<=barra.left+barra.width){
+            if(this.left+this.width>=barra.left&&this.left<=barra.left+barra.width){
 
-                if(this.left>=barra.left&&this.left<=barra.left+(barra.width/3)){
+                if(this.left+this.width>=barra.left&&this.left<=barra.left+(barra.width/3)){
                     this.avanceLeft=5;
 
                     this.arriba=false;
                     this.izquierda=false;
-                }else if(this.left>barra.left+(barra.width/3)&& this.left<= barra.left+barra.width-(barra.width/3)){
+                }else if(this.left+this.width>barra.left+(barra.width/3)&& this.left<= barra.left+barra.width-(barra.width/3)){
                     this.avanceLeft=5;
 
                     this.arriba=false;
                     this.avanceLeft=0;
-                }else if(this.left> barra.left+barra.width-(barra.width/3)&&this.left<=barra.left+barra.width){
+                }else if(this.left+this.width> barra.left+barra.width-(barra.width/3)&&this.left<=barra.left+barra.width){
                     this.avanceLeft=5;
 
                     this.arriba=false;
@@ -205,18 +205,18 @@ Pelota.prototype.colisionesBarra=function(){
     }else  if(barra.left>(parseInt(caja.style.width)/2)-barra.width&&barra.left<=(parseInt(caja.style.width)/2)+(parseInt(caja.style.width)/4)-barra.width){
         if(this.top+this.width==barra.top){
 
-            if(this.left>=barra.left&&this.left<=barra.left+barra.width){
-                if(this.left>=barra.left&&this.left<=barra.left+(barra.width/3)){
+            if(this.left+this.width>=barra.left&&this.left<=barra.left+barra.width){
+                if(this.left+this.width>=barra.left&&this.left<=barra.left+(barra.width/3)){
                     this.avanceLeft=5;
 
                     this.arriba=false;
                     this.izquierda=false;
-                }else if(this.left>barra.left+(barra.width/3)&& this.left<= barra.left+barra.width-(barra.width/3)){
+                }else if(this.left+this.width>barra.left+(barra.width/3)&& this.left<= barra.left+barra.width-(barra.width/3)){
                     this.avanceLeft=5;
 
                     this.arriba=false;
                     this.avanceLeft=0;
-                }else if(this.left> barra.left+barra.width-(barra.width/3)&&this.left<=barra.left+barra.width){
+                }else if(this.left+this.width> barra.left+barra.width-(barra.width/3)&&this.left<=barra.left+barra.width){
                     this.avanceLeft=5;
 
                     this.arriba=false;
@@ -236,17 +236,17 @@ Pelota.prototype.colisionesBarra=function(){
         if(this.top+this.width==barra.top){
             if(this.left>=barra.left&&this.left<=barra.left+barra.width){
 
-                if(this.left>=barra.left&&this.left<=barra.left+(barra.width/3)){
+                if(this.left+this.width>=barra.left&&this.left<=barra.left+(barra.width/3)){
                     this.avanceLeft=5;
 
                     this.arriba=false;
                     this.izquierda=true;
-                }else if(this.left>barra.left+(barra.width/3)&& this.left<= barra.left+barra.width-(barra.width/3)){
+                }else if(this.left+this.width>barra.left+(barra.width/3)&& this.left<= barra.left+barra.width-(barra.width/3)){
                     this.avanceLeft=5;
 
                     this.arriba=false;
                     this.avanceLeft=0;
-                }else if(this.left> barra.left+barra.width-(barra.width/3)&&this.left<=barra.left+barra.width){
+                }else if(this.left+this.width> barra.left+barra.width-(barra.width/3)&&this.left<=barra.left+barra.width){
                     this.avanceLeft=5;
 
                     this.arriba=false;
@@ -262,8 +262,8 @@ Pelota.prototype.colisionesBarra=function(){
             }
         }
     }else{
-        if(this.top+this.width==barra.top){
-            if(this.left>=barra.left&&this.left<=barra.left+barra.width){
+        if(this.top+this.height==barra.top){
+            if(this.left+this.width>=barra.left&&this.left<=barra.left+barra.width){
                 this.avanceLeft=5;
 
                 this.arriba=false;
@@ -279,7 +279,7 @@ Pelota.prototype.colisionesBarra=function(){
         }
     } 
     if(this.top+this.width==barra.top+barra.height){
-        if(this.left>=barra.left&&this.left<=barra.left+barra.width){
+        if(this.left+this.width>=barra.left&&this.left<=barra.left+barra.width){
             this.avanceLeft=5;
 
             this.arriba=true;
