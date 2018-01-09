@@ -10,14 +10,14 @@
         //clearInterval(pelota.intervalo);
         barra = new Barra("barra");
         barra.crearBarra();
-        nivel=9;
+        nivel=10;
         contTopPastillaAumentarBarra=5;
         cantLadrillosDestruidos=0;
         ladrillos=new Array();
         ladrillosDobles=new Array();
         ladrillosAleatorios=new Array(4);
         niveles  = new Niveles(nivel);
-        niveles.nivelNueve();
+        niveles.nivelDiez();
           
 }
 //Creamos la "clase" pelota
@@ -148,6 +148,9 @@ Pelota.prototype.moverBola=function(){
         this.colisionessoloUnLadrillo();
 
     }else if(niveles.nivel==9){
+        this.colisionessoloUnLadrillo();
+
+    }else if(niveles.nivel==10){
         this.colisionessoloUnLadrillo();
 
     }
@@ -1569,5 +1572,95 @@ Niveles.prototype.nivelNueve=function(){
             }
             fila++;
         }
+    }
+}
+Niveles.prototype.nivelDiez=function(){
+    if(this.nivel==10){
+            /* nivel 10*/
+            cantLadrillos=0;
+            ladrillosFila=7;
+            distancia=25;
+            aux=ladrillosFila;
+            fila=1;
+            maxLadrillos=56;
+            cont=0;
+            color="";
+            ladrillos=new Array(maxLadrillos);
+            posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
+            //nota importante para guardar la cantidad de ladrillos es sumar el array de los 4 y las 4 filas * 14
+            alert("La pastilla se ha guardaddo en: "+posicionPastilla);
+            while(fila <=8){
+                if(fila==1){
+                    cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0
+                }else{
+                    cantLadrillos = ladrillosFila;//si antes por ejemplo era 0 pues sera ahora 14
+                    ladrillosFila += aux;
+                }
+                for (i = cantLadrillos; i < ladrillosFila; i++) {
+                        //cada fila tendra un color distinto
+                      
+                        if(fila==1){
+                            color="red";
+                        
+                
+                        }else  if(fila==2){
+                            color="aqua";
+                        
+                
+                        }else  if(fila==3){
+                            color="green";
+                        
+                
+                        }else  if(fila==4){
+                            color="orange";
+                        
+                
+                        }else  if(fila==5){
+                            color="white";
+                        
+                
+                        }else  if(fila==6){
+                            color="blue";
+                        
+                
+                        }else  if(fila==7){
+                            color="brown";
+                        
+                
+                        }else if(fila==8){
+                            color="teal";
+                        
+                
+                        }
+                        if(fila %2==0){
+                      
+                            if(i==cantLadrillos){
+                                ladrillos[i]=new Ladrillo(i,50,20,distancia*fila,65,color);
+                            }else{
+                                ladrillos[i]=new Ladrillo(i,50,20,distancia*fila,ladrillos[i - 1].left + (50 + 5)*2,color);
+    
+                            }
+
+                        }else{
+                            if(i==cantLadrillos){
+                                ladrillos[i]=new Ladrillo(i,50,20,distancia*fila,10,color);
+                            }else{
+                                ladrillos[i]=new Ladrillo(i,50,20,distancia*fila,ladrillos[i - 1].left + (50 + 5)*2,color);
+    
+                            }
+
+                        }
+                        
+                        
+                    
+                }
+          
+                console.log("CantiLadrillos: "+cantLadrillos);
+                console.log("ladrillosFila: "+ladrillosFila);
+                
+                fila++;
+
+            }
+           
     }
 }
