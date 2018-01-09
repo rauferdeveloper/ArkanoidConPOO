@@ -10,14 +10,14 @@
         //clearInterval(pelota.intervalo);
         barra = new Barra("barra");
         barra.crearBarra();
-        nivel=10;
+        nivel=7;
         contTopPastillaAumentarBarra=5;
         cantLadrillosDestruidos=0;
         ladrillos=new Array();
         ladrillosDobles=new Array();
         ladrillosAleatorios=new Array(4);
         niveles  = new Niveles(nivel);
-        niveles.nivelDiez();
+        niveles.nivelSiete();
           
 }
 //Creamos la "clase" pelota
