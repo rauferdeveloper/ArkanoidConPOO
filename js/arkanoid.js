@@ -11,15 +11,15 @@
         barra = new Barra("barra");
         barra.crearBarra();
         nivel=10;
+        vidas=5;
         contTopPastillaAumentarBarra=5;
         cantLadrillosDestruidos=0;
         ladrillos=new Array();
         ladrillosDobles=new Array();
         ladrillosAleatorios=new Array(4);
-        niveles  = new Niveles(nivel);
+        niveles  = new Niveles(nivel,vidas);
         niveles.nivelDiez();
-        pelota1=new Pelota("pelota1");
-        pelota1.crearBola();
+        console.log("Vidas: "+niveles.vidas);
           
 }
 //Creamos la "clase" pelota
@@ -84,11 +84,18 @@ Pelota.prototype.crearBola=function(){
     
 }
 Pelota.prototype.moverBola=function(){
-    
+    /*if(niveles.vidas>0){
+        if(this.top>=parseInt(caja.style.height)-parseInt(this.height)){
+            niveles.vidas--;
+            this.arriba=false;
+            console.log("Vidas: "+niveles.vidas);
+
+        } 
+    } para las vidas*/
     if(this.top>=parseInt(caja.style.height)-parseInt(this.height)){
         this.arriba=false;
-
-    }else if(this.top<=0){
+    } 
+    else if(this.top<=0){
 
         this.arriba=true;
        
@@ -922,8 +929,9 @@ Ladrillo.prototype.crearLadrillo=function(){
     this.bloque.id=this.id;
     caja.appendChild(this.bloque);
 }
-function Niveles(nivel){
+function Niveles(nivel,vidas){
     this.nivel=nivel;
+    this.vidas=vidas;
 }
 Niveles.prototype.nivelUno=function(){
     if(this.nivel==1){
