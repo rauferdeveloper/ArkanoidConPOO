@@ -18,6 +18,8 @@
         ladrillosAleatorios=new Array(4);
         niveles  = new Niveles(nivel);
         niveles.nivelDiez();
+        pelota1=new Pelota("pelota1");
+        pelota1.crearBola();
           
 }
 //Creamos la "clase" pelota
@@ -60,7 +62,7 @@ function Pelota(idPelota){ //metodo a sobrecargar
         this.izquierda=true;
     }
     this.id=idPelota;
-    this.intervalo=setInterval(this.moverBola.bind(this),20);  
+    this.intervalo=setInterval(this.moverBola.bind(this),40);  
 
 }
 Pelota.prototype.crearBola=function(){
@@ -290,7 +292,7 @@ Pelota.prototype.colisionesBarra=function(){
             }
         }
     } 
-    if(this.top+this.width==barra.top+barra.height){
+    if(this.top==barra.top+barra.height){
         if(this.left+this.width>=barra.left&&this.left<=barra.left+barra.width){
             this.avanceLeft=5;
 
