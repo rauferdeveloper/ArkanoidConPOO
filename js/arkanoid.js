@@ -62,7 +62,7 @@ function Pelota(idPelota){ //metodo a sobrecargar
         this.izquierda=true;
     }
     this.id=idPelota;
-    this.intervalo=setInterval(this.moverBola.bind(this),40);  
+    this.intervalo=setInterval(this.moverBola.bind(this),20);  
 
 }
 Pelota.prototype.crearBola=function(){
