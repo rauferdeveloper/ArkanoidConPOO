@@ -4,15 +4,16 @@
         caja.style.height = "600px";
         caja.style.backgroundColor = "rgb(0, 0, 0)";
         cx=0;
-        pelota=new Pelota("pelota");
-        pelota.crearBola();
-        delete pelota;
+        pelotas=new Array(3);
+        pelotas[0]=new Pelota("pelota0");
+        pelotas[0].crearBola();
         //clearInterval(pelota.intervalo);
         barra = new Barra("barra");
         barra.crearBarra();
         nivel=10;
         vidas=5;
         contTopPastillaAumentarBarra=5;
+        contTopPastillaCreacionPelotas=5;
         cantLadrillosDestruidos=0;
         ladrillos=new Array();
         ladrillosDobles=new Array();
@@ -49,6 +50,8 @@ function Pelota(idPelota){ //metodo a sobrecargar
     this.width=10;
     this.height = 10;
   
+    //this.left = Math.floor(Math.random() * (parseInt(caja.style.width)-this.width) + 0);
+    //this.top =  Math.floor(Math.random() * (parseInt(caja.style.height)-this.height) + 0);
     this.left = Math.floor(Math.random() * (parseInt(caja.style.width)-this.width) + 0);
     this.top =  Math.floor(Math.random() * (parseInt(caja.style.height)-this.height) + 0);
     this.avanceTop=5;
@@ -317,6 +320,9 @@ Pelota.prototype.colisionessoloUnLadrillo=function(){
                   if(i==posicionPastilla){
                     barra.aumentarBarra(ladrillos,i);
                   }
+                  if(i==posicionPastillaCreacionPelotas){
+                    barra.creacionPelotas(ladrillos,i);
+                  }
                   /*
                   pelotaConLadrillo.load();
                   pelotaConLadrillo.play();
@@ -335,6 +341,9 @@ Pelota.prototype.colisionessoloUnLadrillo=function(){
                   
                   if(i==posicionPastilla){
                     barra.aumentarBarra(ladrillos,i);
+                  }
+                  if(i==posicionPastillaCreacionPelotas){
+                    barra.creacionPelotas(ladrillos,i);
                   }
         
                   /*pelotaConLadrillo.play();
@@ -356,6 +365,9 @@ Pelota.prototype.colisionessoloUnLadrillo=function(){
                     if(i==posicionPastilla){
                         barra.aumentarBarra(ladrillos,i);
                     }
+                    if(i==posicionPastillaCreacionPelotas){
+                        barra.creacionPelotas(ladrillos,i);
+                    }
         
                    /* pelotaConLadrillo.play();
                     sumarPuntos();
@@ -373,6 +385,9 @@ Pelota.prototype.colisionessoloUnLadrillo=function(){
                    
                     if(i==posicionPastilla){
                         barra.aumentarBarra(ladrillos,i);
+                    }
+                    if(i==posicionPastillaCreacionPelotas){
+                        barra.creacionPelotas(ladrillos,i);
                     }
                     /*pelotaConLadrillo.play();
                     cantLadrillosDestruidos++;
@@ -804,16 +819,16 @@ function Barra(idBarra){
 } 
 
 Barra.prototype.crearBarra=function(elEvento){
-    this.barra=document.createElement("div");//creamos la barra en el entorno de juego
-    this.barra.style.height = this.height+"px";
-    this.barra.style.width = this.width+"px";
-    this.barra.style.backgroundColor = "#9a0827";
-    this.barra.style.position = "absolute";
-    this.barra.style.left = this.left+"px" ;
-    this.barra.style.top = this.top+"px";
-    this.barra.style.borderRadius="1em";
-    this.barra.id=this.id;
-    caja.appendChild(this.barra);
+    this.divBarra=document.createElement("div");//creamos la barra en el entorno de juego
+    this.divBarra.style.height = this.height+"px";
+    this.divBarra.style.width = this.width+"px";
+    this.divBarra.style.backgroundColor = "#9a0827";
+    this.divBarra.style.position = "absolute";
+    this.divBarra.style.left = this.left+"px" ;
+    this.divBarra.style.top = this.top+"px";
+    this.divBarra.style.borderRadius="1em";
+    this.divBarra.id=this.id;
+    caja.appendChild(this.divBarra);
     //console.log("valor del left de la barra: "+this.left);
     this.moverBarra();
 }
@@ -826,7 +841,7 @@ Barra.prototype.moverBarra=function(){
         //console.log("Cliente X "+cx+" Cliente Y "+cy);
         if (cx >= 0 && cx <= parseInt(caja.style.width) - raqueta.width){
             raqueta.left=cx;
-            raqueta.barra.style.left=raqueta.left+"px";
+            raqueta.divBarra.style.left=raqueta.left+"px";
             //console.log(raqueta.barra.style.left);
             //console.log(barra.left);
 
@@ -845,7 +860,7 @@ Barra.prototype.moverBarra=function(){
                     
                     }
                   //console.log(contLeftBarra);
-                  raqueta.barra.style.left =raqueta.left+"px";
+                  raqueta.divBarra.style.left =raqueta.left+"px";
 
                 }
             } else if (evento.keyCode == 88 || evento.keyCode == 39) { //Si presionamos la tecla X o flecha derecha la barra se mueve hacia a la derecha
@@ -854,7 +869,7 @@ Barra.prototype.moverBarra=function(){
                     if (raqueta.left > parseInt(caja.style.width) - raqueta.width) {
                         raqueta.left = parseInt(caja.style.width) - raqueta.width;
                       }
-                    raqueta.barra.style.left =raqueta.left+"px";
+                    raqueta.divBarra.style.left =raqueta.left+"px";
                    
                   //console.log(contLeftBarra);
     
@@ -902,6 +917,49 @@ Barra.prototype.aumentarBarra=function(ladrillos,posicion){
             if(existePastillaAumentarBarra){
               caja.removeChild(pastillaAumentarBarra);
               existePastillaAumentarBarra=false;
+            }
+          }
+    },50)    
+        
+
+}
+Barra.prototype.creacionPelotas=function(ladrillos,posicion){
+    pastillaCreacionPelotas=document.createElement("div");
+    pastillaCreacionPelotas.style.width="20px";
+    pastillaCreacionPelotas.style.height="10px";
+    pastillaCreacionPelotas.style.backgroundColor="red";
+    pastillaCreacionPelotas.style.borderRadius="5px";
+    pastillaCreacionPelotas.style.position="absolute";
+    pastillaCreacionPelotas.style.left=parseInt(ladrillos[posicion].left)+"px";
+    pastillaCreacionPelotas.style.top=parseInt(ladrillos[posicion].height)+parseInt(ladrillos[posicion].top)+"px";
+    caja.appendChild(pastillaCreacionPelotas);//creo la pastilla en la caja
+    existePastillaCreacionPelotas=true;
+    intervaloPastillaCreacionPelotas=setInterval(function(){// el movimiento de la pastilla
+        pastillaCreacionPelotas.style.top=parseInt(parseInt(pastillaCreacionPelotas.style.top)+contTopPastillaCreacionPelotas)+"px";//aqui va bajando poco a poco
+      //console.log("Altura de la pastilla: "+parseInt(parseInt(pastillaAumentarBarra.style.top)+parseInt(pastillaAumentarBarra.style.height)));
+      //si la pastilla se encuentra en la misma altura que la barra entra en la siguiente condicion    
+      if(parseInt(parseInt(pastillaCreacionPelotas.style.top)+parseInt(pastillaCreacionPelotas.style.height))>=parseInt(barra.top)&&parseInt(parseInt(pastillaCreacionPelotas.style.top)+parseInt(pastillaCreacionPelotas.style.height))<=parseInt(barra.top)+parseInt(barra.height)){
+           //aqui evaluo todas las posibilidades para que la barra coja la pastilla
+        if ((barra.left || cx)>=pastillaCreacionPelotas.style.left|| (barra.left || cx) <= parseInt(pastillaCreacionPelotas.style.left) + parseInt(pastillaCreacionPelotas.style.width)&&
+            (barra.left || cx)+parseInt(barra.width)>=parseInt(pastillaCreacionPelotas.style.left) ||(barra.left || cx)+parseInt(barra.width) <= parseInt(pastillaCreacionPelotas.style.left) + parseInt(pastillaCreacionPelotas.style.width) ) {
+                  clearInterval(intervaloPastillaCreacionPelotas);
+                   barra.width=parseInt(barra.width)+parseInt(pastillaCreacionPelotas.style.width);
+                   document.getElementById(barra.id).style.width=barra.width+"px";
+                   //barraAumentada.play();
+                  if(existePastillaCreacionPelotas){
+                     for(var i =1;i < pelotas.length;i++){
+                         pelotas[i]=new Pelota("pelota"+i);
+                         pelotas[i].crearBola();
+                     }
+                    caja.removeChild(pastillaCreacionPelotas);
+                    existePastillaCreacionPelotas=false;
+                  }
+            }
+          }else if(parseInt(parseInt(pastillaCreacionPelotas.style.top)+parseInt(pastillaCreacionPelotas.style.height))==parseInt(caja.style.height)){//si llega al tocar el suelo y no llega darle la barra desaparece
+            clearInterval(intervaloPastillaCreacionPelotas);
+            if(existePastillaCreacionPelotas){
+              caja.removeChild(pastillaCreacionPelotas);
+              existePastillaCreacionPelotas=false;
             }
           }
     },50)    
@@ -1597,8 +1655,12 @@ Niveles.prototype.nivelDiez=function(){
             color="";
             ladrillos=new Array(maxLadrillos);
             posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
+            posicionPastillaCreacionPelotas=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
+
             //nota importante para guardar la cantidad de ladrillos es sumar el array de los 4 y las 4 filas * 14
             alert("La pastilla se ha guardaddo en: "+posicionPastilla);
+            alert("La pastilla se ha guardaddo en: "+posicionPastillaCreacionPelotas);
+
             while(fila <=8){
                 if(fila==1){
                     cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0
