@@ -1064,7 +1064,7 @@ Barra.prototype.creacionDisparos=function(ladrillos,posicion){
       if(parseInt(parseInt(pastillaCreacionDisparos.style.top)+parseInt(pastillaCreacionDisparos.style.height))>=parseInt(barra.top)&&parseInt(parseInt(pastillaCreacionDisparos.style.top)+parseInt(pastillaCreacionDisparos.style.height))<=parseInt(barra.top)+parseInt(barra.height)){
            //aqui evaluo todas las posibilidades para que la barra coja la pastilla
         if (barra.left>=pastillaCreacionDisparos.style.left|| barra.left <= parseInt(pastillaCreacionDisparos.style.left) + parseInt(pastillaCreacionDisparos.style.width)&&
-            barra.left +barra.width>=parseInt(pastillaCreacionDisparos.style.left) ||barra.left+barra.width <= parseInt(pastillaCreacionDisparos.style.left) + parseInt(pastillaCreacionDisparos.style.width) ) {
+            barra.left +barra.width>=parseInt(pastillaCreacionDisparos.style.left) ||barra.left+barra.width == parseInt(pastillaCreacionDisparos.style.left) + parseInt(pastillaCreacionDisparos.style.width) ) {
                   clearInterval(intervaloPastillaCreacionDisparos);
                  
                   caja.removeChild(pastillaCreacionDisparos);
