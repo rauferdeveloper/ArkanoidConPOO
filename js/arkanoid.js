@@ -35,13 +35,13 @@
             var evento=window.event||elEvento;
 
             barra.moverTeclado(elEvento);
-            if(evento.keyCode==32){
-                if(existePastillaCreacionDisparos){
-                   new Disparo(5,20,500,barra.left,"white").crearDisparo();
-                   new Disparo(5,20,500,(barra.left+barra.width-5),"white").crearDisparo();
-                 
-                   
-                 }
+            if(existePastillaCreacionDisparos){
+
+                if(evento.keyCode==32){
+                    new Disparo(5,20,500,barra.left,"white").crearDisparo();
+                    new Disparo(5,20,500,(barra.left+barra.width-5),"white").crearDisparo();
+                    
+                }
             }
         }
 }
@@ -973,8 +973,8 @@ Barra.prototype.aumentarBarra=function(ladrillos,posicion){
       //si la pastilla se encuentra en la misma altura que la barra entra en la siguiente condicion    
       if(parseInt(parseInt(pastillaAumentarBarra.style.top)+parseInt(pastillaAumentarBarra.style.height))>=parseInt(barra.top)&&parseInt(parseInt(pastillaAumentarBarra.style.top)+parseInt(pastillaAumentarBarra.style.height))<=parseInt(barra.top)+parseInt(barra.height)){
            //aqui evaluo todas las posibilidades para que la barra coja la pastilla
-        if ((barra.left || cx)>=pastillaAumentarBarra.style.left|| (barra.left || cx) <= parseInt(pastillaAumentarBarra.style.left) + parseInt(pastillaAumentarBarra.style.width)&&
-            (barra.left || cx)+parseInt(barra.width)>=parseInt(pastillaAumentarBarra.style.left) ||(barra.left || cx)+parseInt(barra.width) <= parseInt(pastillaAumentarBarra.style.left) + parseInt(pastillaAumentarBarra.style.width) ) {
+        if (barra.left>=pastillaAumentarBarra.style.left|| barra.left <= parseInt(pastillaAumentarBarra.style.left) + parseInt(pastillaAumentarBarra.style.width)&&
+            barra.left+barra.width>=parseInt(pastillaAumentarBarra.style.left) ||barra.left +barra.width == parseInt(pastillaAumentarBarra.style.left) + parseInt(pastillaAumentarBarra.style.width) ) {
                   clearInterval(intervaloPastillaAumentarBarra);
                    barra.width=parseInt(barra.width)+parseInt(pastillaAumentarBarra.style.width);
                    document.getElementById(barra.id).style.width=barra.width+"px";
@@ -1019,8 +1019,8 @@ Barra.prototype.creacionPelotas=function(ladrillos,posicion){
       //si la pastilla se encuentra en la misma altura que la barra entra en la siguiente condicion    
       if(parseInt(parseInt(pastillaCreacionPelotas.style.top)+parseInt(pastillaCreacionPelotas.style.height))>=parseInt(barra.top)&&parseInt(parseInt(pastillaCreacionPelotas.style.top)+parseInt(pastillaCreacionPelotas.style.height))<=parseInt(barra.top)+parseInt(barra.height)){
            //aqui evaluo todas las posibilidades para que la barra coja la pastilla
-        if ((barra.left || cx)>=pastillaCreacionPelotas.style.left|| (barra.left || cx) <= parseInt(pastillaCreacionPelotas.style.left) + parseInt(pastillaCreacionPelotas.style.width)&&
-            (barra.left || cx)+parseInt(barra.width)>=parseInt(pastillaCreacionPelotas.style.left) ||(barra.left || cx)+parseInt(barra.width) <= parseInt(pastillaCreacionPelotas.style.left) + parseInt(pastillaCreacionPelotas.style.width) ) {
+        if (barra.left >=pastillaCreacionPelotas.style.left|| barra.left <= parseInt(pastillaCreacionPelotas.style.left) + parseInt(pastillaCreacionPelotas.style.width)&&
+            barra.left+barra.width >=parseInt(pastillaCreacionPelotas.style.left) || barra.left+barra.width == parseInt(pastillaCreacionPelotas.style.left) + parseInt(pastillaCreacionPelotas.style.width) ) {
                   clearInterval(intervaloPastillaCreacionPelotas);
                 
                    //barraAumentada.play();
@@ -1063,13 +1063,13 @@ Barra.prototype.creacionDisparos=function(ladrillos,posicion){
       //si la pastilla se encuentra en la misma altura que la barra entra en la siguiente condicion    
       if(parseInt(parseInt(pastillaCreacionDisparos.style.top)+parseInt(pastillaCreacionDisparos.style.height))>=parseInt(barra.top)&&parseInt(parseInt(pastillaCreacionDisparos.style.top)+parseInt(pastillaCreacionDisparos.style.height))<=parseInt(barra.top)+parseInt(barra.height)){
            //aqui evaluo todas las posibilidades para que la barra coja la pastilla
-        if ((barra.left || cx)>=pastillaCreacionDisparos.style.left|| (barra.left || cx) <= parseInt(pastillaCreacionDisparos.style.left) + parseInt(pastillaCreacionDisparos.style.width)&&
-            (barra.left || cx)+parseInt(barra.width)>=parseInt(pastillaCreacionDisparos.style.left) ||(barra.left || cx)+parseInt(barra.width) <= parseInt(pastillaCreacionDisparos.style.left) + parseInt(pastillaCreacionDisparos.style.width) ) {
+        if (barra.left>=pastillaCreacionDisparos.style.left|| barra.left <= parseInt(pastillaCreacionDisparos.style.left) + parseInt(pastillaCreacionDisparos.style.width)&&
+            barra.left +barra.width>=parseInt(pastillaCreacionDisparos.style.left) ||barra.left+barra.width <= parseInt(pastillaCreacionDisparos.style.left) + parseInt(pastillaCreacionDisparos.style.width) ) {
                   clearInterval(intervaloPastillaCreacionDisparos);
                  
                   caja.removeChild(pastillaCreacionDisparos);
                    //barraAumentada.play();
-                 
+
             }
           }else if(parseInt(parseInt(pastillaCreacionDisparos.style.top)+parseInt(pastillaCreacionDisparos.style.height))==parseInt(caja.style.height)){//si llega al tocar el suelo y no llega darle la barra desaparece
             clearInterval(intervaloPastillaCreacionDisparos);
