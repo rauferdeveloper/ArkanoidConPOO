@@ -203,7 +203,7 @@ Pelota.prototype.moverBola=function(){
         this.colisionessoloUnLadrillo();
 
     }
-    this.colisionesPelotas();
+    //this.colisionesPelotas();
 }
 Pelota.prototype.colisionesBarra=function(){
     if(barra.left>=0&&barra.left<=(parseInt(caja.style.width)/4)-barra.width){
