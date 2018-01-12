@@ -46,6 +46,18 @@
                     }
             }
         }
+        caja.onclick=function(){
+            if(existePastillaCreacionDisparos){
+
+                new Disparo(5,20,500,barra.left,"white").crearDisparo();
+                new Disparo(5,20,500,(barra.left+barra.width-5),"white").crearDisparo();
+            
+            }
+        }
+        /*document.getElementById(barra.id).style.opacity=0;
+
+        document.getElementById(barra.id).style.transition="opacity 1s";
+        Para eliminar la barra visualmente que hacer despues caja.removechild etc*/
 }
 //Creamos la "clase" pelota
 /*
@@ -121,6 +133,8 @@ Pelota.prototype.moverBola=function(){
     } para las vidas*/
     if(this.top>=parseInt(caja.style.height)-parseInt(this.height)){
         this.arriba=false;
+
+
     } 
     else if(this.top<=0){
 
@@ -189,6 +203,7 @@ Pelota.prototype.moverBola=function(){
         this.colisionessoloUnLadrillo();
 
     }
+    this.colisionesPelotas();
 }
 Pelota.prototype.colisionesBarra=function(){
     if(barra.left>=0&&barra.left<=(parseInt(caja.style.width)/4)-barra.width){
@@ -356,7 +371,7 @@ Pelota.prototype.colisionessoloUnLadrillo=function(){
                   //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);*/
                   caja.removeChild(document.getElementById(ladrillos[i].id));
                   ladrillos[i].destruido=true;
-                  this.avanceLeft=5;
+                  this.avanceLeft=5;50
                   cantLadrillosDestruidos++;
                   this.arriba = false;
                   
@@ -642,7 +657,8 @@ Pelota.prototype.colisionessoloUnLadrilloNivelSeis=function(){
                             sumarPuntos();*/
                            
                             this.avanceLeft=5;
-        
+                            document.getElementById(barra.id).style.opacity=0;
+
                             this.arriba = true;
                             this.izquierda = true;
                 
@@ -819,27 +835,29 @@ Pelota.prototype.colisionesLadrilloDoble=function(){
 
 Pelota.prototype.colisionesPelotas=function(){
     for(i =0; i < pelotas.length;i++){
-        
-        // Si la bola choca con otra bola desde la izquierda.
+        if(pelotas[i]!=null||pelotas[i]!=undefined){
+                // Si la bola choca con otra bola desde la izquierda.
 
-        if( (this.left == (pelotas[i].left-this.width)) && (this.top >= (pelotas[i].top - this.height)) && (this.top <= (pelotas[i].top + this.height)) ) {
-            this.izquierda=false;
-            pelotas[i].izquierda=true;
+            if( (this.left == (pelotas[i].left-this.width)) && (this.top >= (pelotas[i].top - this.height)) && (this.top <= (pelotas[i].top + this.height)) ) {
+                this.izquierda=false;
+                pelotas[i].izquierda=true;
+            }
+            // Si la bola choca con otra bola desde la derecha.
+            if( (this.left == (pelotas[i].left + this.width)) && (this.top >= (pelotas[i].left - this.height)) && (this.top <= (pelotas[i].top + this.height)) ) {
+                    this.izquierda=true;
+                    pelotas[i].izquierda=false;
+            }
+            // Si la bola choca con otra bola desde arriba.
+            if( (this.top == (pelotas[i].top - this.height)) && (this.left >= (pelotas[i].left - this.width)) && (this.left <= (pelotas[i].left + this.width)) ) {
+                this.arriba=false;
+                pelotas[i].arriba=true;                    }
+            // Si la bola choca con otra bola desde abajo.
+            if( (this.top == (pelotas[i].top + this.height)) && (this.left >= (pelotas[i].left - this.width)) && (this.left <= (pelotas[i].left + this.width)) ) {
+                this.arriba=true;
+                pelotas[i].arriba=false;
+            }
         }
-        // Si la bola choca con otra bola desde la derecha.
-        if( (this.left == (pelotas[i].left + this.width)) && (this.top >= (pelotas[i].left - this.height)) && (this.top <= (pelotas[i].top + this.height)) ) {
-                this.izquierda=true;
-                pelotas[i].izquierda=false;
-        }
-        // Si la bola choca con otra bola desde arriba.
-        if( (this.top == (pelotas[i].top - this.height)) && (this.left >= (pelotas[i].left - this.width)) && (this.left <= (pelotas[i].left + this.width)) ) {
-            this.arriba=false;
-            pelotas[i].arriba=true;                    }
-        // Si la bola choca con otra bola desde abajo.
-        if( (this.top == (pelotas[i].top + this.height)) && (this.left >= (pelotas[i].left - this.width)) && (this.left <= (pelotas[i].left + this.width)) ) {
-            this.arriba=true;
-            pelotas[i].arriba=false;
-        }
+        
     }
 }
             
@@ -942,8 +960,11 @@ Barra.prototype.moverTeclado=function(elEvento){
         var evento=window.event||elEvento;
         if (evento.keyCode == 90 || evento.keyCode == 37) { //Si presionamos la tecla Z o flecha izquierda la barra se mueve hacia a la izquierda
             if (this.left <= parseInt(caja.style.width) - this.width && this.left > 0) {
-                
-                moviendose+=1;
+                this.left-=this.avance;
+                if(this.left<=0){
+                    this.left=0;
+                }
+                /*moviendose+=1;
                 setTimeout(function()
             {moviendose-=1;}, 100);
                 if(moviendose>=4)
@@ -956,7 +977,7 @@ Barra.prototype.moverTeclado=function(elEvento){
                 }
                 if (this.left < 0) {
                     this.left = 0;
-                }
+                }*/
                 
               //console.log(contLeftBarra);
               this.divBarra.style.left =this.left+"px";
@@ -964,6 +985,8 @@ Barra.prototype.moverTeclado=function(elEvento){
             }
         } else if (evento.keyCode == 88 || evento.keyCode == 39) { //Si presionamos la tecla X o flecha derecha la barra se mueve hacia a la derecha
             if (this.left >= 0 && this.left <= parseInt(caja.style.width) - this.width){
+                this.left+=this.avance;
+                /*
                 moviendose+=1;
                 setTimeout(function()
             {moviendose-=1;}, 100);
@@ -974,10 +997,10 @@ Barra.prototype.moverTeclado=function(elEvento){
                 else{
                     this.left+=5;
                 }
-                
+                */
                 if (this.left > parseInt(caja.style.width) - this.width) {
                     this.left = parseInt(caja.style.width) - this.width;
-                  }
+                }
                   this.divBarra.style.left =this.left+"px";
                
               //console.log(contLeftBarra);
