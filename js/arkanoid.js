@@ -12,16 +12,13 @@
 
         pelotas[0].crearBola();
         //clearInterval(pelota.intervalo);
-        caja.onmousemove=function(elEvento){
-            barra.moverRaton(elEvento);
-        }
-        document.onkeydown=function(elEvento){
-            barra.moverTeclado(elEvento);
-        }
+       
         nivel=10;
         vidas=5;
         contTopPastillaAumentarBarra=5;
         contTopPastillaCreacionPelotas=5;
+        contTopPastillaDisparos=5;
+
         cantLadrillosDestruidos=0;
         ladrillos=new Array();
         ladrillosDobles=new Array();
@@ -29,7 +26,24 @@
         niveles  = new Niveles(nivel,vidas);
         niveles.nivelDiez();
         console.log("Vidas: "+niveles.vidas);
-          
+        caja.onmousemove=function(elEvento){
+            barra.moverRaton(elEvento);
+         
+
+        }
+        document.onkeydown=function(elEvento){
+            var evento=window.event||elEvento;
+
+            barra.moverTeclado(elEvento);
+            if(evento.keyCode==32){
+                if(existePastillaCreacionDisparos){
+                   new Disparo(5,20,500,barra.left,"white").crearDisparo();
+                   new Disparo(5,20,500,(barra.left+barra.width-5),"white").crearDisparo();
+                 
+                   
+                 }
+            }
+        }
 }
 //Creamos la "clase" pelota
 /*
@@ -330,6 +344,9 @@ Pelota.prototype.colisionessoloUnLadrillo=function(){
                   if(i==posicionPastillaCreacionPelotas){
                     barra.creacionPelotas(ladrillos,i);
                   }
+                  if(i==posicionPastillaCrearDisparos){
+                    barra.creacionDisparos(ladrillos,i);
+                  }
                   /*
                   pelotaConLadrillo.load();
                   pelotaConLadrillo.play();
@@ -351,6 +368,9 @@ Pelota.prototype.colisionessoloUnLadrillo=function(){
                   }
                   if(i==posicionPastillaCreacionPelotas){
                     barra.creacionPelotas(ladrillos,i);
+                  }
+                  if(i==posicionPastillaCrearDisparos){
+                    barra.creacionDisparos(ladrillos,i);
                   }
         
                   /*pelotaConLadrillo.play();
@@ -375,6 +395,9 @@ Pelota.prototype.colisionessoloUnLadrillo=function(){
                     if(i==posicionPastillaCreacionPelotas){
                         barra.creacionPelotas(ladrillos,i);
                     }
+                    if(i==posicionPastillaCrearDisparos){
+                        barra.creacionDisparos(ladrillos,i);
+                      }
         
                    /* pelotaConLadrillo.play();
                     sumarPuntos();
@@ -395,6 +418,9 @@ Pelota.prototype.colisionessoloUnLadrillo=function(){
                     }
                     if(i==posicionPastillaCreacionPelotas){
                         barra.creacionPelotas(ladrillos,i);
+                    }
+                    if(i==posicionPastillaCrearDisparos){
+                        barra.creacionDisparos(ladrillos,i);
                     }
                     /*pelotaConLadrillo.play();
                     cantLadrillosDestruidos++;
@@ -1020,6 +1046,42 @@ Barra.prototype.creacionPelotas=function(ladrillos,posicion){
         
 
 }
+Barra.prototype.creacionDisparos=function(ladrillos,posicion){
+    pastillaCreacionDisparos=document.createElement("div");
+    pastillaCreacionDisparos.style.width="20px";
+    pastillaCreacionDisparos.style.height="10px";
+    pastillaCreacionDisparos.style.backgroundColor="blue";
+    pastillaCreacionDisparos.style.borderRadius="5px";
+    pastillaCreacionDisparos.style.position="absolute";
+    pastillaCreacionDisparos.style.left=parseInt(ladrillos[posicion].left)+"px";
+    pastillaCreacionDisparos.style.top=parseInt(ladrillos[posicion].height)+parseInt(ladrillos[posicion].top)+"px";
+    caja.appendChild(pastillaCreacionDisparos);//creo la pastilla en la caja
+    existePastillaCreacionDisparos=true;
+    intervaloPastillaCreacionDisparos=setInterval(function(){// el movimiento de la pastilla
+        pastillaCreacionDisparos.style.top=parseInt(parseInt(pastillaCreacionDisparos.style.top)+contTopPastillaDisparos)+"px";//aqui va bajando poco a poco
+      //console.log("Altura de la pastilla: "+parseInt(parseInt(pastillaAumentarBarra.style.top)+parseInt(pastillaAumentarBarra.style.height)));
+      //si la pastilla se encuentra en la misma altura que la barra entra en la siguiente condicion    
+      if(parseInt(parseInt(pastillaCreacionDisparos.style.top)+parseInt(pastillaCreacionDisparos.style.height))>=parseInt(barra.top)&&parseInt(parseInt(pastillaCreacionDisparos.style.top)+parseInt(pastillaCreacionDisparos.style.height))<=parseInt(barra.top)+parseInt(barra.height)){
+           //aqui evaluo todas las posibilidades para que la barra coja la pastilla
+        if ((barra.left || cx)>=pastillaCreacionDisparos.style.left|| (barra.left || cx) <= parseInt(pastillaCreacionDisparos.style.left) + parseInt(pastillaCreacionDisparos.style.width)&&
+            (barra.left || cx)+parseInt(barra.width)>=parseInt(pastillaCreacionDisparos.style.left) ||(barra.left || cx)+parseInt(barra.width) <= parseInt(pastillaCreacionDisparos.style.left) + parseInt(pastillaCreacionDisparos.style.width) ) {
+                  clearInterval(intervaloPastillaCreacionDisparos);
+                 
+                  caja.removeChild(pastillaCreacionDisparos);
+                   //barraAumentada.play();
+                 
+            }
+          }else if(parseInt(parseInt(pastillaCreacionDisparos.style.top)+parseInt(pastillaCreacionDisparos.style.height))==parseInt(caja.style.height)){//si llega al tocar el suelo y no llega darle la barra desaparece
+            clearInterval(intervaloPastillaCreacionDisparos);
+            if(existePastillaCreacionDisparos){
+              caja.removeChild(pastillaCreacionDisparos);
+              existePastillaCreacionDisparos=false;
+            }
+          }
+    },50)    
+        
+
+}
 function Ladrillo(id,width,height,top,left,color){
     this.width=width;
     this.height=height;
@@ -1040,6 +1102,78 @@ Ladrillo.prototype.crearLadrillo=function(){
     this.bloque.style.position="absolute";
     this.bloque.id=this.id;
     caja.appendChild(this.bloque);
+}
+function Disparo(width,height,top,left,color){
+    this.width=width;
+    this.height=height;
+    this.top=top;
+    this.left=left;
+    this.color=color;
+    this.avanceDisparo=5;
+    this.destruido=false;
+    this.intervalo=setInterval(this.Disparar.bind(this),10); 
+}
+Disparo.prototype.crearDisparo=function(){
+    this.bala=document.createElement("div");
+    this.bala.style.left=this.left+"px";
+    this.bala.style.top=this.top+"px";
+    this.bala.style.width=this.width+"px";
+    this.bala.style.height=this.height+"px";
+    this.bala.style.backgroundColor=this.color;
+    this.bala.style.position="absolute";
+    caja.appendChild(this.bala);
+}
+Disparo.prototype.Disparar=function(){
+    if(this.top>0){
+        this.top-=this.avanceDisparo;
+        this.bala.style.top=this.top+"px";
+    }else if(this.top==0){
+       if(!this.destruido){
+        clearInterval(this.intervalo);
+        caja.removeChild(this.bala);
+        this.destruido=true;
+        delete this;
+       }
+
+    }
+    this.colisionesLadrillosDisparos();
+
+}
+Disparo.prototype.colisionesLadrillosDisparos=function(){
+    for ( i = 0; i < ladrillos.length; i++) {
+        if(!ladrillos[i].destruido){
+            if (this.top ==ladrillos[i].top + ladrillos[i].height) {
+                if (this.left >= ladrillos[i].left && this.left <=ladrillos[i].left +ladrillos[i].width) {
+                  
+                  if(i==posicionPastilla){
+                    barra.aumentarBarra(ladrillos,i);
+                  }
+                  if(i==posicionPastillaCreacionPelotas){
+                    barra.creacionPelotas(ladrillos,i);
+                  }
+                
+                  if(!this.destruido){
+                    clearInterval(this.intervalo);
+                    caja.removeChild(this.bala);
+                    this.destruido=true;
+                    delete this;
+                   }
+                  /*pelotaConLadrillo.play();
+        
+                  cantLadrillosDestruidos++;
+                  //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);
+                  sumarPuntos();*/
+                  caja.removeChild(document.getElementById(ladrillos[i].id));
+                  ladrillos[i].destruido=true;
+                  cantLadrillosDestruidos++;
+
+              
+                }
+              }
+               
+        }
+       
+    }
 }
 function Niveles(nivel,vidas){
     this.nivel=nivel;
@@ -1710,10 +1844,11 @@ Niveles.prototype.nivelDiez=function(){
             ladrillos=new Array(maxLadrillos);
             posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
             posicionPastillaCreacionPelotas=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
-
+            posicionPastillaCrearDisparos=Math.floor(Math.random()*ladrillos.length);
             //nota importante para guardar la cantidad de ladrillos es sumar el array de los 4 y las 4 filas * 14
             alert("La pastilla se ha guardaddo en: "+posicionPastilla);
             alert("La pastilla se ha guardaddo en: "+posicionPastillaCreacionPelotas);
+            alert("La pastilla se ha guardaddo en: "+posicionPastillaCrearDisparos);
 
             while(fila <=8){
                 if(fila==1){
