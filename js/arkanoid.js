@@ -3,6 +3,9 @@
         caja.style.width = "800px";
         caja.style.height = "600px";
         caja.style.backgroundColor = "rgb(0, 0, 0)";
+
+       // caja.style.backgroundImage="url('https://media.giphy.com/media/GC7C2Fi902BDG/giphy.gif')";
+        //caja.style.backgroundRepeat = "no-repeat";
         cx=0;
         cuentaAtrasBarra=0;
         pelotas=new Array(3);
