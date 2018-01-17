@@ -433,6 +433,13 @@ Pelota.prototype.colisionesBarra=function(){
                 }
             }
           
+    }else if(this.top>barra.top&&this.top<=barra.top+barra.height){
+        if(this.left+this.width==barra.left){
+            this.avanceLeft=5;
+
+            arriba=false;
+            izquierda=false;
+        }
     }else  if(this.top==barra.top+barra.height){
         if(this.left+this.width>=barra.left&&this.left<=barra.left+barra.width){
             this.avanceLeft=5;
