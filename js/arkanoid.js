@@ -76,6 +76,17 @@
             }
 
         }
+        /*x=0;
+        prueba("js/prueba.js",MiArchivoCargado);
+        function prueba(ruta,cargarArchivo){
+            var script = document.createElement("script");
+            script.onload = cargarArchivo;            
+            script.src = ruta;
+            document.querySelector("head").appendChild(script);
+        }
+        function MiArchivoCargado(){
+            console.log(x);
+        } para llamar a otro archivo desde otro js*/
         /*document.getElementById(barra.id).style.opacity=0;
 
         document.getElementById(barra.id).style.transition="opacity 1s";
