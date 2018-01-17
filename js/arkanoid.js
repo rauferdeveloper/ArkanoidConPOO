@@ -1,9 +1,12 @@
     window.onload=function(){
-        caja=document.getElementById("caja");
-        imagen = document.createElement("IMG");
+        caja=document.createElement("div");
+        caja.id="caja";
+        imagen = document.createElement("img");
         caja.style.width = "800px";
         caja.style.height = "600px";
         caja.style.cursor="crosshair";
+        document.body.appendChild(caja)
+
         //caja.style.backgroundColor = "rgb(0, 0, 0)";
         //imagen.src="https://media.giphy.com/media/GC7C2Fi902BDG/giphy.gif";
         //imagen.alt="fondo"
@@ -16,6 +19,7 @@
         caja.appendChild(imagen);
         caja.style.backgroundImage=imagen;
         caja.style.backgroundRepeat = "no-repeat";
+
         cx=0;
         cuentaAtrasBarra=0;
         pelotas=new Array(3);
@@ -76,17 +80,9 @@
             }
 
         }
-        /*x=0;
-        prueba("js/prueba.js",MiArchivoCargado);
-        function prueba(ruta,cargarArchivo){
-            var script = document.createElement("script");
-            script.onload = cargarArchivo;            
-            script.src = ruta;
-            document.querySelector("head").appendChild(script);
-        }
-        function MiArchivoCargado(){
-            console.log(x);
-        } para llamar a otro archivo desde otro js*/
+        x=0;
+      
+       
         /*document.getElementById(barra.id).style.opacity=0;
 
         document.getElementById(barra.id).style.transition="opacity 1s";
