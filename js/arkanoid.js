@@ -3,14 +3,16 @@
         imagen = document.createElement("IMG");
         caja.style.width = "800px";
         caja.style.height = "600px";
+        caja.style.cursor="crosshair";
         //caja.style.backgroundColor = "rgb(0, 0, 0)";
         //imagen.src="https://media.giphy.com/media/GC7C2Fi902BDG/giphy.gif";
         //imagen.alt="fondo"
-        imagen.setAttribute("src", "https://media.giphy.com/media/GC7C2Fi902BDG/giphy.gif");
-        imagen.setAttribute("alt", "fondo");
         imagen.style.width = "800px";
         imagen.style.height = "600px";
         imagen.style.position = "absolute";
+        imagen.setAttribute("src", "https://media.giphy.com/media/UYBDCJjwOd9Re/giphy-downsized.gif");
+        imagen.setAttribute("alt", "fondo");
+     
         caja.appendChild(imagen);
         caja.style.backgroundImage=imagen;
         caja.style.backgroundRepeat = "no-repeat";
@@ -1443,7 +1445,9 @@ Barra.prototype.aumentarBarra=function(ladrillos,posicion){
            //aqui evaluo todas las posibilidades para que la barra coja la pastilla
         if (barra.left>=pastillaAumentarBarra.style.left|| barra.left <= parseInt(pastillaAumentarBarra.style.left) + parseInt(pastillaAumentarBarra.style.width)&&
             barra.left+barra.width>=parseInt(pastillaAumentarBarra.style.left) ||barra.left +barra.width == parseInt(pastillaAumentarBarra.style.left) + parseInt(pastillaAumentarBarra.style.width) ) {
-                  clearInterval(intervaloPastillaAumentarBarra);
+                caja.removeChild(pastillaAumentarBarra);
+ 
+                clearInterval(intervaloPastillaAumentarBarra);
                    barra.width=parseInt(barra.width)+parseInt(pastillaAumentarBarra.style.width);
                    document.getElementById(barra.id).style.width=barra.width+"px";
                    //barraAumentada.play();
@@ -1455,7 +1459,6 @@ Barra.prototype.aumentarBarra=function(ladrillos,posicion){
                       //barraAumentada.play();
 
                     },60000);
-                    caja.removeChild(pastillaAumentarBarra);
                     existePastillaAumentarBarra=false;
                   }
             }
