@@ -8,8 +8,7 @@ window.onload=function(){
     imagen.setAttribute("src", "https://media.giphy.com/media/UYBDCJjwOd9Re/giphy-downsized.gif");
     imagen.setAttribute("alt", "fondo");
     cuerpo.appendChild(imagen);
-    cuerpo.style.backgroundImage=imagen;
-    cuerpo.style.backgroundRepeat = "no-repeat";
+   
     //menu
     empezar=document.createElement("div");
     empezar.innerHTML+="Empezar partida";
@@ -30,14 +29,48 @@ window.onload=function(){
     puntuacion.style.fontSize="20px";
     cuerpo.appendChild(puntuacion);
     
+    comenzar =true;
+    empezar.onclick=function(elEvento){
+            window.location = ("arkanoid.html"); 
+        
+    }
+    empezar.onmousemove=function(elEvento){
+        this.style.cursor="pointer";
+        comenzar=true;
+
+        this.style.color="yellow";
+        puntuacion.style.color="white";
+    }
+    puntuacion.onmousemove=function(elEvento){
+        this.style.cursor="pointer";
+        comenzar=false;
+
+        empezar.style.color="white";
+        this.style.color="yellow";
+    }
     document.onkeydown=function(elEvento){
         var evento = window.event||elEvento;
-       /* if(evento.keyCode==38||evento.keyCode==40){
-        
-        }*/
-        /*if(evento.keyCode=13){
-            window.location = ("arkanoid.html"); 
-        }*/
+        if(evento.keyCode==38||evento.keyCode==40){
+            if(!comenzar){
+                empezar.style.color="yellow";
+                puntuacion.style.color="white";
+                comenzar=true;
+
+            }else{
+
+                
+                empezar.style.color="white";
+                puntuacion.style.color="yellow";
+                comenzar=false;
+            }
+        }
+        if(comenzar){
+
+        if(evento.keyCode==13){
+                window.location = ("arkanoid.html"); 
+
+            }
+        }
     }
 
 }

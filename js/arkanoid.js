@@ -17,8 +17,7 @@
         imagen.setAttribute("alt", "fondo");
      
         caja.appendChild(imagen);
-        caja.style.backgroundImage=imagen;
-        caja.style.backgroundRepeat = "no-repeat";
+      
 
         cx=0;
         cuentaAtrasBarra=0;
