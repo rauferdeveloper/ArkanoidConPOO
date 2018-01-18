@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  
+    <title>Document</title>
+<script>
+    xhttp=0;
+    if(window.XMLHttpRequest){
+        xhttp=new XMLHttpRequest();
+        alert("es moderno")
+    }else{
+        xhttp= new ActiveXObject("Microsoft.XMLHTTP")
+        alert("es antiguo")
+
+    }
+    xhttp.open("GET","prueba.xml",false);
+    xhttp.send();
+    xmlDoc=xhttp.responseXML;
+    alert(xmlDoc);
+</script>
+</head>
+<body>
+    
+</body>
+</html>
