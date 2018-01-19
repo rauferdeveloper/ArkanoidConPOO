@@ -1,13 +1,8 @@
 window.onload=function(){
     cuerpo=document.body;
     //ponemos imagen de fondo
-    imagen = document.createElement("img");
-    imagen.style.width=window.innerWidth+"px";
-    imagen.style.height=window.innerHeight+"px";
-    imagen.style.position = "absolute";
-    imagen.setAttribute("src", "https://media.giphy.com/media/UYBDCJjwOd9Re/giphy-downsized.gif");
-    imagen.setAttribute("alt", "fondo");
-    cuerpo.appendChild(imagen);
+ 
+    cuerpo.style.backgroundImage = "url('https://media.giphy.com/media/UYBDCJjwOd9Re/giphy-downsized.gif')";
    
     //menu
     empezar=document.createElement("div");

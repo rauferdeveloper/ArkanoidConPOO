@@ -1,7 +1,7 @@
     window.onload=function(){
         caja=document.createElement("div");
         caja.id="caja";
-        imagen = document.createElement("img");
+        //imagen = document.createElement("img");
         caja.style.width = "800px";
         caja.style.height = "600px";
         caja.style.cursor="crosshair";
@@ -10,15 +10,15 @@
         //caja.style.backgroundColor = "rgb(0, 0, 0)";
         //imagen.src="https://media.giphy.com/media/GC7C2Fi902BDG/giphy.gif";
         //imagen.alt="fondo"
-        imagen.style.width = "800px";
+        /*imagen.style.width = "800px";
         imagen.style.height = "600px";
         imagen.style.position = "absolute";
         imagen.setAttribute("src", "https://media.giphy.com/media/UYBDCJjwOd9Re/giphy-downsized.gif");
         imagen.setAttribute("alt", "fondo");
      
         caja.appendChild(imagen);
-      
-
+        imagen.style.visibility = "hidden";*/
+        caja.style.backgroundImage = "url('https://media.giphy.com/media/UYBDCJjwOd9Re/giphy-downsized.gif')";
         cx=0;
         cuentaAtrasBarra=0;
         pelotas=new Array(3);
