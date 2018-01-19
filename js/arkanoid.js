@@ -4,7 +4,7 @@
         //imagen = document.createElement("img");
         caja.style.width = "800px";
         caja.style.height = "600px";
-        caja.style.cursor="crosshair";
+        caja.style.cursor="none";
         document.body.appendChild(caja)
 
         //caja.style.backgroundColor = "rgb(0, 0, 0)";
@@ -1366,7 +1366,6 @@ Barra.prototype.moverRaton=function(elEvento){
         cy = eventoBarra.clientY;
         //console.log("Cliente X "+cx+" Cliente Y "+cy);
         if (cx >= 0 && cx <= parseInt(caja.style.width) - this.width){
-            
             
                 this.left=cx;
                 this.divBarra.style.left=this.left+"px";
