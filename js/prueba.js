@@ -43,6 +43,12 @@ window.onload=function(){
         empezar.style.color="white";
         this.style.color="yellow";
     }
+    empezar.onmouseout=function(){
+        this.style.color="white";
+    }
+    puntuacion.onmouseout=function(){
+        this.style.color="white";
+    }
     document.onkeydown=function(elEvento){
         var evento = window.event||elEvento;
         if(evento.keyCode==38||evento.keyCode==40){
