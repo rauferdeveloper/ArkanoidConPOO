@@ -32,7 +32,7 @@
 
 
        
-        nivel=10;
+        nivel=1;
         vidas=5;
         contTopPastillaAumentarBarra=5;
         contTopPastillaCreacionPelotas=5;
@@ -44,7 +44,7 @@
         ladrillosDobles=new Array();
         ladrillosAleatorios=new Array(4);
         niveles  = new Niveles(nivel,vidas);
-        niveles.nivelDiez();
+        niveles.nivelUno();
         console.log("Vidas: "+niveles.vidas);
         caja.onmousemove=function(elEvento){
             barra.moverRaton(elEvento);
@@ -220,46 +220,129 @@ Pelota.prototype.moverBola=function(){
     }
     this.colisionesBarra();
     if(niveles.nivel==1){
-        if(cantLadrillosDestruidos==ladrillos.length){
+        if(cantLadrillosDestruidos==niveles.ladrillosjuego){
             niveles.nivel=2;
-            if(existePastillaAumentarBarra){
+            if(barra.existePastillaAumentarBarra){
               clearInterval(intervaloPastillaAumentarBarra);
               caja.removeChild(pastillaAumentarBarra);
-              existePastillaAumentarBarra=false;
+              barra.existePastillaAumentarBarra=false;
             }
             niveles.nivelDos();
           }        
         this.colisionessoloUnLadrillo();
 
     }else if(niveles.nivel==2){
+        if(cantLadrillosDestruidos==niveles.ladrillosjuego){
+            niveles.nivel=3;
+            if(barra.existePastillaAumentarBarra){
+                clearInterval(intervaloPastillaAumentarBarra);
+                caja.removeChild(pastillaAumentarBarra);
+                barra.existePastillaAumentarBarra=false;
+              }
+            niveles.nivelTres();
+          }  
         this.colisionesLadrilloDoble();
 
     }else if(niveles.nivel==3){
+        if(cantLadrillosDestruidos==niveles.ladrillosjuego){
+            niveles.nivel=4;
+            if(barra.existePastillaAumentarBarra){
+                clearInterval(intervaloPastillaAumentarBarra);
+                caja.removeChild(pastillaAumentarBarra);
+                barra.existePastillaAumentarBarra=false;
+              }
+            niveles.nivelCuatro();
+          }  
         this.colisionessoloUnLadrillo();
     }else if(niveles.nivel==4){
+        if(cantLadrillosDestruidos==niveles.ladrillosjuego){
+            niveles.nivel=5;
+            if(barra.existePastillaAumentarBarra){
+                clearInterval(intervaloPastillaAumentarBarra);
+                caja.removeChild(pastillaAumentarBarra);
+                barra.existePastillaAumentarBarra=false;
+              }
+            niveles.nivelCinco();
+          }  
         this.colisionessoloUnLadrillo();
 
     }else if(niveles.nivel==5){
+        if(cantLadrillosDestruidos==niveles.ladrillosjuego){
+            niveles.nivel=6;
+            if(barra.existePastillaAumentarBarra){
+                clearInterval(intervaloPastillaAumentarBarra);
+                caja.removeChild(pastillaAumentarBarra);
+                barra.existePastillaAumentarBarra=false;
+              }
+            niveles.nivelSeis();
+          }  
         this.colisionessoloUnLadrillo();
 
     }else if(niveles.nivel==6){
+        if(cantLadrillosDestruidos==niveles.ladrillosjuego){
+            niveles.nivel=7;
+           if(barra.existePastillaAumentarBarra){
+              clearInterval(intervaloPastillaAumentarBarra);
+              caja.removeChild(pastillaAumentarBarra);
+              barra.existePastillaAumentarBarra=false;
+            }
+            niveles.nivelSiete();
+          }  
         this.colisionessoloUnLadrilloNivelSeis();
 
     }else if(niveles.nivel==7){
+        if(cantLadrillosDestruidos==niveles.ladrillosjuego){
+            niveles.nivel=8;
+            if(barra.existePastillaAumentarBarra){
+                clearInterval(intervaloPastillaAumentarBarra);
+                caja.removeChild(pastillaAumentarBarra);
+                barra.existePastillaAumentarBarra=false;
+              }
+            niveles.nivelOcho();
+          }  
         this.colisionessoloUnLadrillo();
 
     }else if(niveles.nivel==8){
+        if(cantLadrillosDestruidos==niveles.ladrillosjuego){
+            niveles.nivel=9;
+            if(barra.existePastillaAumentarBarra){
+                clearInterval(intervaloPastillaAumentarBarra);
+                caja.removeChild(pastillaAumentarBarra);
+                barra.existePastillaAumentarBarra=false;
+              }
+            niveles.nivelNueve();
+          }  
         this.colisionessoloUnLadrillo();
 
     }else if(niveles.nivel==9){
+        if(cantLadrillosDestruidos==niveles.ladrillosjuego){
+            niveles.nivel=10;
+            if(barra.existePastillaAumentarBarra){
+                clearInterval(intervaloPastillaAumentarBarra);
+                caja.removeChild(pastillaAumentarBarra);
+                barra.existePastillaAumentarBarra=false;
+              }
+            niveles.nivelDiez();
+          }  
         this.colisionessoloUnLadrillo();
 
     }else if(niveles.nivel==10){
+        if(cantLadrillosDestruidos==niveles.ladrillosjuego){
+            niveles.nivel=11;
+            if(barra.existePastillaAumentarBarra){
+                clearInterval(intervaloPastillaAumentarBarra);
+                caja.removeChild(pastillaAumentarBarra);
+                barra.existePastillaAumentarBarra=false;
+              }
+            niveles.nivelOnce();
+          }  
         this.colisionessoloUnLadrillo();
 
     }else if(niveles.nivel==11){
+         
         this.colisionessoloUnLadrilloNivelOnce();
     }
+    console.log(niveles.nivel);
     //this.colisionesPelotas();
 }
 /*Pelota.prototype.colisionesBarra=function(){
@@ -595,15 +678,21 @@ Pelota.prototype.colisionessoloUnLadrilloNivelSeis=function(){
                 if(!ladrillos[i].destruido){
                     if (this.top == ladrillos[i].top-this.height) {
                         if (this.left >= ladrillos[i].left && this.left <= ladrillos[i].left + ladrillos[i].width) {
-                          if(i==posicionPastilla){
-                            barra.aumentarBarra(ladrillos,i);
-                          }
-                          if(i==posicionPastillaCreacionPelotas){
-                            barra.creacionPelotas(ladrillos,i);
-                        }
-                        if(i==posicionPastillaCrearDisparos){
-                            barra.creacionDisparos(ladrillos,i);
-                          }
+                            if(i==posicionPastilla){
+                                barra.aumentarBarra(ladrillos,i);
+                              }
+                              if(i==posicionPastillaCreacionPelotas){
+                                barra.creacionPelotas(ladrillos,i);
+                              }
+                              if(i==posicionPastillaCrearDisparos){
+                                barra.creacionDisparos(ladrillos,i);
+                              }
+                              if(i==posicionPastillaUnaVidaMas){
+                                barra.unaVidaMas(ladrillos,i);
+                              }
+                              if(i==posicionPastillaAumentarVelocidadPelota){
+                                barra.aumentarVelocidadPelota(ladrillos,i);
+                            }
                           /*
                           pelotaConLadrillo.load();
                           pelotaConLadrillo.play();
@@ -620,14 +709,20 @@ Pelota.prototype.colisionessoloUnLadrilloNivelSeis=function(){
                       } else if (this.top ==ladrillos[i].top + ladrillos[i].height) {
                         if (this.left >= ladrillos[i].left && this.left <=ladrillos[i].left +ladrillos[i].width) {
                           
-                          if(i==posicionPastilla){
-                            barra.aumentarBarra(ladrillos,i);
-                          }
-                          if(i==posicionPastillaCreacionPelotas){
-                            barra.creacionPelotas(ladrillos,i);
-                            }
-                            if(i==posicionPastillaCrearDisparos){
+                            if(i==posicionPastilla){
+                                barra.aumentarBarra(ladrillos,i);
+                              }
+                              if(i==posicionPastillaCreacionPelotas){
+                                barra.creacionPelotas(ladrillos,i);
+                              }
+                              if(i==posicionPastillaCrearDisparos){
                                 barra.creacionDisparos(ladrillos,i);
+                              }
+                              if(i==posicionPastillaUnaVidaMas){
+                                barra.unaVidaMas(ladrillos,i);
+                              }
+                              if(i==posicionPastillaAumentarVelocidadPelota){
+                                barra.aumentarVelocidadPelota(ladrillos,i);
                             }
                 
                           /*pelotaConLadrillo.play();
@@ -648,14 +743,19 @@ Pelota.prototype.colisionessoloUnLadrilloNivelSeis=function(){
                            
                             if(i==posicionPastilla){
                                 barra.aumentarBarra(ladrillos,i);
-                            }
-                            if(i==posicionPastillaCreacionPelotas){
+                              }
+                              if(i==posicionPastillaCreacionPelotas){
                                 barra.creacionPelotas(ladrillos,i);
-                            }
-                            if(i==posicionPastillaCrearDisparos){
+                              }
+                              if(i==posicionPastillaCrearDisparos){
                                 barra.creacionDisparos(ladrillos,i);
                               }
-                
+                              if(i==posicionPastillaUnaVidaMas){
+                                barra.unaVidaMas(ladrillos,i);
+                              }
+                              if(i==posicionPastillaAumentarVelocidadPelota){
+                                barra.aumentarVelocidadPelota(ladrillos,i);
+                            }
                            /* pelotaConLadrillo.play();
                             sumarPuntos();
                 
@@ -672,12 +772,18 @@ Pelota.prototype.colisionessoloUnLadrilloNivelSeis=function(){
                            
                             if(i==posicionPastilla){
                                 barra.aumentarBarra(ladrillos,i);
-                            }
-                            if(i==posicionPastillaCreacionPelotas){
+                              }
+                              if(i==posicionPastillaCreacionPelotas){
                                 barra.creacionPelotas(ladrillos,i);
-                            }
-                            if(i==posicionPastillaCrearDisparos){
+                              }
+                              if(i==posicionPastillaCrearDisparos){
                                 barra.creacionDisparos(ladrillos,i);
+                              }
+                              if(i==posicionPastillaUnaVidaMas){
+                                barra.unaVidaMas(ladrillos,i);
+                              }
+                              if(i==posicionPastillaAumentarVelocidadPelota){
+                                barra.aumentarVelocidadPelota(ladrillos,i);
                             }
                             /*pelotaConLadrillo.play();
                             cantLadrillosDestruidos++;
@@ -708,12 +814,18 @@ Pelota.prototype.colisionessoloUnLadrilloNivelSeis=function(){
                                 console.log("valor de i: "+i);
                                 if(i==posicionPastilla){
                                     barra.aumentarBarra(ladrillos,i);
-                                }
-                                if(i==posicionPastillaCreacionPelotas){
+                                  }
+                                  if(i==posicionPastillaCreacionPelotas){
                                     barra.creacionPelotas(ladrillos,i);
-                                }
-                                if(i==posicionPastillaCrearDisparos){
+                                  }
+                                  if(i==posicionPastillaCrearDisparos){
                                     barra.creacionDisparos(ladrillos,i);
+                                  }
+                                  if(i==posicionPastillaUnaVidaMas){
+                                    barra.unaVidaMas(ladrillos,i);
+                                  }
+                                  if(i==posicionPastillaAumentarVelocidadPelota){
+                                    barra.aumentarVelocidadPelota(ladrillos,i);
                                 }
                                 caja.removeChild(document.getElementById(ladrillos[i].id));
                                 ladrillos[i].destruido=true;
@@ -743,12 +855,18 @@ Pelota.prototype.colisionessoloUnLadrilloNivelSeis=function(){
                                 if(i==posicionPastilla){
                                     barra.aumentarBarra(ladrillos,i);
                                   }
-                                if(i==posicionPastillaCreacionPelotas){
+                                  if(i==posicionPastillaCreacionPelotas){
                                     barra.creacionPelotas(ladrillos,i);
-                                }
-                                if(i==posicionPastillaCrearDisparos){
+                                  }
+                                  if(i==posicionPastillaCrearDisparos){
                                     barra.creacionDisparos(ladrillos,i);
                                   }
+                                  if(i==posicionPastillaUnaVidaMas){
+                                    barra.unaVidaMas(ladrillos,i);
+                                  }
+                                  if(i==posicionPastillaAumentarVelocidadPelota){
+                                    barra.aumentarVelocidadPelota(ladrillos,i);
+                                }
                               caja.removeChild(document.getElementById(ladrillos[i].id));
                               ladrillos[i].destruido=true;
                               cantLadrillosDestruidos++;
@@ -775,12 +893,18 @@ Pelota.prototype.colisionessoloUnLadrilloNivelSeis=function(){
                                     console.log("valor de i: "+i);
                                     if(i==posicionPastilla){
                                         barra.aumentarBarra(ladrillos,i);
-                                    }
-                                    if(i==posicionPastillaCreacionPelotas){
+                                      }
+                                      if(i==posicionPastillaCreacionPelotas){
                                         barra.creacionPelotas(ladrillos,i);
-                                    }
-                                    if(i==posicionPastillaCrearDisparos){
+                                      }
+                                      if(i==posicionPastillaCrearDisparos){
                                         barra.creacionDisparos(ladrillos,i);
+                                      }
+                                      if(i==posicionPastillaUnaVidaMas){
+                                        barra.unaVidaMas(ladrillos,i);
+                                      }
+                                      if(i==posicionPastillaAumentarVelocidadPelota){
+                                        barra.aumentarVelocidadPelota(ladrillos,i);
                                     }
                                   caja.removeChild(document.getElementById(ladrillos[i].id));
                                   ladrillos[i].destruido=true;
@@ -806,12 +930,18 @@ Pelota.prototype.colisionessoloUnLadrilloNivelSeis=function(){
                                     console.log("valor de i: "+i);
                                     if(i==posicionPastilla){
                                         barra.aumentarBarra(ladrillos,i);
-                                    }
-                                    if(i==posicionPastillaCreacionPelotas){
+                                      }
+                                      if(i==posicionPastillaCreacionPelotas){
                                         barra.creacionPelotas(ladrillos,i);
-                                    }
-                                    if(i==posicionPastillaCrearDisparos){
+                                      }
+                                      if(i==posicionPastillaCrearDisparos){
                                         barra.creacionDisparos(ladrillos,i);
+                                      }
+                                      if(i==posicionPastillaUnaVidaMas){
+                                        barra.unaVidaMas(ladrillos,i);
+                                      }
+                                      if(i==posicionPastillaAumentarVelocidadPelota){
+                                        barra.aumentarVelocidadPelota(ladrillos,i);
                                     }
                                   caja.removeChild(document.getElementById(ladrillos[i].id));
                                   ladrillos[i].destruido=true;
@@ -842,10 +972,10 @@ Pelota.prototype.colisionessoloUnLadrilloNivelSeis=function(){
 }
 Pelota.prototype.colisionessoloUnLadrilloNivelOnce=function(){
     cantLadrillos=0;
-    ladrillosFila=14;
+    ladrillosFila=1;
     aux=ladrillosFila;
     fila=1;
-    while(fila <=8){
+    while(fila <=1){
         if(fila==1){
             cantLadrillos=0;
         }else{
@@ -857,15 +987,21 @@ Pelota.prototype.colisionessoloUnLadrilloNivelOnce=function(){
                 if(!ladrillos[i].destruido){
                     if (this.top == ladrillos[i].top-this.height) {
                         if (this.left >= ladrillos[i].left && this.left <= ladrillos[i].left + ladrillos[i].width) {
-                          if(i==posicionPastilla){
-                            barra.aumentarBarra(ladrillos,i);
-                          }
-                          if(i==posicionPastillaCreacionPelotas){
-                            barra.creacionPelotas(ladrillos,i);
-                        }
-                        if(i==posicionPastillaCrearDisparos){
-                            barra.creacionDisparos(ladrillos,i);
-                          }
+                            if(i==posicionPastilla){
+                                barra.aumentarBarra(ladrillos,i);
+                              }
+                              if(i==posicionPastillaCreacionPelotas){
+                                barra.creacionPelotas(ladrillos,i);
+                              }
+                              if(i==posicionPastillaCrearDisparos){
+                                barra.creacionDisparos(ladrillos,i);
+                              }
+                              if(i==posicionPastillaUnaVidaMas){
+                                barra.unaVidaMas(ladrillos,i);
+                              }
+                              if(i==posicionPastillaAumentarVelocidadPelota){
+                                barra.aumentarVelocidadPelota(ladrillos,i);
+                            }
                           /*
                           pelotaConLadrillo.load();
                           pelotaConLadrillo.play();
@@ -882,14 +1018,20 @@ Pelota.prototype.colisionessoloUnLadrilloNivelOnce=function(){
                       } else if (this.top ==ladrillos[i].top + ladrillos[i].height) {
                         if (this.left >= ladrillos[i].left && this.left <=ladrillos[i].left +ladrillos[i].width) {
                           
-                          if(i==posicionPastilla){
-                            barra.aumentarBarra(ladrillos,i);
-                          }
-                          if(i==posicionPastillaCreacionPelotas){
-                            barra.creacionPelotas(ladrillos,i);
-                            }
-                            if(i==posicionPastillaCrearDisparos){
+                            if(i==posicionPastilla){
+                                barra.aumentarBarra(ladrillos,i);
+                              }
+                              if(i==posicionPastillaCreacionPelotas){
+                                barra.creacionPelotas(ladrillos,i);
+                              }
+                              if(i==posicionPastillaCrearDisparos){
                                 barra.creacionDisparos(ladrillos,i);
+                              }
+                              if(i==posicionPastillaUnaVidaMas){
+                                barra.unaVidaMas(ladrillos,i);
+                              }
+                              if(i==posicionPastillaAumentarVelocidadPelota){
+                                barra.aumentarVelocidadPelota(ladrillos,i);
                             }
                 
                           /*pelotaConLadrillo.play();
@@ -908,15 +1050,21 @@ Pelota.prototype.colisionessoloUnLadrilloNivelOnce=function(){
                         else if (this.top >= ladrillos[i].top && this.top <= ladrillos[i].top + ladrillos[i].height) {
                           if (this.left+this.width == ladrillos[i].left) {
                            
-                            if(i==posicionPastilla){
+                             if(i==posicionPastilla){
                                 barra.aumentarBarra(ladrillos,i);
-                            }
-                            if(i==posicionPastillaCreacionPelotas){
+                              }
+                              if(i==posicionPastillaCreacionPelotas){
                                 barra.creacionPelotas(ladrillos,i);
-                            }
-                            if(i==posicionPastillaCrearDisparos){
+                              }
+                              if(i==posicionPastillaCrearDisparos){
                                 barra.creacionDisparos(ladrillos,i);
                               }
+                              if(i==posicionPastillaUnaVidaMas){
+                                barra.unaVidaMas(ladrillos,i);
+                              }
+                              if(i==posicionPastillaAumentarVelocidadPelota){
+                                barra.aumentarVelocidadPelota(ladrillos,i);
+                            }
                 
                            /* pelotaConLadrillo.play();
                             sumarPuntos();
@@ -934,12 +1082,18 @@ Pelota.prototype.colisionessoloUnLadrilloNivelOnce=function(){
                            
                             if(i==posicionPastilla){
                                 barra.aumentarBarra(ladrillos,i);
-                            }
-                            if(i==posicionPastillaCreacionPelotas){
+                              }
+                              if(i==posicionPastillaCreacionPelotas){
                                 barra.creacionPelotas(ladrillos,i);
-                            }
-                            if(i==posicionPastillaCrearDisparos){
+                              }
+                              if(i==posicionPastillaCrearDisparos){
                                 barra.creacionDisparos(ladrillos,i);
+                              }
+                              if(i==posicionPastillaUnaVidaMas){
+                                barra.unaVidaMas(ladrillos,i);
+                              }
+                              if(i==posicionPastillaAumentarVelocidadPelota){
+                                barra.aumentarVelocidadPelota(ladrillos,i);
                             }
                             /*pelotaConLadrillo.play();
                             cantLadrillosDestruidos++;
@@ -970,12 +1124,18 @@ Pelota.prototype.colisionessoloUnLadrilloNivelOnce=function(){
                                 console.log("valor de i: "+i);
                                 if(i==posicionPastilla){
                                     barra.aumentarBarra(ladrillos,i);
-                                }
-                                if(i==posicionPastillaCreacionPelotas){
+                                  }
+                                  if(i==posicionPastillaCreacionPelotas){
                                     barra.creacionPelotas(ladrillos,i);
-                                }
-                                if(i==posicionPastillaCrearDisparos){
+                                  }
+                                  if(i==posicionPastillaCrearDisparos){
                                     barra.creacionDisparos(ladrillos,i);
+                                  }
+                                  if(i==posicionPastillaUnaVidaMas){
+                                    barra.unaVidaMas(ladrillos,i);
+                                  }
+                                  if(i==posicionPastillaAumentarVelocidadPelota){
+                                    barra.aumentarVelocidadPelota(ladrillos,i);
                                 }
                                 caja.removeChild(document.getElementById(ladrillos[i].id));
                                 ladrillos[i].destruido=true;
@@ -1005,12 +1165,18 @@ Pelota.prototype.colisionessoloUnLadrilloNivelOnce=function(){
                                 if(i==posicionPastilla){
                                     barra.aumentarBarra(ladrillos,i);
                                   }
-                                if(i==posicionPastillaCreacionPelotas){
+                                  if(i==posicionPastillaCreacionPelotas){
                                     barra.creacionPelotas(ladrillos,i);
-                                }
-                                if(i==posicionPastillaCrearDisparos){
+                                  }
+                                  if(i==posicionPastillaCrearDisparos){
                                     barra.creacionDisparos(ladrillos,i);
                                   }
+                                  if(i==posicionPastillaUnaVidaMas){
+                                    barra.unaVidaMas(ladrillos,i);
+                                  }
+                                  if(i==posicionPastillaAumentarVelocidadPelota){
+                                    barra.aumentarVelocidadPelota(ladrillos,i);
+                                }
                               caja.removeChild(document.getElementById(ladrillos[i].id));
                               ladrillos[i].destruido=true;
                               cantLadrillosDestruidos++;
@@ -1037,12 +1203,18 @@ Pelota.prototype.colisionessoloUnLadrilloNivelOnce=function(){
                                     console.log("valor de i: "+i);
                                     if(i==posicionPastilla){
                                         barra.aumentarBarra(ladrillos,i);
-                                    }
-                                    if(i==posicionPastillaCreacionPelotas){
+                                      }
+                                      if(i==posicionPastillaCreacionPelotas){
                                         barra.creacionPelotas(ladrillos,i);
-                                    }
-                                    if(i==posicionPastillaCrearDisparos){
+                                      }
+                                      if(i==posicionPastillaCrearDisparos){
                                         barra.creacionDisparos(ladrillos,i);
+                                      }
+                                      if(i==posicionPastillaUnaVidaMas){
+                                        barra.unaVidaMas(ladrillos,i);
+                                      }
+                                      if(i==posicionPastillaAumentarVelocidadPelota){
+                                        barra.aumentarVelocidadPelota(ladrillos,i);
                                     }
                                   caja.removeChild(document.getElementById(ladrillos[i].id));
                                   ladrillos[i].destruido=true;
@@ -1068,12 +1240,18 @@ Pelota.prototype.colisionessoloUnLadrilloNivelOnce=function(){
                                     console.log("valor de i: "+i);
                                     if(i==posicionPastilla){
                                         barra.aumentarBarra(ladrillos,i);
-                                    }
-                                    if(i==posicionPastillaCreacionPelotas){
+                                      }
+                                      if(i==posicionPastillaCreacionPelotas){
                                         barra.creacionPelotas(ladrillos,i);
-                                    }
-                                    if(i==posicionPastillaCrearDisparos){
+                                      }
+                                      if(i==posicionPastillaCrearDisparos){
                                         barra.creacionDisparos(ladrillos,i);
+                                      }
+                                      if(i==posicionPastillaUnaVidaMas){
+                                        barra.unaVidaMas(ladrillos,i);
+                                      }
+                                      if(i==posicionPastillaAumentarVelocidadPelota){
+                                        barra.aumentarVelocidadPelota(ladrillos,i);
                                     }
                                   caja.removeChild(document.getElementById(ladrillos[i].id));
                                   ladrillos[i].destruido=true;
@@ -1178,9 +1356,21 @@ Pelota.prototype.colisionesLadrilloDoble=function(){
             if(!ladrillos[i].destruido){
                 if (this.top == ladrillos[i].top-this.height) {
                     if (this.left >= ladrillos[i].left && this.left <= ladrillos[i].left + ladrillos[i].width) {
-                      if(i==posicionPastilla){
-                        barra.aumentarBarra(ladrillos,i);
-                      }
+                        if(i==posicionPastilla){
+                            barra.aumentarBarra(ladrillos,i);
+                          }
+                          if(i==posicionPastillaCreacionPelotas){
+                            barra.creacionPelotas(ladrillos,i);
+                          }
+                          if(i==posicionPastillaCrearDisparos){
+                            barra.creacionDisparos(ladrillos,i);
+                          }
+                          if(i==posicionPastillaUnaVidaMas){
+                            barra.unaVidaMas(ladrillos,i);
+                          }
+                          if(i==posicionPastillaAumentarVelocidadPelota){
+                            barra.aumentarVelocidadPelota(ladrillos,i);
+                        }
                       /*
                       pelotaConLadrillo.load();
                       pelotaConLadrillo.play();
@@ -1198,9 +1388,21 @@ Pelota.prototype.colisionesLadrilloDoble=function(){
                   } else if (this.top ==ladrillos[i].top + ladrillos[i].height) {
                     if (this.left >= ladrillos[i].left && this.left <=ladrillos[i].left +ladrillos[i].width) {
                       
-                      if(i==posicionPastilla){
-                        barra.aumentarBarra(ladrillos,i);
-                      }
+                        if(i==posicionPastilla){
+                            barra.aumentarBarra(ladrillos,i);
+                          }
+                          if(i==posicionPastillaCreacionPelotas){
+                            barra.creacionPelotas(ladrillos,i);
+                          }
+                          if(i==posicionPastillaCrearDisparos){
+                            barra.creacionDisparos(ladrillos,i);
+                          }
+                          if(i==posicionPastillaUnaVidaMas){
+                            barra.unaVidaMas(ladrillos,i);
+                          }
+                          if(i==posicionPastillaAumentarVelocidadPelota){
+                            barra.aumentarVelocidadPelota(ladrillos,i);
+                        }
             
                       /*pelotaConLadrillo.play();
             
@@ -1217,9 +1419,20 @@ Pelota.prototype.colisionesLadrilloDoble=function(){
                   }
                     else if (this.top >= ladrillos[i].top && this.top <= ladrillos[i].top + ladrillos[i].height) {
                       if (this.left+this.width == ladrillos[i].left) {
-                       
                         if(i==posicionPastilla){
                             barra.aumentarBarra(ladrillos,i);
+                          }
+                          if(i==posicionPastillaCreacionPelotas){
+                            barra.creacionPelotas(ladrillos,i);
+                          }
+                          if(i==posicionPastillaCrearDisparos){
+                            barra.creacionDisparos(ladrillos,i);
+                          }
+                          if(i==posicionPastillaUnaVidaMas){
+                            barra.unaVidaMas(ladrillos,i);
+                          }
+                          if(i==posicionPastillaAumentarVelocidadPelota){
+                            barra.aumentarVelocidadPelota(ladrillos,i);
                         }
             
                        /* pelotaConLadrillo.play();
@@ -1238,6 +1451,18 @@ Pelota.prototype.colisionesLadrilloDoble=function(){
                        
                         if(i==posicionPastilla){
                             barra.aumentarBarra(ladrillos,i);
+                          }
+                          if(i==posicionPastillaCreacionPelotas){
+                            barra.creacionPelotas(ladrillos,i);
+                          }
+                          if(i==posicionPastillaCrearDisparos){
+                            barra.creacionDisparos(ladrillos,i);
+                          }
+                          if(i==posicionPastillaUnaVidaMas){
+                            barra.unaVidaMas(ladrillos,i);
+                          }
+                          if(i==posicionPastillaAumentarVelocidadPelota){
+                            barra.aumentarVelocidadPelota(ladrillos,i);
                         }
                         /*pelotaConLadrillo.play();
                         cantLadrillosDestruidos++;
@@ -1298,6 +1523,7 @@ function Barra(idBarra){
     this.top=520;
     this.avance=20;
     this.existeAumentar=false;
+    this.existePastillaAumentarBarra=false;
 } 
 
 Barra.prototype.crearBarra=function(elEvento){
@@ -1448,7 +1674,7 @@ Barra.prototype.aumentarBarra=function(ladrillos,posicion){
     pastillaAumentarBarra.style.left=parseInt(ladrillos[posicion].left)+"px";
     pastillaAumentarBarra.style.top=parseInt(ladrillos[posicion].height)+parseInt(ladrillos[posicion].top)+"px";
     caja.appendChild(pastillaAumentarBarra);//creo la pastilla en la caja
-    existePastillaAumentarBarra=true;
+    barra.existePastillaAumentarBarra=true;
     intervaloPastillaAumentarBarra=setInterval(function(){// el movimiento de la pastilla
       pastillaAumentarBarra.style.top=parseInt(parseInt(pastillaAumentarBarra.style.top)+contTopPastillaAumentarBarra)+"px";//aqui va bajando poco a poco
       //console.log("Altura de la pastilla: "+parseInt(parseInt(pastillaAumentarBarra.style.top)+parseInt(pastillaAumentarBarra.style.height)));
@@ -1463,7 +1689,7 @@ Barra.prototype.aumentarBarra=function(ladrillos,posicion){
                    barra.width=parseInt(barra.width)+parseInt(pastillaAumentarBarra.style.width);
                    document.getElementById(barra.id).style.width=barra.width+"px";
                    //barraAumentada.play();
-                  if(existePastillaAumentarBarra){
+                  if(barra.existePastillaAumentarBarra){
                     cuentaAtrasBarra=setTimeout(function(){
                       barra.width=parseInt(barra.width)-parseInt(pastillaAumentarBarra.style.width);
                       document.getElementById(barra.id).style.width=barra.width+"px";
@@ -1471,14 +1697,14 @@ Barra.prototype.aumentarBarra=function(ladrillos,posicion){
                       //barraAumentada.play();
 
                     },60000);
-                    existePastillaAumentarBarra=false;
+                    barra.existePastillaAumentarBarra=false;
                   }
             }
           }else if(parseInt(parseInt(pastillaAumentarBarra.style.top)+parseInt(pastillaAumentarBarra.style.height))==parseInt(caja.style.height)){//si llega al tocar el suelo y no llega darle la barra desaparece
             clearInterval(intervaloPastillaAumentarBarra);
-            if(existePastillaAumentarBarra){
+            if(barra.existePastillaAumentarBarra){
               caja.removeChild(pastillaAumentarBarra);
-              existePastillaAumentarBarra=false;
+              barra.existePastillaAumentarBarra=false;
             }
           }
     },50)    
@@ -1850,6 +2076,7 @@ Disparo.prototype.colisionesLadrillosDisparosNivelSeis=function(){
 function Niveles(nivel,vidas){
     this.nivel=nivel;
     this.vidas=vidas;
+    this.ladrillosjuego=0;
 }
 Niveles.prototype.empezar=function(){
     barra = new Barra("barra");
@@ -1865,21 +2092,28 @@ Niveles.prototype.nivelUno=function(){
     if(this.nivel==1){
             /* nivel 1*/
             cantLadrillos=0;
-            ladrillosFila=14;
+            ladrillosFila=1;
             distancia=25;
             aux=ladrillosFila;
             fila=1;
-            maxLadrillos=112;
+            maxLadrillos=1;
             color="";
             ladrillos=new Array(maxLadrillos);
+            this.ladrillosjuego+=ladrillos.length;
             posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
             posicionPastillaCreacionPelotas=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
             posicionPastillaCrearDisparos=Math.floor(Math.random()*ladrillos.length);
+            posicionPastillaUnaVidaMas=Math.floor(Math.random()*ladrillos.length);
+            //posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);
+            posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);;
+
             //nota importante para guardar la cantidad de ladrillos es sumar el array de los 4 y las 4 filas * 14
             alert("La pastilla se ha guardaddo en: "+posicionPastilla);
             alert("La pastilla se ha guardaddo en: "+posicionPastillaCreacionPelotas);
             alert("La pastilla se ha guardaddo en: "+posicionPastillaCrearDisparos);
-            while(fila <=8){
+            alert("La pastilla se ha guardaddo en: "+posicionPastillaUnaVidaMas);
+            alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
+            while(fila<=1){
                 if(fila==1){
                     cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0-14
                 }else{
@@ -1935,23 +2169,34 @@ Niveles.prototype.nivelUno=function(){
 Niveles.prototype.nivelDos=function(){
      if(this.nivel==2){
             cantLadrillos=0;
-            ladrillosFila=14;
+            ladrillosFila=1;
             distancia=25;
             aux=ladrillosFila;
+            this.ladrillosjuego+=ladrillos.length;
+
             fila=1;
-            maxLadrillos=112;
+            maxLadrillos=1;
             color="";
             colorDoble="";
             ladrillos=new Array(maxLadrillos);
             ladrillosDobles=new Array(ladrillos.length);
+            this.ladrillosjuego+=ladrillosDobles.length;
+
             posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
             posicionPastillaCreacionPelotas=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
             posicionPastillaCrearDisparos=Math.floor(Math.random()*ladrillos.length);
+            posicionPastillaUnaVidaMas=Math.floor(Math.random()*ladrillos.length);
+            //posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);
+            posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);;
+
             //nota importante para guardar la cantidad de ladrillos es sumar el array de los 4 y las 4 filas * 14
             alert("La pastilla se ha guardaddo en: "+posicionPastilla);
             alert("La pastilla se ha guardaddo en: "+posicionPastillaCreacionPelotas);
             alert("La pastilla se ha guardaddo en: "+posicionPastillaCrearDisparos);
-            while(fila <=8){
+            alert("La pastilla se ha guardaddo en: "+posicionPastillaUnaVidaMas);
+            alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
+
+            while(fila <=1){
                     if(fila==1){
                         cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0-14
                     }else{
@@ -2012,21 +2257,30 @@ Niveles.prototype.nivelTres=function(){
     if(this.nivel==3){
             /* nivel 3*/
             cantLadrillos=0;
-            ladrillosFila=12;
+            ladrillosFila=1;
             distancia=25;
             aux=ladrillosFila;
             fila=1;
-            maxLadrillos=96;
+            maxLadrillos=1;
+            this.ladrillosjuego+=ladrillos.length;
+
             color="";
             ladrillos=new Array(maxLadrillos);
             posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
             posicionPastillaCreacionPelotas=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
             posicionPastillaCrearDisparos=Math.floor(Math.random()*ladrillos.length);
+            posicionPastillaUnaVidaMas=Math.floor(Math.random()*ladrillos.length);
+            //posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);
+            posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);;
+
             //nota importante para guardar la cantidad de ladrillos es sumar el array de los 4 y las 4 filas * 14
             alert("La pastilla se ha guardaddo en: "+posicionPastilla);
             alert("La pastilla se ha guardaddo en: "+posicionPastillaCreacionPelotas);
             alert("La pastilla se ha guardaddo en: "+posicionPastillaCrearDisparos);
-            while(fila <=8){
+            alert("La pastilla se ha guardaddo en: "+posicionPastillaUnaVidaMas);
+            alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
+
+            while(fila <=1){
                 if(fila==1){
                     cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0-14
                 }else{
@@ -2092,17 +2346,26 @@ Niveles.prototype.nivelCuatro=function(){
             distancia=25;
             aux=2;
             fila=1;
-            maxLadrillos=57;
+            maxLadrillos=1;
             color="";
             ladrillos=new Array(maxLadrillos);
+            this.ladrillosjuego+=ladrillos.length;
+
             posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
             posicionPastillaCreacionPelotas=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
             posicionPastillaCrearDisparos=Math.floor(Math.random()*ladrillos.length);
+            posicionPastillaUnaVidaMas=Math.floor(Math.random()*ladrillos.length);
+            //posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);
+            posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);;
+
             //nota importante para guardar la cantidad de ladrillos es sumar el array de los 4 y las 4 filas * 14
             alert("La pastilla se ha guardaddo en: "+posicionPastilla);
             alert("La pastilla se ha guardaddo en: "+posicionPastillaCreacionPelotas);
             alert("La pastilla se ha guardaddo en: "+posicionPastillaCrearDisparos);
-            while(fila <=8){
+            alert("La pastilla se ha guardaddo en: "+posicionPastillaUnaVidaMas);
+            alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
+
+            while(fila <=1){
                 if(fila==1){
                     cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0
                 }else{
@@ -2165,21 +2428,30 @@ Niveles.prototype.nivelCinco=function(){
     if(this.nivel==5){
             /* nivel 5*/
             cantLadrillos=0;
-            ladrillosFila=14;
+            ladrillosFila=1;
             distancia=25;
             aux=ladrillosFila;
             fila=1;
-            maxLadrillos=40;
+            maxLadrillos=1;
             color="";
             ladrillos=new Array(maxLadrillos);
+            this.ladrillosjuego+=ladrillos.length;
+
             posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
             posicionPastillaCreacionPelotas=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
             posicionPastillaCrearDisparos=Math.floor(Math.random()*ladrillos.length);
+            posicionPastillaUnaVidaMas=Math.floor(Math.random()*ladrillos.length);
+            //posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);
+            posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);;
+
             //nota importante para guardar la cantidad de ladrillos es sumar el array de los 4 y las 4 filas * 14
             alert("La pastilla se ha guardaddo en: "+posicionPastilla);
             alert("La pastilla se ha guardaddo en: "+posicionPastillaCreacionPelotas);
             alert("La pastilla se ha guardaddo en: "+posicionPastillaCrearDisparos);
-            while(fila <=8){
+            alert("La pastilla se ha guardaddo en: "+posicionPastillaUnaVidaMas);
+            alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
+
+            while(fila <=1){
                 if(fila==1){
                     cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0
                 }else if(fila==8){
@@ -2253,24 +2525,32 @@ Niveles.prototype.nivelSeis=function(){
     if(this.nivel==6){
             /* nivel 6*/
             cantLadrillos=0;
-            ladrillosFila=7;
+            ladrillosFila=1;
             distancia=25;
             aux=ladrillosFila;
             fila=1;
-            maxLadrillos=56;
+            maxLadrillos=1;
             cont=0;
             color="";
             ladrillos=new Array(maxLadrillos);
+            this.ladrillosjuego+=ladrillos.length;
+
             posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
             posicionPastillaCreacionPelotas=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
             //posicionPastillaCrearDisparos=Math.floor(Math.random()*ladrillos.length);
             posicionPastillaCrearDisparos=55;
+            posicionPastillaUnaVidaMas=Math.floor(Math.random()*ladrillos.length);
+            //posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);
+            posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);;
 
             //nota importante para guardar la cantidad de ladrillos es sumar el array de los 4 y las 4 filas * 14
             alert("La pastilla se ha guardaddo en: "+posicionPastilla);
             alert("La pastilla se ha guardaddo en: "+posicionPastillaCreacionPelotas);
             alert("La pastilla se ha guardaddo en: "+posicionPastillaCrearDisparos);
-            while(fila <=8){
+            alert("La pastilla se ha guardaddo en: "+posicionPastillaUnaVidaMas);
+            alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
+
+            while(fila <=1){
                 if(fila==1){
                     cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0
                 }else{
@@ -2333,21 +2613,30 @@ Niveles.prototype.nivelSiete=function(){
     if(this.nivel==7){
         /* nivel 7*/
         cantLadrillos=0;
-        ladrillosFila=2;
+        ladrillosFila=1;
         distancia=25;
         aux=ladrillosFila;
         fila=1;
-        maxLadrillos=16;
+        maxLadrillos=1;
         color="";
         ladrillos=new Array(maxLadrillos);
+        this.ladrillosjuego+=ladrillos.length;
+
         posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
         posicionPastillaCreacionPelotas=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
         posicionPastillaCrearDisparos=Math.floor(Math.random()*ladrillos.length);
+        posicionPastillaUnaVidaMas=Math.floor(Math.random()*ladrillos.length);
+        //posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);
+        posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);;
+
         //nota importante para guardar la cantidad de ladrillos es sumar el array de los 4 y las 4 filas * 14
         alert("La pastilla se ha guardaddo en: "+posicionPastilla);
         alert("La pastilla se ha guardaddo en: "+posicionPastillaCreacionPelotas);
         alert("La pastilla se ha guardaddo en: "+posicionPastillaCrearDisparos);
-        while(fila <=8){
+        alert("La pastilla se ha guardaddo en: "+posicionPastillaUnaVidaMas);
+        alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
+
+        while(fila <=1){
             if(fila==1){
                 cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0
             }else if(fila==8){
@@ -2413,21 +2702,30 @@ Niveles.prototype.nivelOcho=function(){
     if(this.nivel==8){
         /* nivel 8*/
         cantLadrillos=0;
-        ladrillosFila=7;
+        ladrillosFila=1;
         distancia=25;
         aux=ladrillosFila;
         fila=1;
-        maxLadrillos=56;
+        maxLadrillos=1;
         color="";
         ladrillos=new Array(maxLadrillos);
+        this.ladrillosjuego+=ladrillos.length;
+
         posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
         posicionPastillaCreacionPelotas=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
         posicionPastillaCrearDisparos=Math.floor(Math.random()*ladrillos.length);
+        posicionPastillaUnaVidaMas=Math.floor(Math.random()*ladrillos.length);
+        //posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);
+        posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);;
+
         //nota importante para guardar la cantidad de ladrillos es sumar el array de los 4 y las 4 filas * 14
         alert("La pastilla se ha guardaddo en: "+posicionPastilla);
         alert("La pastilla se ha guardaddo en: "+posicionPastillaCreacionPelotas);
         alert("La pastilla se ha guardaddo en: "+posicionPastillaCrearDisparos);
-        while(fila <=8){
+        alert("La pastilla se ha guardaddo en: "+posicionPastillaUnaVidaMas);
+        alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
+
+        while(fila <=1){
             if(fila==1){
                 cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0-14
             }else{
@@ -2484,21 +2782,29 @@ Niveles.prototype.nivelNueve=function(){
     if(this.nivel==9){
         /* nivel 9*/
         cantLadrillos=0;
-        ladrillosFila=2;
+        ladrillosFila=1;
         distancia=25;
         aux=ladrillosFila;
         fila=1;
-        maxLadrillos=26;
+        maxLadrillos=1;
         color="";
         ladrillos=new Array(maxLadrillos);
+        this.ladrillosjuego+=ladrillos.length;
+
         posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
         posicionPastillaCreacionPelotas=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
         posicionPastillaCrearDisparos=Math.floor(Math.random()*ladrillos.length);
+        posicionPastillaUnaVidaMas=Math.floor(Math.random()*ladrillos.length);
+        //posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);
+        posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);;
+
         //nota importante para guardar la cantidad de ladrillos es sumar el array de los 4 y las 4 filas * 14
         alert("La pastilla se ha guardaddo en: "+posicionPastilla);
         alert("La pastilla se ha guardaddo en: "+posicionPastillaCreacionPelotas);
         alert("La pastilla se ha guardaddo en: "+posicionPastillaCrearDisparos);
-        while(fila <=8){
+        alert("La pastilla se ha guardaddo en: "+posicionPastillaUnaVidaMas);
+        alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
+        while(fila<=1){
             if(fila==1){
                 cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0-14
             }else if(fila==8){
@@ -2575,14 +2881,16 @@ Niveles.prototype.nivelDiez=function(){
     if(this.nivel==10){
             /* nivel 10*/
             cantLadrillos=0;
-            ladrillosFila=7;
+            ladrillosFila=1;
             distancia=25;
             aux=ladrillosFila;
             fila=1;
-            maxLadrillos=56;
+            maxLadrillos=1;
             cont=0;
             color="";
             ladrillos=new Array(maxLadrillos);
+            this.ladrillosjuego+=ladrillos.length;
+
             posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
             posicionPastillaCreacionPelotas=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
             posicionPastillaCrearDisparos=Math.floor(Math.random()*ladrillos.length);
@@ -2598,7 +2906,7 @@ Niveles.prototype.nivelDiez=function(){
             alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
 
 
-            while(fila <=8){
+            while(fila <=1){
                 if(fila==1){
                     cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0
                 }else{
@@ -2677,24 +2985,32 @@ Niveles.prototype.nivelOnce=function(){
     if(this.nivel==11){
             /* nivel 11*/
             cantLadrillos=0;
-            ladrillosFila=14;
+            ladrillosFila=1;
             distancia=25;
             aux=ladrillosFila;
             fila=1;
-            maxLadrillos=112;
+            maxLadrillos=1;
             cont=0;
             color="";
             ladrillos=new Array(maxLadrillos);
+            this.ladrillosjuego+=ladrillos.length;
+
             posicionPastilla=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
             posicionPastillaCreacionPelotas=Math.floor(Math.random()*ladrillos.length);// guardo la pastilla en una posicion al azar dentro del tamaño del array
             posicionPastillaCrearDisparos=ladrillos.length-14-1;
 
-            //posicionPastillaCrearDisparos=Math.floor(Math.random()*ladrillos.length);
+            posicionPastillaUnaVidaMas=Math.floor(Math.random()*ladrillos.length);
+            //posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);
+            posicionPastillaAumentarVelocidadPelota=Math.floor(Math.random()*ladrillos.length);;
+
             //nota importante para guardar la cantidad de ladrillos es sumar el array de los 4 y las 4 filas * 14
             alert("La pastilla se ha guardaddo en: "+posicionPastilla);
             alert("La pastilla se ha guardaddo en: "+posicionPastillaCreacionPelotas);
             alert("La pastilla se ha guardaddo en: "+posicionPastillaCrearDisparos);
-            while(fila <=8){
+            alert("La pastilla se ha guardaddo en: "+posicionPastillaUnaVidaMas);
+            alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
+
+            while(fila <=1){
                 if(fila==1){
                     cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0
                 }else{
