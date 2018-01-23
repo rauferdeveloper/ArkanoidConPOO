@@ -1,0 +1,36 @@
+<coches>
+<marca nombre="Mercedes">
+<modelo>Citan</modelo>
+<modelo>Clase A</modelo>
+<modelo>Clase B</modelo>
+<modelo>Clase C</modelo>
+</marca>
+<marca nombre="BMW">
+<modelo>320</modelo>
+<modelo>X1</modelo>
+<modelo>M3</modelo>
+<modelo>M5</modelo>
+</marca>
+<marca nombre="Audi">
+<modelo>A1</modelo>
+<modelo>A2</modelo>
+<modelo>A3</modelo>
+<modelo>A4</modelo>
+<modelo>TT</modelo>
+</marca>
+<marca nombre="Opel">
+<modelo>Astra</modelo>
+<modelo>Vectra</modelo>
+<modelo>Tigra</modelo>
+</marca>
+<marca nombre="Seat">
+<modelo>Leon</modelo>
+<modelo>Ibiza</modelo>
+<modelo>Toledo</modelo>
+</marca>
+<marca nombre="Volvo">
+<modelo>S40</modelo>
+<modelo>S60</modelo>
+<modelo>S80</modelo>
+</marca>
+</coches>
