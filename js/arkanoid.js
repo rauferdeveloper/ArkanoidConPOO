@@ -32,7 +32,7 @@
 
 
        
-        nivel=11;
+        nivel=6;
         vidas=5;
         contTopPastillaAumentarBarra=5;
         contTopPastillaCreacionPelotas=5;
@@ -44,7 +44,7 @@
         ladrillosDobles=new Array();
         ladrillosAleatorios=new Array(4);
         niveles  = new Niveles(nivel,vidas);
-        niveles.nivelOnce();
+        niveles.nivelSeis();
         console.log("Vidas: "+niveles.vidas);
         caja.onmousemove=function(elEvento){
             barra.moverRaton(elEvento);
@@ -972,10 +972,10 @@ Pelota.prototype.colisionessoloUnLadrilloNivelSeis=function(){
 }
 Pelota.prototype.colisionessoloUnLadrilloNivelOnce=function(){
     cantLadrillos=0;
-    ladrillosFila=1;
+    ladrillosFila=14;
     aux=ladrillosFila;
     fila=1;
-    while(fila <=1){
+    while(fila <=8){
         if(fila==1){
             cantLadrillos=0;
         }else{
@@ -2452,7 +2452,7 @@ Niveles.prototype.nivelCinco=function(){
             alert("La pastilla se ha guardaddo en: "+posicionPastillaUnaVidaMas);
             alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
 
-            while(fila <=1){
+            while(fila <=8){
                 if(fila==8){
                     cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0
                 }else if(fila==8){
@@ -2526,11 +2526,11 @@ Niveles.prototype.nivelSeis=function(){
     if(this.nivel==6){
             /* nivel 6*/
             cantLadrillos=0;
-            ladrillosFila=1;
+            ladrillosFila=7;
             distancia=25;
             aux=ladrillosFila;
             fila=1;
-            maxLadrillos=1;
+            maxLadrillos=56;
             cont=0;
             color="";
             ladrillos=new Array(maxLadrillos);
@@ -2551,7 +2551,7 @@ Niveles.prototype.nivelSeis=function(){
             alert("La pastilla se ha guardaddo en: "+posicionPastillaUnaVidaMas);
             alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
 
-            while(fila <=1){
+            while(fila <=8){
                 if(fila==1){
                     cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0
                 }else{
@@ -2614,11 +2614,11 @@ Niveles.prototype.nivelSiete=function(){
     if(this.nivel==7){
         /* nivel 7*/
         cantLadrillos=0;
-        ladrillosFila=1;
+        ladrillosFila=2;
         distancia=25;
         aux=ladrillosFila;
         fila=1;
-        maxLadrillos=1;
+        maxLadrillos=16;
         color="";
         ladrillos=new Array(maxLadrillos);
         this.ladrillosjuego+=ladrillos.length;
@@ -2637,7 +2637,7 @@ Niveles.prototype.nivelSiete=function(){
         alert("La pastilla se ha guardaddo en: "+posicionPastillaUnaVidaMas);
         alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
 
-        while(fila <=1){
+        while(fila <=8){
             if(fila==1){
                 cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0
             }else if(fila==8){
@@ -2703,11 +2703,11 @@ Niveles.prototype.nivelOcho=function(){
     if(this.nivel==8){
         /* nivel 8*/
         cantLadrillos=0;
-        ladrillosFila=1;
+        ladrillosFila=7;
         distancia=25;
         aux=ladrillosFila;
         fila=1;
-        maxLadrillos=1;
+        maxLadrillos=56;
         color="";
         ladrillos=new Array(maxLadrillos);
         this.ladrillosjuego+=ladrillos.length;
@@ -2726,7 +2726,7 @@ Niveles.prototype.nivelOcho=function(){
         alert("La pastilla se ha guardaddo en: "+posicionPastillaUnaVidaMas);
         alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
 
-        while(fila <=1){
+        while(fila <=8){
             if(fila==1){
                 cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0-14
             }else{
@@ -2783,11 +2783,11 @@ Niveles.prototype.nivelNueve=function(){
     if(this.nivel==9){
         /* nivel 9*/
         cantLadrillos=0;
-        ladrillosFila=1;
+        ladrillosFila=2;
         distancia=25;
         aux=ladrillosFila;
         fila=1;
-        maxLadrillos=1;
+        maxLadrillos=26;
         color="";
         ladrillos=new Array(maxLadrillos);
         this.ladrillosjuego+=ladrillos.length;
@@ -2805,7 +2805,7 @@ Niveles.prototype.nivelNueve=function(){
         alert("La pastilla se ha guardaddo en: "+posicionPastillaCrearDisparos);
         alert("La pastilla se ha guardaddo en: "+posicionPastillaUnaVidaMas);
         alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
-        while(fila<=1){
+        while(fila<=8){
             if(fila==1){
                 cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0-14
             }else if(fila==8){
@@ -2882,11 +2882,11 @@ Niveles.prototype.nivelDiez=function(){
     if(this.nivel==10){
             /* nivel 10*/
             cantLadrillos=0;
-            ladrillosFila=1;
+            ladrillosFila=7;
             distancia=25;
             aux=ladrillosFila;
             fila=1;
-            maxLadrillos=1;
+            maxLadrillos=56;
             cont=0;
             color="";
             ladrillos=new Array(maxLadrillos);
@@ -2907,7 +2907,7 @@ Niveles.prototype.nivelDiez=function(){
             alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
 
 
-            while(fila <=1){
+            while(fila <=8){
                 if(fila==1){
                     cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0
                 }else{
@@ -2986,11 +2986,11 @@ Niveles.prototype.nivelOnce=function(){
     if(this.nivel==11){
             /* nivel 11*/
             cantLadrillos=0;
-            ladrillosFila=1;
+            ladrillosFila=14;
             distancia=25;
             aux=ladrillosFila;
             fila=1;
-            maxLadrillos=1;
+            maxLadrillos=112;
             cont=0;
             color="";
             ladrillos=new Array(maxLadrillos);
@@ -3011,7 +3011,7 @@ Niveles.prototype.nivelOnce=function(){
             alert("La pastilla se ha guardaddo en: "+posicionPastillaUnaVidaMas);
             alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
 
-            while(fila <=1){
+            while(fila <=8){
                 if(fila==1){
                     cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0
                 }else{

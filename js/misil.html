@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Document</title>
+    <script>
+    function Misil (ancho, largo) {
+		this.ancho = ancho;
+		this.largo = largo;
+    }
+	Misil.prototype.crearPosicionar = function () {
+		this.misil = document.createElement("div");
+		this.misil.style.width = this.ancho + "px";
+		this.misil.style.height = this.largo + "px";
+		this.misil.style.backgroundImage = "url('Imagen/misil2.png')";
+		this.misil.style.backgroundSize = "cover";
+		this.misil.style.position = "absolute";
+		this.misil.style.left = (nave.getLeft() + (nave.getAncho() / 2 - parseInt(this.misil.style.width) / 2)) + "px";
+		this.misil.style.top = nave.getTop() + "px";
+		pantalla.añadirElemento(this.misil);
+		idSetInterval = setInterval(this.mover, 10);
+		arrayMisiles.push(idSetInterval);
+		this.misil.id = idSetInterval;
+	}
+	
+	Misil.prototype.getTop = function () { return (parseInt(this.misil.style.top)); }
+	Misil.prototype.getLeft = function () { return (parseInt(this.misil.style.left));}
+	Misil.prototype.setTop = function (valor) { return this.misil.style.top = valor + "px"; }
+	Misil.prototype.getAlto = function () { return parseInt(this.misil.style.height); }
+	Misil.prototype.getAncho = function () { return parseInt(this.misil.style.width); }
+	Misil.prototype.setId = function (id) { this.misil.id = id; }
+	Misil.prototype.getId = function () { return this.misil.id;}
+
+	Nave.prototype.disparar = function () {
+		misil = new Misil(30, 25);
+		misil.crearPosicionar();
+	}
+	Misil.prototype.mover = function () {
+		this.misil.setTop(this.misil.getTop() - 5);
+		pantalla.matarPolloDisparo(this.misil);
+		if ((this.misil.getTop() + this.misil.getAlto()) <= 0) {
+			pantalla.eliminarMisil(this.misil);
+		}
+	}
+
+	Pantalla.prototype.matarPolloDisparo = function (proyectil) {
+		for (var i = 0; i < arrayPollos.length; i++) {
+			if ((proyectil.getLeft() + proyectil.getAncho()) >= arrayPollos[i].offsetLeft &&
+				proyectil.getLeft() <= (arrayPollos[i].offsetLeft + parseInt(arrayPollos[i].style.width))) {
+				if ((proyectil.getTop() + proyectil.getAlto()) >= (arrayPollos[i].offsetTop + parseInt(arrayPollos[i].style.height)) &&
+					proyectil.getTop() <= (arrayPollos[i].offsetTop + parseInt(arrayPollos[i].style.height))) {
+					pantalla.eliminarPollo(i);
+					pantalla.eliminarMisil(proyectil);
+					sumarPuntos();
+					break;
+				}
+			}
+		}
+		if (arrayPollos.length == 0) {
+			limpiarPantalla();
+			finPartida("ganar");
+			inhabilitarControles();
+			eliminarCronómeto(cronómetro);
+			setTimeout(preguntarNombreJugador, 2000);
+			escribirXML();
+		}
+	}
+
+	Pantalla.prototype.eliminarMisil = function (proyectil) {
+		for (var i = 0; i < arrayMisiles.length; i++) {
+			if (arrayMisiles[i] == proyectil.getId()) {
+				clearInterval(arrayMisiles[i]);
+				arrayMisiles.splice(i, 1);
+				document.getElementById(proyectil.getId()).parentNode.removeChild(document.getElementById(proyectil.getId()));
+				break;
+			}
+		}
+	}
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
