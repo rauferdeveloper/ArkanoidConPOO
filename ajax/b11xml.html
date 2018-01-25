@@ -5,7 +5,15 @@
    
     <title>Document</title>
 <script>
-function descargaArchivo() {
+  function crearLista(padre,texto){
+    opcion = document.createElement("option");
+    opcion.setAttribute("value",texto);
+    textoMarca = document.createTextNode(texto);
+    opcion.appendChild(textoMarca);
+    padre.appendChild(opcion);
+  }
+function anadirMarcas(marcas,modelos) {
+  
   // Obtener la instancia del objeto XMLHttpRequest
   if(window.XMLHttpRequest) {
      peticionHttp = new XMLHttpRequest();
@@ -23,8 +31,6 @@ function descargaArchivo() {
       if(peticionHttp.status == 200) {
         //Creamos el objeto de tipo documento XML
         var documentoXml = peticionHttp.responseXML;
-        marcas=document.getElementById("marcas");
-        modelos=document.getElementById("modelos");
         //Obtenemos la raíz del documento
         var root = documentoXml.getElementsByTagName("coches")[0];
         var tope = root.getElementsByTagName("marca").length;
@@ -32,33 +38,73 @@ function descargaArchivo() {
         for(var i = 0; i < tope; i++){ 
           marca=root.getElementsByTagName("marca")[i];
           nombre=marca.getAttribute("nombre");
-
+          if(i==0){
+            modelosXML=marca.getElementsByTagName("modelo");
+            tamano=modelosXML.length;
+            for(var j=0; j < tamano;j++){
+              crearLista(modelos,modelosXML[j].firstChild.nodeValue);
+            }
+          }
           crearLista(marcas,nombre);
-          /*libro = root.getElementsByTagName("Libro")[i]; 
-          autor = libro.getElementsByTagName("Autor")[0].firstChild.nodeValue;
-          titulo = libro.getElementsByTagName("Titulo")[0].firstChild.nodeValue;*/
         }
       }
     }
   }
-  function crearLista(padre,texto){
-    opcion = document.createElement("option");
-    opcion.setAttribute("value",texto);
-    textoMarca = document.createTextNode(texto);
-    opcion.appendChild(textoMarca);
-    padre.appendChild(opcion);
+
+}
+  function anadirModelos(marca,modelos) {
+    modelos.innerHTML="";
+  // Obtener la instancia del objeto XMLHttpRequest
+  if(window.XMLHttpRequest) {
+     peticionHttp = new XMLHttpRequest();
+  }
+  else if(window.ActiveXObject) {
+    peticionHttp = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  // Preparar la funcion de respuesta
+  peticionHttp.onreadystatechange = muestraContenido;
+  // Realizar peticion HTTP
+  peticionHttp.open('GET', './coches.xml', true);
+  peticionHttp.send(null);
+  function muestraContenido() {
+    if(peticionHttp.readyState == 4) {
+      if(peticionHttp.status == 200) {
+        //Creamos el objeto de tipo documento XML
+        var documentoXml = peticionHttp.responseXML;
+        var marcaXml;
+        var root = documentoXml.getElementsByTagName("coches")[0];
+        var tope = root.getElementsByTagName("marca").length;
+        //Recorremos todos los elementos Libro del documento
+        for(var i = 0; i < tope; i++){ 
+          marcaXml=root.getElementsByTagName("marca")[i];
+          nombre=marcaXml.getAttribute("nombre");
+          if(nombre==marca){
+            modelosXML=marcaXml.getElementsByTagName("modelo");
+            tamano=modelosXML.length;
+            for(var j=0; j < tamano;j++){
+              crearLista(modelos,modelosXML[j].firstChild.nodeValue);
+            }
+          }
+         
+        }
+      }
+    }
   }
    
   
 }
 window.onload =function(){
+  marcas=document.getElementById("marcas");
+  modelos=document.getElementById("modelos");
+  anadirMarcas(marcas,modelos);
 
-  descargaArchivo();
-  var indice=marcas.selectIndex;
-  alert("valor de indice: "+indice)
-  marcaSeleccionada=marcas.options[indice];
-  var textoSeleccionado = marcaSeleccionada.text;
-  alert("Has seleccionado: "+textoSeleccionado);
+  marcas.onchange=function(){
+    var indice = this.selectedIndex;
+    var opcionSeleccionada = this.options[indice];
+    var texto= opcionSeleccionada.text;
+    anadirModelos(texto,modelos);
+  }
+  
 } 
 </script>
 
