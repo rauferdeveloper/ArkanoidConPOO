@@ -38,30 +38,28 @@ function descargaArchivo() {
           autor = libro.getElementsByTagName("Autor")[0].firstChild.nodeValue;
           titulo = libro.getElementsByTagName("Titulo")[0].firstChild.nodeValue;*/
         }
-        opcionSeleccionada(marcas,nombre,marca,modelos);
-
       }
     }
   }
   function crearLista(padre,texto){
     opcion = document.createElement("option");
-    opcion.setAttribute("value", marca.getAttribute("nombre"));
+    opcion.setAttribute("value",texto);
     textoMarca = document.createTextNode(texto);
     opcion.appendChild(textoMarca);
     padre.appendChild(opcion);
   }
-  function opcionSeleccionada (marcaSeleccionada,nombre,marca,modelos){
-    if(marcaSeleccionada.options[marcaSeleccionada.selectIndex].value==nombre){
-      cantidadModelos=marca.getElementsByTagName("modelo").length;
-      for(var j=0; j < cantidadNombres;j++){
-        modelo=marca.getElementsByTagName("modelo")[i];
-        crearLista(modelos,modelo.value);
-
-      }
-    }
-  }
+   
+  
 }
-window.onload = descargaArchivo;
+window.onload =function(){
+
+  descargaArchivo();
+  var indice=marcas.selectIndex;
+  alert("valor de indice: "+indice)
+  marcaSeleccionada=marcas.options[indice];
+  var textoSeleccionado = marcaSeleccionada.text;
+  alert("Has seleccionado: "+textoSeleccionado);
+} 
 </script>
 
 </head>
