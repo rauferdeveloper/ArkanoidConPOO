@@ -21,28 +21,31 @@ function anadirMarcas(marcas,modelos) {
   else if(window.ActiveXObject) {
     peticionHttp = new ActiveXObject("Microsoft.XMLHTTP");
   }
-  // Preparar la funcion de respuesta
+  // Preparamos la funcion de respuesta
   peticionHttp.onreadystatechange = muestraContenido;
-  // Realizar peticion HTTP
-  peticionHttp.open('GET', './coches.xml', true);
-  peticionHttp.send(null);
+  // Realizamos peticion HTTP
+  peticionHttp.open('GET', 'marcas.json', true);
+
+  peticionHttp.send();
   function muestraContenido() {
     if(peticionHttp.readyState == 4) {
       if(peticionHttp.status == 200) {
-        //Creamos el objeto de tipo documento XML
-        var documentoXml = peticionHttp.responseXML;
-        //Obtenemos la raíz del documento
-        var root = documentoXml.getElementsByTagName("coches")[0];
-        var tope = root.getElementsByTagName("marca").length;
-        //Recorremos todos los elementos Libro del documento
+        //Creamos el objeto de tipo JSON
+        var json = peticionHttp.responseText;
+        var objetoJson=eval("("+json+")"); //Con esto queremos que javascript lo entienda como un array
+        //Obtenemos la raíz del JSON
+        var coches = objetoJson.coches;
+        var marcasJson=coches.marca; //Marca sera un array con los coches
+        var tope = marcasJson.length;
+        //Recorremos el array
         for(var i = 0; i < tope; i++){ 
-          marca=root.getElementsByTagName("marca")[i];
-          nombre=marca.getAttribute("nombre");
+          nombre=marcasJson[i].nombre;
           if(i==0){
-            modelosXML=marca.getElementsByTagName("modelo");
+            //Si es la primera marca que aparezca por defecto
+            modelosXML=marcasJson[i].modelo;
             tamano=modelosXML.length;
             for(var j=0; j < tamano;j++){
-              crearLista(modelos,modelosXML[j].firstChild.nodeValue);
+              crearLista(modelos,modelosXML[j]);
             }
           }
           crearLista(marcas,nombre);
@@ -64,25 +67,27 @@ function anadirMarcas(marcas,modelos) {
   // Preparar la funcion de respuesta
   peticionHttp.onreadystatechange = muestraContenido;
   // Realizar peticion HTTP
-  peticionHttp.open('GET', './marcas.json', true);
-  peticionHttp.send(null);
+  peticionHttp.open('GET', 'marcas.json', true);
+  peticionHttp.send();
   function muestraContenido() {
     if(peticionHttp.readyState == 4) {
       if(peticionHttp.status == 200) {
-        //Creamos el objeto de tipo documento XML
-        var documentoJson =JSON.parse( peticionHttp.responseText);
-        var marcaXml;
-        var root = documentoXml.getElementsByTagName("coches")[0];
-        var tope = root.getElementsByTagName("marca").length;
-        //Recorremos todos los elementos Libro del documento
+        //Creamos el objeto de tipo documento Json
+        var json = peticionHttp.responseText;
+        var objetoJson=eval("("+json+")");
+        var marcaJson;
+        var coches = objetoJson.coches;
+        var marcasJson=coches.marca;
+        var tope = marcasJson.length;
+        //Recorremos todos las posiciones
         for(var i = 0; i < tope; i++){ 
-          marcaXml=root.getElementsByTagName("marca")[i];
-          nombre=marcaXml.getAttribute("nombre");
+          marcaJson=marcasJson[i];
+          nombre=marcaJson.nombre;
           if(nombre==marca){
-            modelosXML=marcaXml.getElementsByTagName("modelo");
-            tamano=modelosXML.length;
+            modelosJson=marcaJson.modelo;
+            tamano=modelosJson.length;
             for(var j=0; j < tamano;j++){
-              crearLista(modelos,modelosXML[j].firstChild.nodeValue);
+              crearLista(modelos,modelosJson[j]);
             }
           }
          
@@ -110,8 +115,8 @@ window.onload =function(){
 
 </head>
 <body>
-    <select id="marcas" name="marcas"></select>
-    <select id="modelos" name="modelos"></select>
+  <select id="marcas" name="marcas"></select>
+  <select id="modelos" name="modelos"></select>
 
 </body>
 </html>

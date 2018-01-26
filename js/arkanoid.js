@@ -32,7 +32,7 @@
 
 
        
-        nivel=6;
+        nivel=10;
         vidas=5;
         contTopPastillaAumentarBarra=5;
         contTopPastillaCreacionPelotas=5;
@@ -44,7 +44,7 @@
         ladrillosDobles=new Array();
         ladrillosAleatorios=new Array(4);
         niveles  = new Niveles(nivel,vidas);
-        niveles.nivelSeis();
+        niveles.nivelDiez();
         console.log("Vidas: "+niveles.vidas);
         caja.onmousemove=function(elEvento){
             barra.moverRaton(elEvento);
