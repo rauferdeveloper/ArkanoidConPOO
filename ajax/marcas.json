@@ -1,0 +1,58 @@
+{
+    "coches": {
+      "marca": [
+        {
+          "nombre": "Mercedes",
+          "modelo": [
+            "Citan",
+            "Clase A",
+            "Clase B",
+            "Clase C"
+          ]
+        },
+        {
+          "nombre": "BMW",
+          "modelo": [
+            "320",
+            "X1",
+            "M3",
+            "M5"
+          ]
+        },
+        {
+          "nombre": "Audi",
+          "modelo": [
+            "A1",
+            "A2",
+            "A3",
+            "A4",
+            "TT"
+          ]
+        },
+        {
+          "nombre": "Opel",
+          "modelo": [
+            "Astra",
+            "Vectra",
+            "Tigra"
+          ]
+        },
+        {
+          "nombre": "Seat",
+          "modelo": [
+            "Leon",
+            "Ibiza",
+            "Toledo"
+          ]
+        },
+        {
+          "nombre": "Volvo",
+          "modelo": [
+            "S40",
+            "S60",
+            "S80"
+          ]
+        }
+      ]
+    }
+  }
