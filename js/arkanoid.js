@@ -20,11 +20,31 @@
         imagen.style.visibility = "hidden";*/
         caja.style.backgroundImage = "url('https://media.giphy.com/media/UYBDCJjwOd9Re/giphy-downsized.gif')";
         cx=0;
-        cuentaAtrasBarra=0;
-        pelotas=new Array(3);
+        pelotas=new Array(2);
         barra = new Barra("barra");
         barra.crearBarra();
-        
+        //booleanos para los poderes
+        existeAumentar=false;
+        existePastillaAumentarBarra=false;
+        existePastillaAumentarVelocidadPelota=false;
+        existePastillaCreacionDisparos=false;
+        existePastillaCreacionPelotas=false;
+        existePastillaUnaVidaMas=false;
+        existeDisparos=false;
+        existeCuentaAtras=false;
+        //los elementos que creamos en pantalla
+        pastillaAumentarBarra=0;
+        pastillaAumentarVelocidadPelota=0;
+        pastillaCreacionDisparos=0;
+        pastillaUnaVidaMas=0;
+        pastillaCreacionPelotas=0;
+        //intervalos de los poderes
+        intervaloPastillaAumentarBarra=0;
+        intervaloPastillaAumentarVelocidadPelota=0;
+        intervaloPastillaCreacionDisparos=0;
+        intervaloPastillaUnaVidaMas=0;
+        intervaloPastillaCreacionPelotas=0;
+        cuentaAtrasBarra=0;
 
         pelotas[0]=new Pelota("pelota0");
         pelotas[0].crearBola();      
@@ -46,40 +66,11 @@
         niveles  = new Niveles(nivel,vidas);
         niveles.nivelDiez();
         console.log("Vidas: "+niveles.vidas);
-        caja.onmousemove=function(elEvento){
-            barra.moverRaton(elEvento);
-
-
-        }
-        document.onkeydown=function(elEvento){
-            var evento=window.event||elEvento;
-            
-
-            barra.moverTeclado(elEvento);
-
-               
-        }
-        caja.onclick=function(){
-            if(existePastillaCreacionDisparos){
-
-                new Disparo(5,20,500,barra.left,"white").crearDisparo();
-                new Disparo(5,20,500,(barra.left+barra.width-5),"white").crearDisparo();
-            
-            }
-        }
-        document.onkeyup=function(elEvento){
-            var evento=window.event||elEvento;
-            if(evento.keyCode==32){
-                if(existePastillaCreacionDisparos){
-
-                    new Disparo(5,20,500,barra.left,"white").crearDisparo();
-                    new Disparo(5,20,500,(barra.left+barra.width-5),"white").crearDisparo();
-                
-                }
-            }
-
-        }
-        x=0;
+      
+        caja.addEventListener("mousemove",pasarPorEncima);
+        document.addEventListener("keydown",dejarPresionado);
+        caja.addEventListener("click",clickRaton);
+        document.addEventListener("keyup",levantarDedo);
       
        
         /*document.getElementById(barra.id).style.opacity=0;
@@ -152,50 +143,54 @@ Pelota.prototype.crearBola=function(){
 
 }
 Pelota.prototype.moverBola=function(){
-    /*if(niveles.vidas>0){
+    if(niveles.vidas>0){
         if(this.top>=parseInt(caja.style.height)-parseInt(this.height)){
-            niveles.vidas--;
-            this.arriba=false;
-            console.log("Vidas: "+niveles.vidas);
+         
+                for(s = 0; s < pelotas.length;s++){
+                    if(this==pelotas[s]){
+                        clearInterval(this.intervalo);
+        
+                       caja.removeChild(this.bola);
+        
+                        pelotas.splice(s,1);
+                        if(pelotas.length==0||pelotas[0]==null){
+                            niveles.vidas--;
+                            console.log("Vidas: "+niveles.vidas);
 
-        } 
-    } para las vidas*/
-    if(barra.existeAumentar){
-        clearInterval(this.intervalo);
-        this.intervalo=setInterval(this.moverBola.bind(this),10);  
-
-    }
-    if(this.top>=parseInt(caja.style.height)-parseInt(this.height)){
-        //this.arriba=false;
-        for(s = 0; s < pelotas.length;s++){
-            if(this==pelotas[s]){
-                clearInterval(this.intervalo);
-
-               caja.removeChild(this.bola);
-
-                pelotas.splice(s,1);
-                if(pelotas.length==0||pelotas[0]==null){
-                    document.getElementById(barra.id).style.opacity=0;
-                    document.getElementById(barra.id).style.transition="opacity 1s";
-                    setTimeout(function(){
-                        caja.removeChild(document.getElementById(barra.id));
-                        clearTimeout(cuentaAtrasBarra)
-                        barra.existeAumentar=false;
-                        niveles.empezar();
-
-                    },1500);
-
+                            if(niveles.vidas==0){
+                                niveles.eliminarTodosLosPoderes();
+                                niveles.perderLaPartida();
+                            }else{
+                                document.getElementById(barra.id).style.opacity=0;
+                                document.getElementById(barra.id).style.transition="opacity 1s";
+                                setTimeout(function(){
+                                    caja.removeChild(document.getElementById(barra.id));
+                                    clearTimeout(cuentaAtrasBarra);
+                                    existeAumentar=false;
+                                    niveles.empezar();
+            
+                                },1500);
+            
+                            }
+                          
+                        }
+        
+                    }
                 }
+            }else if(this.top<=0){
 
+                this.arriba=true;
+               
             }
-        }
+            
+            
+        //this.arriba=false;
+    
 
-    } 
-    else if(this.top<=0){
-
-        this.arriba=true;
-       
     }
+    
+
+    
     if(!this.arriba){
         this.top-=this.avanceTop;
         this.bola.style.top=this.top+"px";
@@ -203,7 +198,11 @@ Pelota.prototype.moverBola=function(){
         this.top+=this.avanceTop;
         this.bola.style.top=this.top+"px";
     }
+    if(existeAumentar){
+        clearInterval(this.intervalo);
+        this.intervalo=setInterval(this.moverBola.bind(this),10);  
 
+    }
     
     if(this.left>=parseInt(caja.style.width)-parseInt(this.width)){
         this.izquierda=false;
@@ -222,11 +221,19 @@ Pelota.prototype.moverBola=function(){
     if(niveles.nivel==1){
         if(cantLadrillosDestruidos==niveles.ladrillosjuego){
             niveles.nivel=2;
-            if(barra.existePastillaAumentarBarra){
-              clearInterval(intervaloPastillaAumentarBarra);
-              caja.removeChild(pastillaAumentarBarra);
-              barra.existePastillaAumentarBarra=false;
-            }
+            niveles.eliminarTodosLosPoderes(); 
+             
+            for(var i =0; i < pelotas.length;i++){
+                if(pelotas[i]==this){
+                    clearInterval(this.intervalo);
+                    caja.removeChild(this.bola);
+                    pelotas.splice(i,1);
+                }
+            } 
+            caja.removeChild(document.getElementById(barra.id));
+  
+            
+            niveles.empezar();
             niveles.nivelDos();
           }        
         this.colisionessoloUnLadrillo();
@@ -234,34 +241,61 @@ Pelota.prototype.moverBola=function(){
     }else if(niveles.nivel==2){
         if(cantLadrillosDestruidos==niveles.ladrillosjuego){
             niveles.nivel=3;
-            if(barra.existePastillaAumentarBarra){
-                clearInterval(intervaloPastillaAumentarBarra);
-                caja.removeChild(pastillaAumentarBarra);
-                barra.existePastillaAumentarBarra=false;
-              }
+            niveles.eliminarTodosLosPoderes(); 
+            for(var i =0; i < pelotas.length;i++){
+                if(pelotas[i]==this){
+                    clearInterval(this.intervalo);
+                    caja.removeChild(this.bola);
+                    pelotas.splice(i,1);
+
+                }
+            }
+                
+            caja.removeChild(document.getElementById(barra.id));
+  
+            
+            niveles.empezar();
             niveles.nivelTres();
-          }  
+        } 
         this.colisionesLadrilloDoble();
 
     }else if(niveles.nivel==3){
         if(cantLadrillosDestruidos==niveles.ladrillosjuego){
             niveles.nivel=4;
-            if(barra.existePastillaAumentarBarra){
-                clearInterval(intervaloPastillaAumentarBarra);
-                caja.removeChild(pastillaAumentarBarra);
-                barra.existePastillaAumentarBarra=false;
-              }
+            niveles.eliminarTodosLosPoderes(); 
+                   
+            for(var i =0; i < pelotas.length;i++){
+                if(pelotas[i]==this){
+                    clearInterval(this.intervalo);
+                    caja.removeChild(this.bola);
+                    pelotas.splice(i,1);
+
+                }
+            }
+                
+            caja.removeChild(document.getElementById(barra.id));
+
+            niveles.empezar();
             niveles.nivelCuatro();
           }  
         this.colisionessoloUnLadrillo();
     }else if(niveles.nivel==4){
         if(cantLadrillosDestruidos==niveles.ladrillosjuego){
             niveles.nivel=5;
-            if(barra.existePastillaAumentarBarra){
-                clearInterval(intervaloPastillaAumentarBarra);
-                caja.removeChild(pastillaAumentarBarra);
-                barra.existePastillaAumentarBarra=false;
-              }
+            niveles.eliminarTodosLosPoderes();
+            for(var i =0; i < pelotas.length;i++){
+                if(pelotas[i]==this){
+                    clearInterval(this.intervalo);
+                    caja.removeChild(this.bola);
+                    pelotas.splice(i,1);
+
+                }
+            }   
+                
+            caja.removeChild(document.getElementById(barra.id));
+ 
+            
+            niveles.empezar();
             niveles.nivelCinco();
           }  
         this.colisionessoloUnLadrillo();
@@ -269,11 +303,20 @@ Pelota.prototype.moverBola=function(){
     }else if(niveles.nivel==5){
         if(cantLadrillosDestruidos==niveles.ladrillosjuego){
             niveles.nivel=6;
-            if(barra.existePastillaAumentarBarra){
-                clearInterval(intervaloPastillaAumentarBarra);
-                caja.removeChild(pastillaAumentarBarra);
-                barra.existePastillaAumentarBarra=false;
-              }
+            niveles.eliminarTodosLosPoderes(); 
+            for(var i =0; i < pelotas.length;i++){
+                if(pelotas[i]==this){
+                    clearInterval(this.intervalo);
+                    caja.removeChild(this.bola);
+                    pelotas.splice(i,1);
+
+                }
+            }  
+                
+            caja.removeChild(document.getElementById(barra.id));
+
+            
+            niveles.empezar();
             niveles.nivelSeis();
           }  
         this.colisionessoloUnLadrillo();
@@ -281,11 +324,19 @@ Pelota.prototype.moverBola=function(){
     }else if(niveles.nivel==6){
         if(cantLadrillosDestruidos==niveles.ladrillosjuego){
             niveles.nivel=7;
-           if(barra.existePastillaAumentarBarra){
-              clearInterval(intervaloPastillaAumentarBarra);
-              caja.removeChild(pastillaAumentarBarra);
-              barra.existePastillaAumentarBarra=false;
-            }
+            niveles.eliminarTodosLosPoderes();
+            for(var i =0; i < pelotas.length;i++){
+                if(pelotas[i]==this){
+                    clearInterval(this.intervalo);
+                    caja.removeChild(this.bola);
+                    pelotas.splice(i,1);
+
+                }
+            }  
+            caja.removeChild(document.getElementById(barra.id));
+
+            
+            niveles.empezar();
             niveles.nivelSiete();
           }  
         this.colisionessoloUnLadrilloNivelSeis();
@@ -293,11 +344,20 @@ Pelota.prototype.moverBola=function(){
     }else if(niveles.nivel==7){
         if(cantLadrillosDestruidos==niveles.ladrillosjuego){
             niveles.nivel=8;
-            if(barra.existePastillaAumentarBarra){
-                clearInterval(intervaloPastillaAumentarBarra);
-                caja.removeChild(pastillaAumentarBarra);
-                barra.existePastillaAumentarBarra=false;
-              }
+            niveles.eliminarTodosLosPoderes(); 
+            for(var i =0; i < pelotas.length;i++){
+                if(pelotas[i]==this){
+                    clearInterval(this.intervalo);
+                    caja.removeChild(this.bola);
+                    pelotas.splice(i,1);
+
+                }
+            }   
+                
+            caja.removeChild(document.getElementById(barra.id));
+ 
+            
+            niveles.empezar();
             niveles.nivelOcho();
           }  
         this.colisionessoloUnLadrillo();
@@ -305,11 +365,20 @@ Pelota.prototype.moverBola=function(){
     }else if(niveles.nivel==8){
         if(cantLadrillosDestruidos==niveles.ladrillosjuego){
             niveles.nivel=9;
-            if(barra.existePastillaAumentarBarra){
-                clearInterval(intervaloPastillaAumentarBarra);
-                caja.removeChild(pastillaAumentarBarra);
-                barra.existePastillaAumentarBarra=false;
-              }
+            niveles.eliminarTodosLosPoderes();
+            for(var i =0; i < pelotas.length;i++){
+                if(pelotas[i]==this){
+                    clearInterval(this.intervalo);
+                    caja.removeChild(this.bola);
+                    pelotas.splice(i,1);
+
+                }
+            }  
+                
+            caja.removeChild(document.getElementById(barra.id));
+
+            
+            niveles.empezar(); 
             niveles.nivelNueve();
           }  
         this.colisionessoloUnLadrillo();
@@ -317,11 +386,20 @@ Pelota.prototype.moverBola=function(){
     }else if(niveles.nivel==9){
         if(cantLadrillosDestruidos==niveles.ladrillosjuego){
             niveles.nivel=10;
-            if(barra.existePastillaAumentarBarra){
-                clearInterval(intervaloPastillaAumentarBarra);
-                caja.removeChild(pastillaAumentarBarra);
-                barra.existePastillaAumentarBarra=false;
-              }
+            niveles.eliminarTodosLosPoderes(); 
+            caja.removeChild(document.getElementById(barra.id));
+   
+            for(var i =0; i < pelotas.length;i++){
+                if(pelotas[i]==this){
+                    clearInterval(this.intervalo);
+                    caja.removeChild(this.bola);
+                    pelotas.splice(i,1);
+
+                }
+            }  
+                
+            
+            niveles.empezar();
             niveles.nivelDiez();
           }  
         this.colisionessoloUnLadrillo();
@@ -329,20 +407,45 @@ Pelota.prototype.moverBola=function(){
     }else if(niveles.nivel==10){
         if(cantLadrillosDestruidos==niveles.ladrillosjuego){
             niveles.nivel=11;
-            if(barra.existePastillaAumentarBarra){
-                clearInterval(intervaloPastillaAumentarBarra);
-                caja.removeChild(pastillaAumentarBarra);
-                barra.existePastillaAumentarBarra=false;
-              }
+            niveles.eliminarTodosLosPoderes(); 
+            for(var i =0; i < pelotas.length;i++){
+                if(pelotas[i]==this){
+                    clearInterval(this.intervalo);
+                    caja.removeChild(this.bola);
+                    pelotas.splice(i,1);
+
+                }
+            }  
+            caja.removeChild(document.getElementById(barra.id));
+
+            niveles.empezar();
+
             niveles.nivelOnce();
           }  
         this.colisionessoloUnLadrillo();
 
     }else if(niveles.nivel==11){
-         
+         if(cantLadrillosDestruidos==niveles.ladrillosjuego){
+            
+             if(niveles.ganar){
+                for(var i =0; i < pelotas.length;i++){
+                    if(pelotas[i]==this){
+                        clearInterval(this.intervalo);
+                        caja.removeChild(this.bola);
+                        pelotas.splice(i,1);
+    
+                    }
+                }  
+                niveles.eliminarTodosLosPoderes();
+
+                niveles.ganarLaPartida();
+                niveles.ganar=false;
+             }
+        }
         this.colisionessoloUnLadrilloNivelOnce();
     }
-    console.log(niveles.nivel);
+    /*onsole.log(niveles.nivel);
+    console.log(this.id);*/
     //this.colisionesPelotas();
 }
 /*Pelota.prototype.colisionesBarra=function(){
@@ -552,7 +655,6 @@ Pelota.prototype.colisionessoloUnLadrillo=function(){
                   /*
                   pelotaConLadrillo.load();
                   pelotaConLadrillo.play();
-                  cantLadrillosDestruidos++;
                   //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);*/
                   caja.removeChild(document.getElementById(ladrillos[i].id));
                   ladrillos[i].destruido=true;
@@ -583,7 +685,6 @@ Pelota.prototype.colisionessoloUnLadrillo=function(){
         
                   /*pelotaConLadrillo.play();
         
-                  cantLadrillosDestruidos++;
                   //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);
                   sumarPuntos();*/
                   caja.removeChild(document.getElementById(ladrillos[i].id));
@@ -616,7 +717,6 @@ Pelota.prototype.colisionessoloUnLadrillo=function(){
                    /* pelotaConLadrillo.play();
                     sumarPuntos();
         
-                    cantLadrillosDestruidos++;
                     //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);*/
                     caja.removeChild(document.getElementById(ladrillos[i].id));
                     ladrillos[i].destruido=true;
@@ -643,7 +743,6 @@ Pelota.prototype.colisionessoloUnLadrillo=function(){
                         barra.aumentarVelocidadPelota(ladrillos,i);
                     }
                     /*pelotaConLadrillo.play();
-                    cantLadrillosDestruidos++;
                     //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);
                     sumarPuntos();*/
                     caja.removeChild(document.getElementById(ladrillos[i].id));
@@ -696,7 +795,6 @@ Pelota.prototype.colisionessoloUnLadrilloNivelSeis=function(){
                           /*
                           pelotaConLadrillo.load();
                           pelotaConLadrillo.play();
-                          cantLadrillosDestruidos++;
                           //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);*/
                           caja.removeChild(document.getElementById(ladrillos[i].id));
                           ladrillos[i].destruido=true;
@@ -727,7 +825,6 @@ Pelota.prototype.colisionessoloUnLadrilloNivelSeis=function(){
                 
                           /*pelotaConLadrillo.play();
                 
-                          cantLadrillosDestruidos++;
                           //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);
                           sumarPuntos();*/
                           caja.removeChild(document.getElementById(ladrillos[i].id));
@@ -1112,7 +1209,7 @@ Pelota.prototype.colisionessoloUnLadrilloNivelOnce=function(){
                         } 
                 }
             }
-        }else if(fila%2==0){
+        } if(fila%2==0){
             for( i=cantLadrillos;i < ladrillosFila;i++){
                 if(!ladrillos[i].destruido){
                     if (this.top == ladrillos[i].top-this.height) {
@@ -1522,8 +1619,7 @@ function Barra(idBarra){
     this.left=380;
     this.top=520;
     this.avance=20;
-    this.existeAumentar=false;
-    this.existePastillaAumentarBarra=false;
+  
 } 
 
 Barra.prototype.crearBarra=function(elEvento){
@@ -1587,7 +1683,7 @@ Barra.prototype.crearBarra=function(elEvento){
         }
 }*/
 Barra.prototype.moverRaton=function(elEvento){
-        eventoBarra = window.event||elEvento;
+        eventoBarra = elEvento;
         cx = eventoBarra.clientX;
         cy = eventoBarra.clientY;
         //console.log("Cliente X "+cx+" Cliente Y "+cy);
@@ -1611,7 +1707,7 @@ Barra.prototype.moverRaton=function(elEvento){
         
 }
 Barra.prototype.moverTeclado=function(elEvento){
-        var evento=window.event||elEvento;
+        var evento=elEvento;
         if (evento.keyCode == 90 || evento.keyCode == 37) { //Si presionamos la tecla Z o flecha izquierda la barra se mueve hacia a la izquierda
             if (this.left <= parseInt(caja.style.width) - this.width && this.left > 0) {
                 this.left-=this.avance;
@@ -1674,7 +1770,7 @@ Barra.prototype.aumentarBarra=function(ladrillos,posicion){
     pastillaAumentarBarra.style.left=parseInt(ladrillos[posicion].left)+"px";
     pastillaAumentarBarra.style.top=parseInt(ladrillos[posicion].height)+parseInt(ladrillos[posicion].top)+"px";
     caja.appendChild(pastillaAumentarBarra);//creo la pastilla en la caja
-    barra.existePastillaAumentarBarra=true;
+    existePastillaAumentarBarra=true;
     intervaloPastillaAumentarBarra=setInterval(function(){// el movimiento de la pastilla
       pastillaAumentarBarra.style.top=parseInt(parseInt(pastillaAumentarBarra.style.top)+contTopPastillaAumentarBarra)+"px";//aqui va bajando poco a poco
       //console.log("Altura de la pastilla: "+parseInt(parseInt(pastillaAumentarBarra.style.top)+parseInt(pastillaAumentarBarra.style.height)));
@@ -1689,7 +1785,8 @@ Barra.prototype.aumentarBarra=function(ladrillos,posicion){
                    barra.width=parseInt(barra.width)+parseInt(pastillaAumentarBarra.style.width);
                    document.getElementById(barra.id).style.width=barra.width+"px";
                    //barraAumentada.play();
-                  if(barra.existePastillaAumentarBarra){
+                  if(existePastillaAumentarBarra){
+
                     cuentaAtrasBarra=setTimeout(function(){
                       barra.width=parseInt(barra.width)-parseInt(pastillaAumentarBarra.style.width);
                       document.getElementById(barra.id).style.width=barra.width+"px";
@@ -1697,14 +1794,15 @@ Barra.prototype.aumentarBarra=function(ladrillos,posicion){
                       //barraAumentada.play();
 
                     },60000);
-                    barra.existePastillaAumentarBarra=false;
+                    existePastillaAumentarBarra=false;
+
                   }
             }
           }else if(parseInt(parseInt(pastillaAumentarBarra.style.top)+parseInt(pastillaAumentarBarra.style.height))==parseInt(caja.style.height)){//si llega al tocar el suelo y no llega darle la barra desaparece
             clearInterval(intervaloPastillaAumentarBarra);
-            if(barra.existePastillaAumentarBarra){
+            if(existePastillaAumentarBarra){
               caja.removeChild(pastillaAumentarBarra);
-              barra.existePastillaAumentarBarra=false;
+              existePastillaAumentarBarra=false;
             }
           }
     },50)    
@@ -1773,9 +1871,14 @@ Barra.prototype.creacionDisparos=function(ladrillos,posicion){
            //aqui evaluo todas las posibilidades para que la barra coja la pastilla
         if (barra.left>=pastillaCreacionDisparos.style.left|| barra.left <= parseInt(pastillaCreacionDisparos.style.left) + parseInt(pastillaCreacionDisparos.style.width)&&
             barra.left +barra.width>=parseInt(pastillaCreacionDisparos.style.left) ||barra.left+barra.width == parseInt(pastillaCreacionDisparos.style.left) + parseInt(pastillaCreacionDisparos.style.width) ) {
-                  clearInterval(intervaloPastillaCreacionDisparos);
+                if(existePastillaCreacionDisparos){
+                    clearInterval(intervaloPastillaCreacionDisparos);
                  
-                  caja.removeChild(pastillaCreacionDisparos);
+                    caja.removeChild(pastillaCreacionDisparos);
+                    existeDisparos=true;
+                    existePastillaCreacionDisparos=false;
+                } 
+             
                    //barraAumentada.play();
 
             }
@@ -1809,13 +1912,14 @@ Barra.prototype.unaVidaMas=function(ladrillos,posicion){
            //aqui evaluo todas las posibilidades para que la barra coja la pastilla
         if (barra.left>=pastillaUnaVidaMas.style.left|| barra.left <= parseInt(pastillaUnaVidaMas.style.left) + parseInt(pastillaUnaVidaMas.style.width)&&
             barra.left +barra.width>=parseInt(pastillaUnaVidaMas.style.left) ||barra.left+barra.width == parseInt(pastillaUnaVidaMas.style.left) + parseInt(pastillaUnaVidaMas.style.width) ) {
-                  clearInterval(intervaloPastillaUnaVidaMas);
                  
                   if(existePastillaUnaVidaMas){
+                    clearInterval(intervaloPastillaUnaVidaMas);
+
                     niveles.vidas++;
                     console.log(niveles.vidas);
                     caja.removeChild(pastillaUnaVidaMas);
-                    existePastillaAumentarBarra=false;
+                    existePastillaUnaVidaMas=false;
                   }
                    //barraAumentada.play();
 
@@ -1853,7 +1957,7 @@ Barra.prototype.aumentarVelocidadPelota=function(ladrillos,posicion){
                   clearInterval(intervaloPastillaAumentarVelocidadPelota);
                  
                   if(existePastillaAumentarVelocidadPelota){
-                    barra.existeAumentar=true;
+                    existeAumentar=true;
                   
                     caja.removeChild(pastillaAumentarVelocidadPelota);
                     existePastillaAumentarVelocidadPelota=false;
@@ -1922,14 +2026,16 @@ Disparo.prototype.Disparar=function(){
         clearInterval(this.intervalo);
         caja.removeChild(this.bala);
         this.destruido=true;
-        delete this;
        }
 
     }
-    this.colisionesLadrillosDisparos();
+    
+        this.colisionesLadrillosDisparos();
+
+    
 
     /*if(niveles.nivel==6){
-        //this.colisionesLadrillosDisparosNivelSeis();
+                this.colisionesLadrillosDisparosNivelSeis();
 
     }else{
 
@@ -1958,11 +2064,10 @@ Disparo.prototype.colisionesLadrillosDisparos=function(){
                     clearInterval(this.intervalo);
                     caja.removeChild(this.bala);
                     this.destruido=true;
-                    delete this;
                    }
+
                   /*pelotaConLadrillo.play();
         
-                  cantLadrillosDestruidos++;
                   //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);
                   sumarPuntos();*/
                   caja.removeChild(document.getElementById(ladrillos[i].id));
@@ -1977,7 +2082,7 @@ Disparo.prototype.colisionesLadrillosDisparos=function(){
        
     }
 }
-Disparo.prototype.colisionesLadrillosDisparosNivelSeis=function(){
+/*Disparo.prototype.colisionesLadrillosDisparosNivelSeis=function(){
     cantLadrillos=0;
     ladrillosFila=7;
     aux=ladrillosFila;
@@ -2007,7 +2112,7 @@ Disparo.prototype.colisionesLadrillosDisparosNivelSeis=function(){
                 
                           cantLadrillosDestruidos++;
                           //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);
-                          sumarPuntos();*/
+                          sumarPuntos();
                           if(!this.destruido){
                             clearInterval(this.intervalo);
                             caja.removeChild(this.bala);
@@ -2058,7 +2163,7 @@ Disparo.prototype.colisionesLadrillosDisparosNivelSeis=function(){
                 
                           cantLadrillosDestruidos++;
                           //console.log("Cantidad de ladrillos destruidos: "+cantLadrillosDestruidos);
-                          sumarPuntos();*/
+                          sumarPuntos();
                           
                           this.avanceLeft=5;
         
@@ -2072,21 +2177,190 @@ Disparo.prototype.colisionesLadrillosDisparosNivelSeis=function(){
         fila++;
         
     }
-}
+}*/
 function Niveles(nivel,vidas){
     this.nivel=nivel;
     this.vidas=vidas;
     this.ladrillosjuego=0;
+    this.ganar=true;
 }
 Niveles.prototype.empezar=function(){
     barra = new Barra("barra");
     barra.crearBarra();
-        pelotas=new Array(3);
+        pelotas=new Array(2);
         pelotas[0] = new Pelota("pelota0");
         pelotas[0].crearBola();
 
     
     
+}
+Niveles.prototype.eliminarTodosLosPoderes=function(){
+    
+    
+    if(existePastillaAumentarBarra){
+        clearInterval(intervaloPastillaAumentarBarra);
+        caja.removeChild(pastillaAumentarBarra);
+        existePastillaAumentarBarra=false;
+    }
+    if(existePastillaAumentarVelocidadPelota){
+        clearInterval(intervaloPastillaAumentarVelocidadPelota);
+        caja.removeChild(pastillaAumentarVelocidadPelota);
+        existePastillaAumentarVelocidadPelota=false;
+    }
+    if(existePastillaCreacionPelotas){
+        clearInterval(intervaloPastillaCreacionPelotas);
+        caja.removeChild(pastillaCreacionPelotas);
+        existePastillaCreacionPelotas=false;
+    } 
+    if(existePastillaCreacionDisparos){
+        clearInterval(intervaloPastillaCreacionDisparos);
+        caja.removeChild(pastillaCreacionDisparos);
+        existePastillaCreacionDisparos=false;
+    }
+    if(existePastillaUnaVidaMas){
+        clearInterval(intervaloPastillaUnaVidaMas);
+        caja.removeChild(pastillaUnaVidaMas);
+        existePastillaUnaVidaMas=false;
+    } 
+
+}
+Niveles.prototype.ganarLaPartida=function(){
+          //eliminamos todos los datos y creamos una caja con un texto de has ganado
+        /*informacion.innerHTML = "";*/
+      
+        
+        caja.removeEventListener("click",clickRaton);
+        caja.removeEventListener("mousemove",pasarPorEncima);
+        document.removeEventListener("keyup",levantarDedo);
+        document.removeEventListener("keydown",dejarPresionado);
+        ganar = document.createElement("div");
+        titulo = document.createElement("h1");
+
+        hasGanado = document.createTextNode("Has ganado");
+        titulo.appendChild(hasGanado);
+        ganar.style.top = "100px";
+        ganar.style.left = "200px";
+        ganar.style.width = "300px";
+        ganar.style.height = "200px";
+        ganar.style.textAlign = "center";
+        ganar.style.display = "table-cell";
+        ganar.style.verticalAlign = "middle";
+        ganar.style.backgroundColor = "aqua";
+        ganar.style.position = "relative";
+        cambiarColor=false;
+        intervaloColor = setInterval(function () {
+          if (!cambiarColor) {
+            ganar.style.backgroundColor = "#bce409";
+            cambiarColor = true;
+
+          } else {
+            ganar.style.backgroundColor = "aqua";
+            cambiarColor = false;
+
+          }
+        }, 400);
+        ganar.appendChild(titulo);
+        caja.appendChild(ganar);
+        /*divPuntos = document.createElement("div");
+        divPuntos.style.top = "310px";
+        divPuntos.style.width = "200px";
+        divPuntos.style.height = "200px";
+        divPuntos.style.left = ganar.style.left;
+        divPuntos.style.color = "white";
+
+        divPuntos.style.position = "absolute";
+        divPuntos.innerHTML = "Has obtenido " + puntos + " puntos <br> y has destruido " + cantLadrillosDestruidos + " ladrillos";
+        caja.appendChild(divPuntos);
+        caja.removeChild(pelota);
+        caja.removeChild(barra);
+      
+        existePastillaAumentarBarra=false;
+      }
+        panel.removeChild(informacion);
+        duranteLaPartida.currentTime=duranteLaPartida.duration;
+        duranteLaPartida.loop=false;
+        barraAumentada.pause();
+        partidaGanada.play();*/
+    
+    
+}
+Niveles.prototype.perderLaPartida=function(){
+      
+      
+      caja.removeEventListener("click",clickRaton);
+      caja.removeEventListener("mousemove",pasarPorEncima);
+      document.removeEventListener("keyup",levantarDedo);
+      document.removeEventListener("keydown",dejarPresionado);
+    
+    perder = document.createElement("div");
+    hasPerdido = document.createTextNode("Has perdido");
+    titulo = document.createElement("h2");
+
+    perder.style.top = "300px";
+    perder.style.left = "300px";
+    perder.style.width = "200px";
+    perder.style.height = "60px";
+    perder.style.textAlign = "center";
+    perder.style.display = "table-cell";
+    perder.style.verticalAlign = "middle";
+    perder.style.backgroundColor = "aqua";
+    perder.style.position = "relative";
+    titulo.appendChild(hasPerdido);
+        cambiarColor=false;
+
+    intervaloColor = setInterval(function () {
+      if (!cambiarColor) {
+        perder.style.backgroundColor = "red";
+        cambiarColor = true;
+
+      } else {
+        perder.style.backgroundColor = "aqua";
+        cambiarColor = false;
+
+      }
+    }, 400);
+    //pausa=true;
+    perder.appendChild(titulo);
+    caja.appendChild(perder);
+    /*if(existePastillaAumentarBarra){
+      clearInterval(intervaloPastillaAumentarBarra);
+      caja.removeChild(pastillaAumentarBarra);
+      existePastillaAumentarBarra=false;
+    }
+    duranteLaPartida.currentTime=duranteLaPartida.duration;
+    duranteLaPartida.loop=false;
+    barraAumentada.pause();
+    partidaPerdida.play();*/
+}
+
+function pasarPorEncima(elEvento){
+    var evento=window.event||elEvento;
+
+    barra.moverRaton(evento);
+}
+function clickRaton(){
+    if(existeDisparos){
+
+        new Disparo(5,20,500,barra.left,"white").crearDisparo();
+        new Disparo(5,20,500,(barra.left+barra.width-5),"white").crearDisparo();
+    
+    }
+}
+function levantarDedo(elEvento){
+    var evento=window.event||elEvento;
+    if(existeDisparos){
+        if(evento.keyCode==32){
+
+            new Disparo(5,20,500,barra.left,"white").crearDisparo();
+            new Disparo(5,20,500,(barra.left+barra.width-5),"white").crearDisparo();
+        
+        }
+    }
+   
+}
+function dejarPresionado(elEvento){
+    var evento=window.event||elEvento;
+    barra.moverTeclado(evento);
 }
 Niveles.prototype.nivelUno=function(){
     if(this.nivel==1){
@@ -2453,7 +2727,7 @@ Niveles.prototype.nivelCinco=function(){
             alert("La pastilla se ha guardaddo en: "+posicionPastillaAumentarVelocidadPelota);
 
             while(fila <=8){
-                if(fila==8){
+                if(fila==1){
                     cantLadrillos=0;//si la fila es 1 su posicion en el for sera de 0
                 }else if(fila==8){
                     cantLadrillos = ladrillosFila;//si antes por ejemplo era 0 pues sera ahora 14
