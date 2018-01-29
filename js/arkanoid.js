@@ -3006,7 +3006,6 @@ Niveles.prototype.nivelTres=function(){
                 fila++;
             }
     }
-    alert(this.nivel);
 }
 Niveles.prototype.nivelCuatro=function(){
     if(this.nivel==4){
