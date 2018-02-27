@@ -57,9 +57,8 @@ window.onload=function(){
         jugadores[i]=new Jugador(nombre,puntos);  
     }
     jugadores.sort(function (jug1, jug2) {
-        return (parseInt(jug1.puntos) - parseInt(jug2.puntos))
+        return (parseInt(jug2.puntos) - parseInt(jug1.puntos))
     }); 
-    jugadores.reverse();
     for(var i =0 ; i < jugadores.length;i++){
         cabeceraNombre.innerHTML+="<br>"+jugadores[i].nombre;
         cabeceraPuntos.innerHTML+="<br>"+jugadores[i].puntos;

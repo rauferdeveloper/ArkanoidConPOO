@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+ 
+    <title>FRASES</title>
+<script>
+    window.onload =function(){
+    frase =document.getElementById("frase");
+    autor=document.getElementById("autor");
+    nuevo=document.getElementById("nuevo");
+    nuevo.onclick=function(){
+        anadirFrase(frase,autor);
+    }    
+        
+    
+    
+    } 
+ 
+    function anadirFrase(tituloFrase,tituloAutor) {
+    
+    // Obtener la instancia del objeto XMLHttpRequest
+    if(window.XMLHttpRequest) {
+        peticionHttp = new XMLHttpRequest();
+    }
+    else if(window.ActiveXObject) {
+        peticionHttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    // Preparamos la funcion de respuesta
+    peticionHttp.onreadystatechange = muestraContenido;
+    // Realizamos peticion HTTP
+    peticionHttp.open('GET', 'https://talaikis.com/api/quotes/random/', true);
+    peticionHttp.send();
+        function muestraContenido() {
+            if(peticionHttp.readyState == 4) {
+                if(peticionHttp.status == 200) {
+                    //Creamos el objeto de tipo JSON
+                    var json = peticionHttp.responseText;
+                    var objetoJson=eval("("+json+")"); //Con esto queremos que javascript lo entienda como un array
+                    //Obtenemos la raíz del JSON
+                    var frase = objetoJson.quote;
+                    var autor=objetoJson.author; //Marca sera un array con los coches
+                    tituloAutor.innerHTML=autor;
+                    tituloFrase.innerHTML=frase;
+                
+                }
+            }
+        }
+    }
+
+    </script>
+</head>
+<body>
+    <h1 id="frase"></h1>
+    <h1 id="autor"></h1>
+   <input type="button" value="nuevo" id="nuevo">
+</body>
+</html>
